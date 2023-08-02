@@ -46,8 +46,8 @@ def index(d={'access': 0, 'path': None, 'filename': None}):
         return render_template('work_page.html', file_name=filename, path=os.path.join('download', filename))
     return render_template('index.html', form=form)
 
-
-@app.route('/<file_name>')
+#Black & white filter
+@app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
     path = os.path.join(app.root_path, 'static', 'download', file_name)
 
@@ -55,6 +55,14 @@ def bw_filter(file_name):
     img_class.save_img(img, path)
     return redirect(url_for('index'))
 
+#Real black & white filter
+@app.route('/op_filter/<file_name>')
+def rbw_filter(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', file_name)
+
+    img = np.array(Image.open(path).convert('1'))
+    img_class.save_img(img, path)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
