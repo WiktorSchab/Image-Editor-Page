@@ -1,0 +1,20 @@
+{% extends '/base.html' %}
+
+{% block content%}
+    <div style="min-height:60vh" class="mb-3">
+        <center>
+        <form method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data" >
+            {{form.csrf_token}}
+
+            {{form.cover.label}}<br/>{{form.cover}}
+            <ul>
+                {% for error in form.cover.errors %}
+                    {{ error }}
+                {% endfor %}
+            </ul>
+
+            <input class="btn btn-outline-primary" type="submit" value="Go!">
+        </form>
+        </center>
+    </div>
+{% endblock%}
