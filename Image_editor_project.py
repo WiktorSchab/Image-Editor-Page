@@ -6,8 +6,7 @@ import os
 from matplotlib.image import imread
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
-
+from PIL import Image, ImageFilter
 from img_funct import img_class
 
 app = Flask(__name__)
@@ -55,12 +54,23 @@ def bw_filter(file_name):
     img_class.save_img(img, path)
     return redirect(url_for('index'))
 
+
 #Real black & white filter
-@app.route('/op_filter/<file_name>')
+@app.route('/rbw_filter/<file_name>')
 def rbw_filter(file_name):
     path = os.path.join(app.root_path, 'static', 'download', file_name)
 
     img = np.array(Image.open(path).convert('1'))
+    img_class.save_img(img, path)
+    return redirect(url_for('index'))
+
+
+#Contur filter
+@app.route('/con_filter/<file_name>')
+def con_filter(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', file_name)
+
+    img = np.array(Image.open(path).filter(ImageFilter.CONTOUR))
     img_class.save_img(img, path)
     return redirect(url_for('index'))
 
