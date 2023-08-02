@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 from matplotlib.image import imread
 import matplotlib.pyplot as plt
+import shutil
 import numpy as np
 from PIL import Image, ImageFilter
 from img_funct import img_class
@@ -29,8 +30,12 @@ def index(d={'access': 0, 'path': None, 'filename': None}):
         if not d['path']:
             f = form.cover.data
             filename = secure_filename(f.filename)
-            path = os.path.join(app.root_path, 'static', 'download', filename)
+            print(f)
+            path = os.path.join(app.root_path, 'static', 'download', 'modified', filename)
             f.save(path)
+
+            # making copy of img
+            shutil.copyfile(path, path.replace('modified', 'original'))
 
             # saving values to dict, so they won't be refreshed
             d['filename'] = filename
@@ -42,37 +47,39 @@ def index(d={'access': 0, 'path': None, 'filename': None}):
         img = np.array(Image.open(path).resize((256, 256)))
         img_class.save_img(img, path)
 
-        return render_template('work_page.html', file_name=filename, path=os.path.join('download', filename))
+        return render_template('work_page.html', file_name=filename, path=os.path.join('download', 'original', filename))
     return render_template('index.html', form=form)
+
 
 #Black & white filter
 @app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', file_name)
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
     img = np.array(Image.open(path).convert('L'))
-    img_class.save_img(img, path)
+    img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
 
 #Real black & white filter
 @app.route('/rbw_filter/<file_name>')
 def rbw_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', file_name)
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
     img = np.array(Image.open(path).convert('1'))
-    img_class.save_img(img, path)
+    img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
 
 #Contur filter
 @app.route('/con_filter/<file_name>')
 def con_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', file_name)
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
     img = np.array(Image.open(path).filter(ImageFilter.CONTOUR))
-    img_class.save_img(img, path)
+    img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
