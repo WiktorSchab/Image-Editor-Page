@@ -4,10 +4,11 @@
     <div style="height:700px;">
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <div>
-                <a class="btn btn-primary" href="{{ url_for('bw_filter',file_name=file_name) }}" role="button">Black & white</a>
-                <a class="btn btn-primary" href="{{ url_for('rbw_filter',file_name=file_name) }}" role="button">Real Black & white</a>
-                <a class="btn btn-primary" href="{{ url_for('con_filter',file_name=file_name) }}" role="button">Contour</a>
-                
+                <ul style="border: 2px solid #55d9d4; border-radius: 12px;padding: 5px; list-style-type: none; max-height: 800px; overflow:hidden; overflow-y:scroll;" >
+                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('bw_filter',file_name=file_name) }}" role="button">Black & white</a></li>
+                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('rbw_filter',file_name=file_name) }}" role="button">Real Black & white</a></li>
+                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('con_filter',file_name=file_name) }}" role="button">Contour</a></li>
+                </ul>
             </div>
             <img style="height:512px; padding:10px;" src="{{url_for('static',filename='download/modified/'+file_name)}}">
             <div></div>
