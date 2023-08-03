@@ -56,6 +56,7 @@ def img_reset(file_name):
     shutil.copyfile(path, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
+
 #Black & white filter
 @app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
@@ -82,6 +83,26 @@ def con_filter(file_name):
     path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
     img = np.array(Image.open(path).filter(ImageFilter.CONTOUR))
+    img_class.save_img(img, path.replace('original', 'modified'))
+    return redirect(url_for('index'))
+
+
+#Blur filter
+@app.route('/blur_filter/<file_name>')
+def blur_filter(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
+
+    img = np.array(Image.open(path).filter(ImageFilter.BLUR))
+    img_class.save_img(img, path.replace('original', 'modified'))
+    return redirect(url_for('index'))
+
+
+#Emboss filter
+@app.route('/emb_filter/<file_name>')
+def emb_filter(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
+
+    img = np.array(Image.open(path).filter(ImageFilter.EMBOSS))
     img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
