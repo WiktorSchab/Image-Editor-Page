@@ -21,13 +21,12 @@ class FileForm(FlaskForm):
 
 # starting page
 @app.route('/', methods=['POST', 'GET'])
-def index(d={'access': 0, 'filename': None}):
+def index(d={'access': 0, 'filename': None},reset=0):
     form = FileForm()
-
     if d['access'] == 1 or form.validate_on_submit():
         d['access'] = 1  # access to edit
-
-        if not d['filename']:
+        
+        if not d['filename'] or (form.cover.data and form.cover.data.filename != d['filename']):
             #saving file from form
             f = form.cover.data
             filename = secure_filename(f.filename)
@@ -45,7 +44,14 @@ def index(d={'access': 0, 'filename': None}):
             d['filename'] = filename
 
         filename = d['filename']
+        print(filename,'tututututu')
         return render_template('work_page.html', file_name=filename)
+    return render_template('index.html', form=form)
+
+#Changing image
+@app.route('/deleting_image')
+def img_change():
+    form = FileForm()
     return render_template('index.html', form=form)
 
 
@@ -92,7 +98,7 @@ def con_filter(file_name):
 def blur_filter(file_name):
     path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
-    img = np.array(Image.open(path).filter(ImageFilter.BLUR))
+    img = np.array(Image.open(path).filter(ImageFilter.GaussianBlur(radius=4)))
     img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
