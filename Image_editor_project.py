@@ -45,9 +45,16 @@ def index(d={'access': 0, 'filename': None}):
             d['filename'] = filename
 
         filename = d['filename']
-        return render_template('work_page.html', file_name=filename, path=os.path.join('download', 'original', filename))
+        return render_template('work_page.html', file_name=filename)
     return render_template('index.html', form=form)
 
+
+#Reset img
+@app.route('/reset_image/<file_name>')
+def img_reset(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
+    shutil.copyfile(path, path.replace('original', 'modified'))
+    return redirect(url_for('index'))
 
 #Black & white filter
 @app.route('/bw_filter/<file_name>')
