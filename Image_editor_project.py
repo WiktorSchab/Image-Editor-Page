@@ -21,32 +21,30 @@ class FileForm(FlaskForm):
 
 # starting page
 @app.route('/', methods=['POST', 'GET'])
-def index(d={'access': 0, 'path': None, 'filename': None}):
+def index(d={'access': 0, 'filename': None}):
     form = FileForm()
 
     if d['access'] == 1 or form.validate_on_submit():
         d['access'] = 1  # access to edit
 
-        if not d['path']:
+        if not d['filename']:
+            #saving file from form
             f = form.cover.data
             filename = secure_filename(f.filename)
-            print(f)
             path = os.path.join(app.root_path, 'static', 'download', 'modified', filename)
             f.save(path)
+
+            #resizing file for one format of display and fast operating on file
+            img = np.array(Image.open(path).resize((256, 256)))
+            img_class.save_img(img, path)
 
             # making copy of img
             shutil.copyfile(path, path.replace('modified', 'original'))
 
             # saving values to dict, so they won't be refreshed
             d['filename'] = filename
-            d['path'] = path
 
-        path = d['path']
         filename = d['filename']
-
-        img = np.array(Image.open(path).resize((256, 256)))
-        img_class.save_img(img, path)
-
         return render_template('work_page.html', file_name=filename, path=os.path.join('download', 'original', filename))
     return render_template('index.html', form=form)
 
