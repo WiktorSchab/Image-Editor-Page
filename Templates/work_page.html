@@ -1,4 +1,6 @@
 {% extends '/base.html' %}
+{% from 'macros.html' import display_buttons  %}
+
 
 {% block content %}
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
@@ -8,24 +10,18 @@
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <!--filters-->
             <div>
-                <ul style="border: 2px solid #55d9d4; border-radius: 12px;padding: 5px; list-style-type: none; max-height: 800px; overflow:hidden; overflow-y:scroll;" >
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('bw_filter',file_name=file_name) }}" role="button">Black & white</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('rbw_filter',file_name=file_name) }}" role="button">Real Black & white</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('con_filter',file_name=file_name) }}" role="button">Contour</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('blur_filter',file_name=file_name) }}" role="button">Blur</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('emb_filter',file_name=file_name) }}" role="button">Emboss</a></li>
-                </ul>
+                <div><!--color options-->
+                {{ display_buttons(file_name,
+                    ('bw_filter','rbw_filter','con_filter','blur_filter','emb_filter'),
+                    ('Black & white','Real Black & white','Contour','Blur','Emboss')) }}
+                </div>
             </div>
 
             <!--image-->
             <img style="height:512px; padding:10px;" src="{{url_for('static',filename='download/modified/'+file_name)}}">
 
             <div><!--color options-->
-                <ul style="border: 2px solid #55d9d4; border-radius: 12px;padding: 5px; list-style-type: none; max-height: 800px; overflow:hidden; overflow-y:scroll;" >
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" role="button">WORK IN PROG</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" role="button">WORK IN PROG</a></li>
-                    <li class="p-2"><a class="btn btn-outline-primary p-3" style="width: 200px;" role="button">WORK IN PROG</a></li>
-                </ul>
+                {{ display_buttons(file_name,('index','index','index','index','index'),('IN WORK','IN WORK','IN WORK','IN WORK','IN WORK')) }}
             </div>
         </div>
     </div>

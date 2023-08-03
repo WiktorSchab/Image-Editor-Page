@@ -1,0 +1,13 @@
+{% macro display_buttons(file_name, url_list,display_list)%}
+    <ul style="border: 2px solid #55d9d4; border-radius: 12px;padding: 5px; list-style-type: none; max-height: 800px; overflow:hidden; overflow-y:scroll;" >
+
+        {% for i in range(0,url_list|length)%}
+            <li class="p-2">
+                <a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for(  url_list[i]   ,file_name=file_name) }}" role="button">
+                    {{ display_list[i] }}
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+{% endmacro %}
