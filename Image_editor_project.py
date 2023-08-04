@@ -118,12 +118,15 @@ def emb_filter(file_name):
 
 
 # color filters
-@app.route('/only_red/<file_name>')
-def only_red(file_name):
+@app.route('/<color>/<file_name>')
+def only_color(file_name,color):
     path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
-    lower = (119, 100, 100)
-    upper = (129, 255, 255)
+    color = color[1:-1].split(',')
+    color = [int(i.strip()) for i in color]
+
+    lower = (color[0], color[1], color[2])
+    upper = (color[3], color[4], color[5])
 
     result = img_class.display_color(path, lower, upper)
     img_class.save_img(result, path.replace('original', 'modified'))
