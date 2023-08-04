@@ -22,10 +22,17 @@
             <img style="height:512px; padding:10px;" src="{{url_for('static',filename='download/modified/'+file_name)}}">
 
             <div><!--color options-->
-                {{ display_buttons_color(file_name,
-                ('only_color','index','index','index','index'),
-                ('Only red colors','IN WORK','IN WORK','IN WORK','IN WORK'),
-                ([119,100,100,129,255,255], [], [], [], [])) }}
+                {{ display_buttons_color(file_name, 'only_color',
+
+                ('Only purple colors','Only pink colors','Only red colors',
+                'Only orange colors','Only yellow colors', 'Only green colors',
+                'Only blue colors'),
+
+
+                ([150,100,100, 174,255,255],[130,100,100, 150,255,255],[119,100,100, 129,255,255],
+                [100,50,50, 118,255,255], [91,50,50, 99,255,255],[40,50,50, 90,255,255],
+                [0,50,50, 38,255,255] )) }}
+
             </div>
         </div>
     </div>
