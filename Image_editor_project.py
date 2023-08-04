@@ -38,7 +38,7 @@ def index(d={'access': 0, 'filename': None}):
             f.save(path)
 
             # resizing file for one format of display and fast operating on file
-            img = np.array(Image.open(path).resize((1024, 1024)))
+            img = np.array(Image.open(path))
             img_class.save_img(img, path)
 
             # making copy of img
