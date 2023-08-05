@@ -2,7 +2,12 @@
 {% from 'macros.html' import display_buttons,display_buttons_color  %}
 
 
+
+
 {% block content %}
+
+
+
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
         <div>
             <a class="btn btn-outline-danger p-3" style="width: 200px;" href="{{ url_for('img_change') }}" role="button">Change image</a>
@@ -36,4 +41,34 @@
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function setCookie(name, value, daysToLive){
+            const date = new Date();
+            date.setTime(date.getTime() + daysToLive * 24 * 60 * 60 * 1000);
+            let expires = "expires=" + date.toUTCString();
+
+            document.cookie = `${name}=${value}; ${expires}; path=/`;
+        }
+
+        function deleteCookie(name){
+            setCookie(name,null,null);
+        }
+
+        function getCookie(name){
+            const cDecoded = decodeURIComponent(document.cookie);
+            const cArray = cDecoded.split('; ');
+            let result = null;
+
+            cArray.forEach(element => {
+                if(element.indexOf(name) == 0){
+                    result = element.substring(name.length + 1)
+                }
+            })
+            return result;
+        }
+    </script>
+
+
 {% endblock %}
