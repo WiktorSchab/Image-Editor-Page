@@ -68,6 +68,13 @@
             })
             return result;
         }
+
+        function scroll_rem(child){
+            position_of_scroll = $(".position").scrollTop();
+            setCookie('position_cookie',position_of_scroll,1);
+        }
+
+        $(".position").scrollTop(getCookie('position_cookie'));
     </script>
 
 
