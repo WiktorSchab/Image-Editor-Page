@@ -23,14 +23,14 @@
   border-radius: 100px;
 }
 /*colors of button*/
-#color0:hover{background: #9c31bd; border-color:#9c31bd;}
-#color1:hover{background: #eb98d7; border-color:#eb98d7;}
-#color2:hover{background: #cf0e27; border-color:#cf0e27;}
-#color3:hover{background: #fa8c16; border-color:#fa8c16;}
-#color4:hover{background: #ebf227; border-color:#ebf227;}
-#color5:hover{background: #28c916; border-color:#28c916;}
-#color6:hover{background: #1ea1e3; border-color:#1ea1e3;}
-#color7:hover{background: #c0cbd1; border-color:#c0cbd1;}
+#color_id0:hover{background: #9c31bd; border-color:#9c31bd;}
+#color_id1:hover{background: #eb98d7; border-color:#eb98d7;}
+#color_id2:hover{background: #cf0e27; border-color:#cf0e27;}
+#color_id3:hover{background: #fa8c16; border-color:#fa8c16;}
+#color_id4:hover{background: #ebf227; border-color:#ebf227;}
+#color_id5:hover{background: #28c916; border-color:#28c916;}
+#color_id6:hover{background: #1ea1e3; border-color:#1ea1e3;}
+#color_id7:hover{background: #c0cbd1; border-color:#c0cbd1;}
 
 .color_white{color:white;}
 
