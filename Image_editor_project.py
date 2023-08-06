@@ -125,25 +125,9 @@ def emb_filter(file_name):
     return redirect(url_for('index'))
 
 
-# color filters
-@app.route('/<color>/<file_name>')
-def only_color(file_name,color):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    color = color[1:-1].split(',')
-    color = [int(i.strip()) for i in color]
-
-
-    lower = (color[0], color[1], color[2])
-    upper = (color[3], color[4], color[5])
-
-    result = img_class.display_color(path, lower, upper)
-    img_class.save_img(result, path.replace('original', 'modified'))
-    return redirect(url_for('index'))
-
+# color filter
 @app.route('/color/<file_name>')
-def only_color2(file_name,a=1):
-
+def only_color(file_name,a=1):
     cookie = request.cookies.get('Color_buttons')
     if cookie is not None:
         cookie = cookie[3:]
@@ -159,7 +143,7 @@ def only_color2(file_name,a=1):
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
             print(lower,upper)
-            result = img_class.display_color2(path, lower, upper)
+            result = img_class.display_color(path, lower, upper)
             if img is None:
                 img = result
             else:

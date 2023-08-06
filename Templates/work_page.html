@@ -13,8 +13,6 @@
             <a class="btn btn-outline-danger p-3" style="width: 200px;" href="{{ url_for('img_change') }}" role="button">Change image</a>
             <a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('img_reset',file_name=file_name) }}" role="button">Reset</a>
         </div>
-        <a class="btn btn-outline-danger p-3"
-           href="{{ url_for(  'only_color2'   ,file_name=file_name) }}" >test</a>
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <!--filters-->
             <div>
@@ -34,7 +32,6 @@
                 ('Only purple colors','Only pink colors','Only red colors',
                 'Only orange colors','Only yellow colors', 'Only green colors',
                 'Only blue colors','Only white colors'),
-
 
                 ([150,100,100, 174,255,255],[130,100,100, 150,255,255],[119,100,100, 129,255,255],
                 [100,50,50, 118,255,255], [91,50,50, 99,255,255],[40,50,50, 90,255,255],
