@@ -13,6 +13,8 @@
             <a class="btn btn-outline-danger p-3" style="width: 200px;" href="{{ url_for('img_change') }}" role="button">Change image</a>
             <a class="btn btn-outline-primary p-3" style="width: 200px;" href="{{ url_for('img_reset',file_name=file_name) }}" role="button">Reset</a>
         </div>
+        <a class="btn btn-outline-danger p-3"
+           href="{{ url_for(  'only_color2'   ,file_name=file_name) }}" >test</a>
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <!--filters-->
             <div>
@@ -24,7 +26,7 @@
             </div>
 
             <!--image-->
-            <img style="height:512px; padding:10px;" src="{{url_for('static',filename='download/modified/'+file_name)}}">
+            <img style="height:512px; padding:10px; border: 5px solid; margin: 10px" src="{{url_for('static',filename='download/modified/'+file_name)}}">
 
             <div><!--color options-->
                 {{ display_buttons_color(file_name, 'only_color',
