@@ -77,7 +77,52 @@
             setCookie('position_cookie',position_of_scroll,1);
         }
 
+
+        function color_button(id){
+            cookie = getCookie('Color_buttons');
+
+            if (cookie === null || cookie.length < 0){
+                setCookie('Color_buttons','Id:',1);
+            } else{
+                if(cookie.includes(id)){
+                    if (cookie.length === 5){
+                        deleteCookie('Color_buttons');
+                    }else{
+                        cookie = cookie.replace(id,'');
+                        setCookie('Color_buttons',cookie,1);
+                    }
+                }else{
+                    cookie = cookie +' ' +id;
+                    setCookie('Color_buttons',cookie,1);
+                }
+            }
+        }
+
+        $("#color_id0").on("click", () =>{
+            $("#color_id0").css({
+                background: "black"
+            });
+        })
+
         $(".position").scrollTop(getCookie('position_cookie'));
+
+        list_of_color = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1']
+
+        cookie = getCookie('Color_buttons');
+        console.log(cookie);
+
+        for (let i = 0; i < (list_of_color.length); i++) {
+            console.log('a');
+
+            if (cookie !== null && cookie.includes(i)){
+                color_id = '#color_id' + i;
+                $(color_id).css({"background": list_of_color[i]});
+                $(color_id).css({"border-color": list_of_color[i]});
+                $(color_id).css({"color": "white"});
+            }
+        }
+
+
     </script>
 
 

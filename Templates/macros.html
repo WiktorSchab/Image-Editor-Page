@@ -20,9 +20,9 @@
 
         {% for i in range(0,display_list|length)%}
             <li class="p-2">
-                <a class="btn btn-outline-primary p-3" id="color{{i}}"
+                <a class="btn btn-outline-primary p-3" id="color_id{{ i }}"
                    style=" width: 200px;"
-                   href="{{ url_for(  url   ,file_name=file_name,color=color[i]) }}" onclick="scroll_rem({{i}});" role="button">
+                   href="{{ url_for(  url   ,file_name=file_name,color=color[i]) }}" onclick="scroll_rem({{ i }}); color_button({{ i }});" role="button">
                     {{ display_list[i] }}
                 </a>
             </li>
