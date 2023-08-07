@@ -55,7 +55,6 @@ def index(d={'access': 0, 'filename': None}):
             # saving values to dict, so they won't be refreshed
             d['filename'] = filename
         filename = d['filename']
-
         return render_template('work_page.html', file_name=filename)
     return render_template('index.html', form=form)
 
@@ -81,6 +80,7 @@ def bw_filter(file_name):
     path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
     img = np.array(Image.open(path).convert('L'))
+
     img_class.save_img(img, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
