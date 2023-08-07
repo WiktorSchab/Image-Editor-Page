@@ -80,10 +80,9 @@ document.addEventListener("DOMContentLoaded", function(){
     $('#downloadModal').modal('show');
 });
 
-$('.cancel').click(function (){
-    //
-    console.log('wokr');
-    window.location.href = "{{ url_for('index') }}";
+$(document).on('click', function(event) {
+    if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
+            window.location.href = '/';
+
+    }
 });
-
-
