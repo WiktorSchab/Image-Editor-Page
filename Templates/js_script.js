@@ -37,21 +37,23 @@ function color_button(id){
 
     if (cookie === null){  // Checking if cookie exist and its correctly created
         setCookie('Color_buttons','Id:',1);
-    } else{
-        if(cookie.includes(id)){
-            if (cookie.length === 5){ // Deleting cookie if there is only one obj (5 bcs id: id)
-                deleteCookie('Color_buttons');
-            }else{
-                // Deleting id of clicked button from cookie
-                cookie = cookie.replace(id,'');
-                setCookie('Color_buttons',cookie,1);
-            }
+        cookie = getCookie('Color_buttons');
+    }
+
+    if(cookie.includes(id)){
+        if (cookie.length === 5){ // Deleting cookie if there is only one obj (5 bcs id: id)
+            deleteCookie('Color_buttons');
         }else{
-            // Adding id of button to cookie
-            cookie = cookie +' ' +id;
+            // Deleting id of clicked button from cookie
+            cookie = cookie.replace(id,'');
             setCookie('Color_buttons',cookie,1);
         }
+    }else{
+        // Adding id of button to cookie
+        cookie = cookie +' ' +id;
+        setCookie('Color_buttons',cookie,1);
     }
+
 }
 // Setting scroll position of object
 $(".position").scrollTop(getCookie('position_cookie'));
