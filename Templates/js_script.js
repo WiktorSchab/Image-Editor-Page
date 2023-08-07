@@ -76,8 +76,14 @@ for (let i = 0; i < (list_of_color.length); i++) {
 }
 
 // if user click download button modal window will show up
-$('.download').click(function (){
-            $('#downloadModal').modal('show');
+document.addEventListener("DOMContentLoaded", function(){
+    $('#downloadModal').modal('show');
+});
+
+$('.cancel').click(function (){
+    //
+    console.log('wokr');
+    window.location.href = "{{ url_for('index') }}";
 });
 
 

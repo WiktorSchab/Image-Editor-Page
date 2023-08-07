@@ -55,7 +55,7 @@ def index(d={'access': 0, 'filename': None}):
             # saving values to dict, so they won't be refreshed
             d['filename'] = filename
         filename = d['filename']
-        return render_template('work_page.html', file_name=filename)
+        return render_template('work_page.html', file_name=filename, url_download = url_for('download',file_name=filename))
     return render_template('index.html', form=form)
 
 
@@ -154,6 +154,18 @@ def only_color(file_name,a=1):
             img_class.save_img(img, path.replace('original', 'modified'))
 
     return redirect(url_for('index'))
+
+# Page with download window
+@app.route('/download/<file_name>', methods=['POST', 'GET'])
+def download(file_name):
+    if request.method == 'GET':
+        print('a')
+        return render_template('download_window.html', file_name=file_name,url_download='#')
+    else:
+        format = request.form['format']
+        print(format)
+        return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':

@@ -1,20 +1,77 @@
 <!--Bootstrap modal, it will show up if user will click download button-->
+{% include 'work_page.html' %}
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Download Confirmation</h5>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Are you sure you want to download the file?
+
+            <form action="{{ url_for('download',file_name=file_name) }}" method="POST" id="downloadForm">
+                <div class="modal-body">
+                <h2>Choose format of file</h2><br>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Format</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Vector?</th>
+                        <th scope="col">Pick format</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">JPG</th>
+                        <td>1024</td>
+                        <td>No</td>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="format" id="formatJPG" value="jpg" required>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">PNG</th>
+                        <td>1024</td>
+                        <td>Yes</td>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="format" id="formatPNG" value="png" required>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">TIFF</th>
+                        <td>1024</td>
+                        <td>No</td>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="format" id="formatTIFF" value="tiff" required>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">GIF</th>
+                        <td>1024</td>
+                        <td>No</td>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="format" id="formatGIF" value="gif" required>
+                            </div>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-success" href="{{ url_for('index') }}">Download</a>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" form="downloadForm">Download</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

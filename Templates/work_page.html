@@ -10,7 +10,8 @@
 
         <div>
             <a class="btn btn-outline-danger p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" href="{{ url_for('img_change') }}" role="button">Change image</a>
-            <a class="btn btn-outline-success p-3 download" style="width: 100px; margin-left:50px; margin-right:50px">Download</a>
+            <a class="btn btn-outline-success p-3 download" style="width: 100px; margin-left:50px; margin-right:50px" href="{{ url_download }}" >Download</a>
+
             <a class="btn btn-outline-primary p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" href="{{ url_for('img_reset',file_name=file_name) }}" role="button">Reset</a>
         </div>
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
@@ -43,7 +44,7 @@
             </div>
         </div>
     </div>
-    {% include "download_window.html" %}
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">{% include "js_script.js" %}</script>
