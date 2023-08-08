@@ -1,4 +1,4 @@
 static/download/temp/*
-static/download/original/*
 static/download/modified/*
+static/download/original/*
 __pycache__/
