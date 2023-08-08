@@ -16,6 +16,14 @@ class img_class:
 
     @staticmethod
     def get_image_size(app, file_name, extension):
+        """Function that creates file in temp and returning size of it in specific format
+
+        app - app = Flask(__name__)
+        file_name = name of file
+        extension = extension of file
+
+        Function returns string with size of image in MB"""
+
         path_input = os.path.join(app.root_path, 'static', 'download', 'modified', file_name)
 
         # Spliting file extension and file name

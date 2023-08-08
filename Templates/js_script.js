@@ -79,10 +79,14 @@ for (let i = 0; i < (list_of_color.length); i++) {
 document.addEventListener("DOMContentLoaded", function(){
     $('#downloadModal').modal('show');
 });
+console.log(window.location.href);
 
-$(document).on('click', function(event) {
-    if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
-            window.location.href = '/';
+// if user is in location download and he click outside of modal, on cancel or on x button he will be redireck to index
+if((window.location.href).includes('http://127.0.0.1:5000/download/')){
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
+                window.location.href = '/';
 
-    }
-});
+        }
+    });
+}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, send_file
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
@@ -24,11 +24,10 @@ class FileForm(FlaskForm):
                                                                                                            'png'],
                                                                                                           "Sorry, only png and jpg")])
 
-color_floor_top = ([150,100,100, 174,255,255],[130,100,100, 150,255,255],[119,100,100, 129,255,255],
-                [100,50,50, 118,255,255], [91,50,50, 99,255,255],[40,50,50, 90,255,255],
-                [0,50,50, 38,255,255], [0,0,0, 180,25,230])
 
-
+color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255], [119, 100, 100, 129, 255, 255],
+                   [100, 50, 50, 118, 255, 255], [91, 50, 50, 99, 255, 255], [40, 50, 50, 90, 255, 255],
+                   [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 
 # starting page
@@ -55,7 +54,8 @@ def index(d={'access': 0, 'filename': None}):
             # saving values to dict, so they won't be refreshed
             d['filename'] = filename
         filename = d['filename']
-        return render_template('work_page.html', file_name=filename, url_download = url_for('download',file_name=filename))
+        return render_template('work_page.html', file_name=filename,
+                               url_download=url_for('download', file_name=filename))
     return render_template('index.html', form=form)
 
 
@@ -127,13 +127,13 @@ def emb_filter(file_name):
 
 # color filter
 @app.route('/color/<file_name>')
-def only_color(file_name,a=1):
+def only_color(file_name, a=1):
     cookie = request.cookies.get('Color_buttons')
     if cookie is not None:
         cookie = cookie[3:]
-        cookie = cookie.strip() #making list from id numers from cookie file
+        cookie = cookie.strip()  # making list from id numers from cookie file
 
-        color = [color_floor_top[i] for i in range(0,len(color_floor_top)) if str(i) in cookie]
+        color = [color_floor_top[i] for i in range(0, len(color_floor_top)) if str(i) in cookie]
 
         path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
@@ -142,18 +142,19 @@ def only_color(file_name,a=1):
             lower = (int(i[0]), int(i[1]), int(i[2]))
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
-            print(lower,upper)
+            print(lower, upper)
             result = img_class.display_color(path, lower, upper)
             if img is None:
                 img = result
             else:
-                img = cv2.add(img,result)
+                img = cv2.add(img, result)
 
         if img is not None:
             path = path.replace('original', 'modified')
             img_class.save_img(img, path.replace('original', 'modified'))
 
     return redirect(url_for('index'))
+
 
 # Page with download window
 @app.route('/download/<file_name>', methods=['POST', 'GET'])
@@ -173,10 +174,9 @@ def download(file_name):
     else:
         format = request.form['format']
 
+        path = os.path.join(app.root_path, 'static', 'download', 'temp', file_name.split('.')[0] + '.' + format)
 
-
-        return redirect(url_for('index'))
-
+        return send_file(path, as_attachment=True)
 
 
 if __name__ == '__main__':
