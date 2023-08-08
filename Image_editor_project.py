@@ -30,6 +30,8 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
                    [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 
+img_instance = img_class(app)
+print(img_instance)
 # starting page
 @app.route('/', methods=['POST', 'GET'])
 def index(d={'access': 0, 'filename': None}):
@@ -127,7 +129,7 @@ def emb_filter(file_name):
 
 # color filter
 @app.route('/color/<file_name>')
-def only_color(file_name, a=1):
+def only_color(file_name):
     cookie = request.cookies.get('Color_buttons')
     if cookie is not None:
         cookie = cookie[3:]
@@ -163,10 +165,10 @@ def download(file_name):
         path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
         # Checking with function in img_class size of file with certain extension, by creating file in temp.
-        jpg = img_class.get_image_size(app, file_name, 'jpg')
-        png = img_class.get_image_size(app, file_name, 'png')
-        tiff = img_class.get_image_size(app, file_name, 'tiff')
-        gif = img_class.get_image_size(app, file_name, 'gif')
+        jpg = img_instance.get_image_size(file_name, 'jpg')
+        png = img_instance.get_image_size(file_name, 'png')
+        tiff = img_instance.get_image_size(file_name, 'tiff')
+        gif = img_instance.get_image_size(file_name, 'gif')
 
         file_sizes = [jpg, png, tiff, gif]
 

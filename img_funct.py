@@ -8,29 +8,35 @@ from scipy import ndimage as nd
 
 
 class img_class:
+    def __init__(self, app):
+        self.app = app
+
+    def __repr__(self):
+        return (f'App: {self.app}')
+
     @staticmethod
     def save_img(img, path):
         """Function to save img in delivered path"""
         pil_img = Image.fromarray(img)
         pil_img.save(path)
 
-    @staticmethod
-    def get_image_size(app, file_name, extension):
+
+    def get_image_size(self, file_name, extension):
         """Function that creates file in temp and returning size of it in specific format
 
-        app - app = Flask(__name__)
+
         file_name = name of file
         extension = extension of file
 
         Function returns string with size of image in MB"""
 
-        path_input = os.path.join(app.root_path, 'static', 'download', 'modified', file_name)
+        path_input = os.path.join(self.app.root_path, 'static', 'download', 'modified', file_name)
 
         # Spliting file extension and file name
         file_without_ex = file_name.split('.')[0]
 
         # Creating desire path with specific extension
-        path_output = os.path.join(app.root_path, 'static', 'download', 'temp', file_without_ex + '.' + extension)
+        path_output = os.path.join(self.app.root_path, 'static', 'download', 'temp', file_without_ex + '.' + extension)
 
 
         # Opening file and saving in in temporary directory
