@@ -9,10 +9,10 @@
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
 
         <div>
-            <a class="btn btn-outline-danger p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" href="{{ url_for('img_change') }}" role="button">Change image</a>
+            <a class="btn btn-outline-danger p-3" style="width: 200px;" href="{{ url_for('img_change_confirm',file_name=file_name) }}" role="button">Change image</a>
             <a class="btn btn-outline-success p-3 download" style="width: 100px; margin-left:50px; margin-right:50px" href="{{ url_download }}" >Download</a>
-
-            <a class="btn btn-outline-primary p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" href="{{ url_for('img_reset',file_name=file_name) }}" role="button">Reset</a>
+            <!--{{ url_for('img_reset',file_name=file_name) }}-->
+            <a class="btn btn-outline-primary p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" role="button">Reset</a>
         </div>
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <!--filters-->

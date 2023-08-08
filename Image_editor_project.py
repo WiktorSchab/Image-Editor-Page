@@ -62,6 +62,10 @@ def index(d={'access': 0, 'filename': None}):
 
 
 # Changing image
+@app.route('/reset_change_confirm/<file_name>')
+def img_change_confirm(file_name):
+    return render_template('confirm_window.html',file_name=file_name)
+
 @app.route('/deleting_image')
 def img_change():
     form = FileForm()
