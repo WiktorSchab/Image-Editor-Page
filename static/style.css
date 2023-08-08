@@ -1,5 +1,11 @@
-.width-200{
-  width: 200px;
+/* style to buttons (motive choose) above header */
+.motive_button{
+    height: 35px;
+    width: 100px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 13px;
 }
 
 
@@ -15,6 +21,11 @@
     max-height: 385px;
     overflow: hidden;
     overflow-y: scroll;
+}
+
+
+.width-200{
+  width: 200px;
 }
 
 
@@ -56,6 +67,12 @@
 }
 
 
+/* styles to buttons sack (above header) */
+#button_sack{
+    margin-left: 45px;
+}
+
+
 /* styles to header */
 #intro-example{
     height: 150px;
@@ -69,6 +86,7 @@
 #mask_header{
   background-color: rgba(0, 100, 50, 0.2);
 }
+
 
 
 /* style to form */
