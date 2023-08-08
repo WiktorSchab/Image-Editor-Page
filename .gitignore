@@ -1,4 +1,9 @@
-static/download/temp/*
-static/download/modified/*
-static/download/original/*
+/static/download/temp/*
+!/static/download/temp/keep/
+
+/static/download/modified/*
+!/static/download/modified/keep/
+
+/static/download/original/*
+!/static/download/original/keep/
 __pycache__/
