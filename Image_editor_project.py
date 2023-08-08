@@ -31,7 +31,7 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
 
 
 img_instance = img_class(app)
-print(img_instance)
+
 # starting page
 @app.route('/', methods=['POST', 'GET'])
 def index(d={'access': 0, 'filename': None}):
@@ -79,51 +79,35 @@ def img_reset(file_name):
 # Black & white filter
 @app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    img = np.array(Image.open(path).convert('L'))
-
-    img_class.save_img(img, path.replace('original', 'modified'))
+    img_instance.filter_funct("convert('L')",file_name)
     return redirect(url_for('index'))
 
 
 # Real black & white filter
 @app.route('/rbw_filter/<file_name>')
 def rbw_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    img = np.array(Image.open(path).convert('1'))
-    img_class.save_img(img, path.replace('original', 'modified'))
+    img_instance.filter_funct("convert('1')",file_name)
     return redirect(url_for('index'))
 
 
 # Contur filter
 @app.route('/con_filter/<file_name>')
 def con_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    img = np.array(Image.open(path).filter(ImageFilter.CONTOUR))
-    img_class.save_img(img, path.replace('original', 'modified'))
+    img_instance.filter_funct("filter(ImageFilter.CONTOUR)",file_name)
     return redirect(url_for('index'))
 
 
 # Blur filter
 @app.route('/blur_filter/<file_name>')
 def blur_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    img = np.array(Image.open(path).filter(ImageFilter.GaussianBlur(radius=4)))
-    img_class.save_img(img, path.replace('original', 'modified'))
+    img_instance.filter_funct("filter(ImageFilter.GaussianBlur(radius=4))",file_name)
     return redirect(url_for('index'))
 
 
 # Emboss filter
 @app.route('/emb_filter/<file_name>')
 def emb_filter(file_name):
-    path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
-    img = np.array(Image.open(path).filter(ImageFilter.EMBOSS))
-    img_class.save_img(img, path.replace('original', 'modified'))
+    img_instance.filter_funct("filter(ImageFilter.EMBOSS)",file_name)
     return redirect(url_for('index'))
 
 

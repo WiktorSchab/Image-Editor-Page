@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageFilter
 
 import os
 from skimage import io
@@ -12,14 +12,7 @@ class img_class:
         self.app = app
 
     def __repr__(self):
-        return (f'App: {self.app}')
-
-    @staticmethod
-    def save_img(img, path):
-        """Function to save img in delivered path"""
-        pil_img = Image.fromarray(img)
-        pil_img.save(path)
-
+        return f'App: {self.app}'
 
     def get_image_size(self, file_name, extension):
         """Function that creates file in temp and returning size of it in specific format
@@ -32,14 +25,13 @@ class img_class:
 
         path_input = os.path.join(self.app.root_path, 'static', 'download', 'modified', file_name)
 
-        # Spliting file extension and file name
+        # Splitting file extension and file name
         file_without_ex = file_name.split('.')[0]
 
         # Creating desire path with specific extension
         path_output = os.path.join(self.app.root_path, 'static', 'download', 'temp', file_without_ex + '.' + extension)
 
-
-        # Opening file and saving in in temporary directory
+        # Opening file and saving in temporary directory
         img = Image.open(path_input)
         img.save(path_output)
 
@@ -47,6 +39,29 @@ class img_class:
         file_size_bytes = os.path.getsize(path_output)
         file_size_mb = file_size_bytes / (1024 * 1024)
         return f'{file_size_mb:.2}MB'
+
+    def filter_funct(self, method, file_name):
+        """Function to change appearance of image
+        Function opens file in app.root_path/static/download/original/file_name and save a result in
+        app.root_path/static/download/modified/file_name
+
+        method - method of changing appearance of image, for example convert('L'), must be given as string
+        file_name - name of image to metamorphose
+
+        """
+
+        path = os.path.join(self.app.root_path, 'static', 'download', 'original', file_name)
+
+        string = f"np.array(Image.open(path).{method})"
+        img = eval(string)
+
+        img_class.save_img(img, path.replace('original', 'modified'))
+
+    @staticmethod
+    def save_img(img, path):
+        """Function to save img in delivered path"""
+        pil_img = Image.fromarray(img)
+        pil_img.save(path)
 
     @staticmethod
     def display_color(path, lower, upper):
