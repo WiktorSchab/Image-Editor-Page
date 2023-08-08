@@ -1,2 +1,4 @@
-static/download/
+static/download/temp/*
+static/download/original/*
+static/download/modified/*
 __pycache__/
