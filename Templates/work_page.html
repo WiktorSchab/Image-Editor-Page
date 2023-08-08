@@ -1,18 +1,15 @@
 {% extends '/base.html' %}
 {% from 'macros.html' import display_buttons,display_buttons_color  %}
 
-
-
-
 {% block content %}
 
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
 
         <div>
-            <a class="btn btn-outline-danger p-3" style="width: 200px;" href="{{ url_for('img_change_confirm',file_name=file_name) }}" role="button">Change image</a>
-            <a class="btn btn-outline-success p-3 download" style="width: 100px; margin-left:50px; margin-right:50px" href="{{ url_download }}" >Download</a>
+            <a class="btn btn-outline-danger p-3 width-200" href="{{ url_for('img_change_confirm',file_name=file_name) }}" role="button">Change image</a>
+            <a class="btn btn-outline-success p-3 download" id="download_button" href="{{ url_download }}" >Download</a>
             <!--{{ url_for('img_reset',file_name=file_name) }}-->
-            <a class="btn btn-outline-primary p-3" style="width: 200px;" onclick="deleteCookie('Color_buttons')" role="button">Reset</a>
+            <a class="btn btn-outline-primary p-3 width-200" onclick="deleteCookie('Color_buttons')" href ="{{ url_for('img_reset',file_name=file_name) }}" role="button">Reset</a>
         </div>
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <!--filters-->
@@ -25,7 +22,7 @@
             </div>
 
             <!--image-->
-            <img style="height:512px; padding:10px; border: 5px solid; margin: 10px" src="{{url_for('static',filename='download/modified/'+file_name)}}">
+            <img id="img_main" src="{{url_for('static',filename='download/modified/'+file_name)}}">
 
             <div><!--color options-->
                 {{ display_buttons_color(file_name, 'only_color',
@@ -48,6 +45,4 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">{% include "js_script.js" %}</script>
-
-
 {% endblock %}

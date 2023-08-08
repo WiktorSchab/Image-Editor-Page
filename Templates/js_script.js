@@ -90,11 +90,12 @@ if((window.location.href).includes('http://127.0.0.1:5000/download/')){
     });
 }
 
-
+// if user click change button modal window will show up
 document.addEventListener("DOMContentLoaded", function(){
     $('#confirmModal').modal('show');
 });
 
+// if user is in location change_confirm and he click outside of modal, on cancel or on x button he will be redireck to index
 if((window.location.href).includes('http://127.0.0.1:5000/reset_change_confirm/')){
     console.log('first barirer');
     $(document).on('click', function(event) {

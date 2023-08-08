@@ -1,3 +1,35 @@
+.width-200{
+  width: 200px;
+}
+
+
+.button_list{
+    /* sizing parameters*/
+    border: 2px solid #CCE0D6;
+    border-radius: 12px;
+    padding: 5px;
+
+    list-style-type: none;
+
+    /* for scrolling option */
+    max-height: 385px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+/*colors of button*/
+#color_id0:hover{background: #9c31bd; border-color:#9c31bd;}
+#color_id1:hover{background: #eb98d7; border-color:#eb98d7;}
+#color_id2:hover{background: #cf0e27; border-color:#cf0e27;}
+#color_id3:hover{background: #fa8c16; border-color:#fa8c16;}
+#color_id4:hover{background: #ebf227; border-color:#ebf227;}
+#color_id5:hover{background: #28c916; border-color:#28c916;}
+#color_id6:hover{background: #1ea1e3; border-color:#1ea1e3;}
+#color_id7:hover{background: #c0cbd1; border-color:#c0cbd1;}
+.color_white{color:white;}
+
+
 /* scroll */
 ::-webkit-scrollbar {
   width: 10px;
@@ -22,24 +54,45 @@
   background-clip: padding-box;
   border-radius: 100px;
 }
-/*colors of button*/
-#color_id0:hover{background: #9c31bd; border-color:#9c31bd;}
-#color_id1:hover{background: #eb98d7; border-color:#eb98d7;}
-#color_id2:hover{background: #cf0e27; border-color:#cf0e27;}
-#color_id3:hover{background: #fa8c16; border-color:#fa8c16;}
-#color_id4:hover{background: #ebf227; border-color:#ebf227;}
-#color_id5:hover{background: #28c916; border-color:#28c916;}
-#color_id6:hover{background: #1ea1e3; border-color:#1ea1e3;}
-#color_id7:hover{background: #c0cbd1; border-color:#c0cbd1;}
 
-.color_white{color:white;}
 
-.download_panel{
-    position: absolute;
-    width: 50%;
-    height: 50%;
-    background-color: black;
+/* styles to header */
+#intro-example{
+    height: 150px;
 }
+@media (min-width: 992px) {
+    #intro-example {
+        height: 300px;
+    }
+}
+/* style to header mask*/
+#mask_header{
+  background-color: rgba(0, 100, 50, 0.2);
+}
+
+
+/* style to form */
+#form_part{
+    min-height:60vh;
+}
+
+
+/* style to download button in menu above main img*/
+#download_button{
+    width: 100px;
+    margin-left:50px;
+    margin-right:50px;
+}
+
+/* style to img that is displaying on */
+#img_main{
+    height:512px;
+    padding:10px;
+    border: 5px solid;
+    margin: 10px;
+}
+
+
 
 
 
