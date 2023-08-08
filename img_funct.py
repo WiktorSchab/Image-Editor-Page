@@ -1,5 +1,6 @@
 from PIL import Image
 
+import os
 from skimage import io
 import cv2
 import numpy as np
@@ -12,6 +13,26 @@ class img_class:
         """Function to save img in delivered path"""
         pil_img = Image.fromarray(img)
         pil_img.save(path)
+
+    @staticmethod
+    def get_image_size(app, file_name, extension):
+        path_input = os.path.join(app.root_path, 'static', 'download', 'modified', file_name)
+
+        # Spliting file extension and file name
+        file_without_ex = file_name.split('.')[0]
+
+        # Creating desire path with specific extension
+        path_output = os.path.join(app.root_path, 'static', 'download', 'temp', file_without_ex + '.' + extension)
+
+
+        # Opening file and saving in in temporary directory
+        img = Image.open(path_input)
+        img.save(path_output)
+
+        # Calculating size in Mega byte
+        file_size_bytes = os.path.getsize(path_output)
+        file_size_mb = file_size_bytes / (1024 * 1024)
+        return f'{file_size_mb:.2}MB'
 
     @staticmethod
     def display_color(path, lower, upper):

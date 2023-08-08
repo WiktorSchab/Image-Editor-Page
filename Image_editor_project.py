@@ -159,11 +159,22 @@ def only_color(file_name,a=1):
 @app.route('/download/<file_name>', methods=['POST', 'GET'])
 def download(file_name):
     if request.method == 'GET':
-        print('a')
-        return render_template('download_window.html', file_name=file_name,url_download='#')
+        path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
+
+        # Checking with function in img_class size of file with certain extension, by creating file in temp.
+        jpg = img_class.get_image_size(app, file_name, 'jpg')
+        png = img_class.get_image_size(app, file_name, 'png')
+        tiff = img_class.get_image_size(app, file_name, 'tiff')
+        gif = img_class.get_image_size(app, file_name, 'gif')
+
+        file_sizes = [jpg, png, tiff, gif]
+
+        return render_template('download_window.html', file_name=file_name, url_download='#', file_sizes=file_sizes)
     else:
         format = request.form['format']
-        print(format)
+
+
+
         return redirect(url_for('index'))
 
 
