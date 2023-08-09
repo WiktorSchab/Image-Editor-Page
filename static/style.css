@@ -1,3 +1,12 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
 /* style to buttons (motive choose) above header */
 .motive_button{
     height: 35px;
@@ -105,9 +114,24 @@
 /* style to img that is displaying on */
 #img_main{
     height:512px;
+
     padding:10px;
     border: 5px solid;
     margin: 10px;
+}
+
+
+/* style to item_tool */
+#toolbox{
+    width: 600px;
+    height: 30px;
+
+    display: flex;
+    flex-direction: row;
+
+    border: 3px solid #c3d9ce;
+    border-radius: 4px;
+    background-color: #91a199;
 }
 
 
