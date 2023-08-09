@@ -104,3 +104,19 @@ if((window.location.href).includes('http://127.0.0.1:5000/reset_change_confirm/'
         }
     });
 }
+
+//setting size of canvas to size of image and using image as background
+$(document).ready(function() {
+    var canvas = $('#canvas')[0];
+
+    var img = new Image();
+    img.src = "{{url_for('static',filename='download/modified/'+file_name)}}";
+
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+    };
+});

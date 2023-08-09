@@ -79,7 +79,6 @@ def img_reset(file_name):
     shutil.copyfile(path, path.replace('original', 'modified'))
     return redirect(url_for('index'))
 
-
 # Black & white filter
 @app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
@@ -168,6 +167,10 @@ def download(file_name):
 
         return send_file(path, as_attachment=True)
 
+
+@app.route('/draw_mode/<file_name>')
+def draw_mode(file_name):
+    return render_template('draw.html', file_name=file_name)
 
 if __name__ == '__main__':
     app.run(debug=True)
