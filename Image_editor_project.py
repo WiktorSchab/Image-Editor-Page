@@ -168,9 +168,17 @@ def download(file_name):
         return send_file(path, as_attachment=True)
 
 
+
+#draw mode
 @app.route('/draw_mode/<file_name>')
 def draw_mode(file_name):
     return render_template('draw.html', file_name=file_name)
+
+
+#temp page to save canvas as file in modified
+@app.route('/draw_mode/saving')
+def draw_mode_saving():
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

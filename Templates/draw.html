@@ -16,11 +16,13 @@
 
             <!--Tools on left-->
             <div id="leftTools">
-                <button class="buttonClear" title="Click to clear drawing on canvas">
+                <button class="button_small" id="buttonClear" title="Click to clear drawing on canvas">
                     <img src="{{ url_for('static', filename='icons/clear_canvas_icon.png') }}">
                 </button>
 
-                <button id="buttonBack" title="Click to undo last draw on canas">undo</button>
+                <button class="button_small" id="buttonBack" title="Click to undo last draw on canvas">
+                    <img src="{{ url_for('static', filename='icons/go_back_icon.png') }}">
+                </button>
 
                 <!--Size of brush inputs-->
                 <input class="size" id="toolbox_number" type="number"

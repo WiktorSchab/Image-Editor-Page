@@ -27,11 +27,6 @@ function load_image(){
 
         // drawing loaded render of given image
         ctx.drawImage(img, 0, 0, width, height);
-
-        // for undo funct
-        if (typeof callback === 'function') {
-            callback();
-        }
     };
 };
 
@@ -46,7 +41,11 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     // assigning object from html to variables
     var canvas = $('#canvas');
 
-    var buttonClear = $('.buttonClear');
+    //button to save draw
+    var saveButton = $('save_draw');
+
+    // buttons on draw menu
+    var buttonClear = $('#buttonClear');
     var buttonBack = $('#buttonBack');
 
     var sizeInput = $('.size');
@@ -57,15 +56,15 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
     //  setting default variables
     var isMouseDown = false;
-    var color = "#000";
+    var color = '#000';
     var size = 10;
     var x,y;
 
-    var array_cords = [];
+
+    //array that will be contain cords of mouse drawing (one draw)
     var cord_wait_room = [];
-
-    var imageLoaded;
-
+    //aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
+    var array_cords = [];
 
     // placing the circles in the place where the pressed mouse is
     function drawCircle(x,y){
@@ -168,7 +167,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
         var checkImageLoaded = setInterval(function() {
             if (imageLoaded) {
-                clearInterval(checkImageLoaded); // Zatrzymaj sprawdzanie
+                clearInterval(checkImageLoaded); // imageLoaded will be true if image is fully loaded.
                 for (var i = 0; i < array_cords.length; i++) {
                     var cords_group = array_cords[i];
                     for (var j = 0; j < cords_group.length; j++) {
@@ -178,7 +177,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
                     }
                 }
             }
-        }, 100); // Sprawdzaj co 100ms
+        }, 100); // how often it will be checking
     });
 
 
