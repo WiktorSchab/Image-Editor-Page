@@ -1,0 +1,49 @@
+/* style for item_tool */
+#toolbox{
+    width: 600px;
+    height: 40px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border: 3px solid #c3d9ce;
+    border-radius: 4px;
+    background-color: #91a199;
+}
+
+/* style for button to clear up canvas */
+#buttonClear{
+    height: 25px;
+    width: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* for 'invisibility (only image is visible)'*/
+    background-color: #91a199;
+    border: none;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+/* styles for range with size of brush */
+/* range input */
+#toolbox_range{
+    width: 100px;
+}
+/* number input */
+#toolbox_number{
+    width: 40px;
+}
+
+
+
+
+/* style to input with color of brush */
+.toolbox_color{
+
+}

@@ -105,35 +105,5 @@ if((window.location.href).includes('http://127.0.0.1:5000/reset_change_confirm/'
     });
 }
 
-//setting size of canvas to size of image and using image as background
-function load_image(){
-    var canvas = $('#canvas')[0];
-
-    /* linking the image given by the user as img */
-    var img = new Image();
-    img.src = "{{url_for('static',filename='download/modified/'+file_name)}}";
-
-    /* waiting img to fully load */
-    img.onload = function() {
-        /* declaring original proportion of image to ratio variable */
-        var ratio = img.height / img.width;
-
-        /* setting size of image with height 512 and width that its 512/original image ratio */
-        var height = 512;
-        var width  = height / ratio;
-
-        canvas.width = width;
-        canvas.height = height;
-
-        /* 'placing' image as background*/
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-    };
-};
-
-/* loading canvas with img background */
-$(document).ready(function() {
-    load_image();
-});
 
 

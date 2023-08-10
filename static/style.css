@@ -121,19 +121,6 @@ body{
 }
 
 
-/* style to item_tool */
-#toolbox{
-    width: 600px;
-    height: 30px;
-
-    display: flex;
-    flex-direction: row;
-
-    border: 3px solid #c3d9ce;
-    border-radius: 4px;
-    background-color: #91a199;
-}
-
 
 
 

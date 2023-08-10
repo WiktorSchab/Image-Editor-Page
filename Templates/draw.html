@@ -2,23 +2,35 @@
 {% from 'macros.html' import display_buttons,display_buttons_color  %}
 
 {% block content %}
+    <link href="{{ url_for('static', filename='style_draw.css') }}" rel="stylesheet" type="text/css">
 
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
-
+        <!--Save changes && Exit buttons-->
         <div>
             <a class="btn btn-outline-success p-3 width-200" href="{{ url_for('index') }}" role="button">Save changes</a>
             <a class="btn btn-outline-danger p-3 width-200" href="{{ url_for('index') }}" role="button">Exit</a>
         </div>
+
+        <!--Tools of draw mode-->
         <div class="mt-4" id="toolbox">
-            <button id="buttonClear"></button>
-            <input class="toolbox_numer" id="size" type="number" value="10"/>
+            <button id="buttonClear">
+                <img src="{{ url_for('static', filename='icons/clear_canvas_icon.png') }}">
+            </button>
+
+            <!--Size of brush inputs-->
+            <input class="size" id="toolbox_number" type="number" value="10"/>
+            <input class="form-range size" id="toolbox_range" type="range" type="number" value="10"/>
+
+
             <input class="toolbox_color" id="color_tool" type="color"/>
         </div>
+
+        <!--Drawing canvas-->
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <canvas id="canvas" class="image-container"></canvas>
         </div>
-    </div>
 
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">{% include "js_script.js" %}</script>

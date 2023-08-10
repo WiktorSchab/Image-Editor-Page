@@ -1,19 +1,57 @@
+/* setting size of canvas to size of image and using image as background */
+function load_image(){
+    var canvas = $('#canvas')[0];
+
+    /* creating new image obj */
+    var img = new Image();
+
+    /* setting source of image to file given by user with use of Flask function to locate img */
+    img.src = "{{url_for('static',filename='download/modified/'+file_name)}}";
+
+    /* waiting img to fully load */
+    img.onload = function() {
+        /* declaring original proportion of image to ratio variable */
+        var ratio = img.height / img.width;
+
+        /* setting size of image with height 512 and width that its 512/original image ratio */
+        var height = 512;
+        var width  = height / ratio;
+
+        /* setting size of canvas as the same size as image have */
+        canvas.width = width;
+        canvas.height = height;
+
+        /* getting 2d render of context of canvas */
+        var ctx = canvas.getContext('2d');
+
+        /* Drawing loaded render of given image */
+        ctx.drawImage(img, 0, 0, width, height);
+    };
+};
+
+/* loading canvas with img background if page is generated */
+$(document).ready(function() {
+    load_image();
+});
+
+
 /* drawing functions */
 if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     /* assigning object from html to variables */
-    var canvas = $('#canvas')[0];
-    var buttonClear = $('#buttonClear')[0];
-    var sizeInput = $('#size')[0];
-    var colorInput = $('#color_tool')[0];
+    var canvas = $('#canvas');
+    var buttonClear = $('#buttonClear');
+    var sizeInput = $('.size');
+    var colorInput = $('#color_tool');
 
     /* creating context to allow user drawing and assigning it to context var*/
-    var context = canvas.getContext("2d");
+    var context = $('#canvas')[0].getContext("2d");
 
     /*  setting default variables */
     var isMouseDown = false;
     var color = "#000";
     var size = 10;
     var x,y;
+
 
     /* placing the circles in the place where the pressed mouse is */
     function drawCircle(x,y){
@@ -46,7 +84,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     }
 
     /* function that assign position of mouse to x,y if user click */
-    canvas.addEventListener("mousedown", function (e){
+    canvas.on("mousedown", function (e){
         isMouseDown = true;
 
         /* setting mouse position to variable */
@@ -55,7 +93,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     });
 
     /* drawing line that follow user mouse move */
-    canvas.addEventListener("mousemove", function (e){
+    canvas.on("mousemove", function (e){
         /* returning from funct if user stop pressing mouse */
         if (!isMouseDown) return;
 
@@ -74,7 +112,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     });
 
     /* stopping drawing if user stop pressing mouse */
-    canvas.addEventListener("mouseup", function (e){
+    canvas.on("mouseup", function (e){
         isMouseDown = false;
 
         /* setting variables that holds position of mouse to null */
@@ -84,7 +122,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
     /* buttons */
     /* cleaning button */
-    buttonClear.addEventListener("click", function (e){
+    buttonClear.on("click", function (e){
        /* cleaning canvas from everything */
        context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -93,14 +131,15 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     });
 
     /* size of tool */
-    sizeInput.addEventListener("change", function (e){
-        /* overwriting variable that have size of drawn line */
-        size = $('#size').val();
+    sizeInput.on("input", function() {
+        size = $(this).val();
+
+        /* changing displaying size on input number and input change*/
+        $(".size").val(size);
     });
 
     /* color of tool */
-    colorInput.addEventListener("change", function (e){
-        /* overwriting variable that have color of drawn line */
-        color = $('#color_tool').val();
+    colorInput.on("change", function (e){
+        color = $(this).val()
     });
 }
