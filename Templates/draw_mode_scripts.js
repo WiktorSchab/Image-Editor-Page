@@ -39,7 +39,10 @@ $(document).ready(function() {
 if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     // assigning object from html to variables
     var canvas = $('#canvas');
+
     var buttonClear = $('#buttonClear');
+    var buttonBack = $('#buttonBack');
+
     var sizeInput = $('.size');
     var colorInput = $('#color_tool');
 
@@ -51,6 +54,9 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     var color = "#000";
     var size = 10;
     var x,y;
+
+    var array_cords = [];
+    var cord_wait_room = [];
 
 
     // placing the circles in the place where the pressed mouse is
@@ -81,6 +87,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
         // drawing line
         context.stroke();
+        a = context;
     }
 
     // function that assign position of mouse to x,y if user click
@@ -106,6 +113,9 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
         // function that creates line between old and new mouse position
         drawLine(x, y ,x2, y2);
 
+        cord_wait_room.push([x,y,x2,y2])
+        console.log(cord_wait_room);
+
         // assigning actual position of mouse to x and y, so they can be used as old one in next function call
         x = x2;
         y = y2;
@@ -129,6 +139,15 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
        // loading image as background again
        load_image();
     });
+
+    buttonBack.on("click", function (e){
+        for (var i = 0; i < cord_wait_room.length; i++) {
+            var cords = cord_wait_room[i];
+            drawCircle(cords[2], cords[3]);
+            drawLine(cords[0], cords[1] ,cords[2], cords[3]);
+        }
+    });
+
 
     // size of tool
     sizeInput.on("input", function() {
