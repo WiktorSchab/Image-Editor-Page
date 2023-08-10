@@ -11,6 +11,7 @@ function load_image(){
     // waiting img to fully load
     img.onload = function() {
         // declaring original proportion of image to ratio variable
+        imageLoaded = true;
         var ratio = img.height / img.width;
 
         // setting size of image with height 512 and width that its 512/original image ratio
@@ -24,8 +25,13 @@ function load_image(){
         // getting 2d render of context of canvas
         var ctx = canvas.getContext('2d');
 
-        // Drawing loaded render of given image
+        // drawing loaded render of given image
         ctx.drawImage(img, 0, 0, width, height);
+
+        // for undo funct
+        if (typeof callback === 'function') {
+            callback();
+        }
     };
 };
 
@@ -40,7 +46,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     // assigning object from html to variables
     var canvas = $('#canvas');
 
-    var buttonClear = $('#buttonClear');
+    var buttonClear = $('.buttonClear');
     var buttonBack = $('#buttonBack');
 
     var sizeInput = $('.size');
@@ -57,6 +63,8 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
     var array_cords = [];
     var cord_wait_room = [];
+
+    var imageLoaded;
 
 
     // placing the circles in the place where the pressed mouse is
@@ -114,7 +122,6 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
         drawLine(x, y ,x2, y2);
 
         cord_wait_room.push([x,y,x2,y2])
-        console.log(cord_wait_room);
 
         // assigning actual position of mouse to x and y, so they can be used as old one in next function call
         x = x2;
@@ -124,6 +131,9 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     /* stopping drawing if user stop pressing mouse */
     canvas.on("mouseup", function (e){
         isMouseDown = false;
+
+        array_cords.push(cord_wait_room);
+        cord_wait_room = [];
 
         /* setting variables that holds position of mouse to null */
         x = null;
@@ -138,15 +148,39 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
        // loading image as background again
        load_image();
+       
+       // deleting array drawing cords
+       array_cords = [];
     });
 
     buttonBack.on("click", function (e){
-        for (var i = 0; i < cord_wait_room.length; i++) {
-            var cords = cord_wait_room[i];
-            drawCircle(cords[2], cords[3]);
-            drawLine(cords[0], cords[1] ,cords[2], cords[3]);
-        }
+       // cleaning canvas from everything
+       context.clearRect(0, 0, canvas.width, canvas.height);
+
+       // loading image as background again
+       load_image();
     });
+
+    buttonBack.on("click", function (e){
+        imageLoaded = false;
+        array_cords.pop();
+        load_image();
+
+        var checkImageLoaded = setInterval(function() {
+            if (imageLoaded) {
+                clearInterval(checkImageLoaded); // Zatrzymaj sprawdzanie
+                for (var i = 0; i < array_cords.length; i++) {
+                    var cords_group = array_cords[i];
+                    for (var j = 0; j < cords_group.length; j++) {
+                        var cords = cords_group[j];
+                        drawCircle(cords[2], cords[3]);
+                        drawLine(cords[0], cords[1], cords[2], cords[3]);
+                    }
+                }
+            }
+        }, 100); // Sprawdzaj co 100ms
+    });
+
 
 
     // size of tool
