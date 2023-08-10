@@ -1,15 +1,15 @@
 // Cookies functions
-function setCookie(name, value, daysToLive){
+function setCookie(name, value, daysToLive) {
     const date = new Date();
     date.setTime(date.getTime() + daysToLive * 24 * 60 * 60 * 1000); // Setting how many millisecond cookie have to live
-    let expires = "expires=" + date.toUTCString();
+    let expires = 'expires=' + date.toUTCString();
 
     // Setting cookie with given values in default for cookies path ('/')
     document.cookie = `${name}=${value}; ${expires}; path=/`;
 }
 
 function deleteCookie(name){
-    setCookie(name,null,null);
+    setCookie(name,null,null); //setting date of live of cookie to null so he will die immediately
 }
 
 function getCookie(name){
@@ -18,32 +18,32 @@ function getCookie(name){
     let result = null;
 
     cArray.forEach(element => {
-        if(element.indexOf(name) == 0){
+        if(element.indexOf(name) == 0) {
             result = element.substring(name.length + 1) // Separating value of cookie
         }
-    })
+    });
     return result; // Returning value of cookie if it exists otherwise null
 }
 
 // Function to remember scroll position of object
-function scroll_rem(child){
+function scroll_rem(child) {
     position_of_scroll = $(".position").scrollTop();
-    setCookie('position_cookie',position_of_scroll,1);
+    setCookie('position_cookie', position_of_scroll, 1);
 }
 
 // Function to add clicked button id to cookie file if its not there otherwise delete id from the file
-function color_button(id){
+function color_button(id) {
     cookie = getCookie('Color_buttons');
 
-    if (cookie === null){  // Checking if cookie exist and its correctly created
-        setCookie('Color_buttons','Id:',1);
+    if (cookie === null) {  // Checking if cookie exist and its correctly created
+        setCookie('Color_buttons', 'Id:', 1);
         cookie = getCookie('Color_buttons');
     }
 
-    if(cookie.includes(id)){
-        if (cookie.length === 5){ // Deleting cookie if there is only one obj (5 bcs id: id)
+    if(cookie.includes(id)) {
+        if (cookie.length === 5) { // Deleting cookie if there is only one obj (5 bcs id: id)
             deleteCookie('Color_buttons');
-        }else{
+        } else {
             // Deleting id of clicked button from cookie
             cookie = cookie.replace(id,'');
             setCookie('Color_buttons',cookie,1);
@@ -53,8 +53,8 @@ function color_button(id){
         cookie = cookie +' ' +id;
         setCookie('Color_buttons',cookie,1);
     }
-
 }
+
 // Setting scroll position of object
 $(".position").scrollTop(getCookie('position_cookie'));
 
@@ -75,35 +75,38 @@ for (let i = 0; i < (list_of_color.length); i++) {
     }
 }
 
-// if user click download button modal window will show up
-document.addEventListener("DOMContentLoaded", function(){
-    $('#downloadModal').modal('show');
-});
 
-// if user is in location download and he click outside of modal, on cancel or on x button he will be redirect to index
-if((window.location.href).includes('http://127.0.0.1:5000/download/')){
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
-                window.location.href = '/';
-
-        }
-    });
-}
-
-// if user click change button modal window will show up
-document.addEventListener("DOMContentLoaded", function(){
+// Showing modals (they will be on page only if user click specific button)
+$(document).ready(function() {
     $('#confirmModal').modal('show');
+    $('#downloadModal').modal('show');
+
+    // Checking if user is in correct location
+    if(window.location.href.includes('http://127.0.0.1:5000/reset_change_confirm/')) {
+        // function to close modal
+        modalClosing();
+    }
+
+    // Checking if user is in correct location
+    if(window.location.href.includes('http://127.0.0.1:5000/download/')) {
+        // Function to close modal
+        modalClosing();
+    }
 });
 
-// if user is in location change_confirm and he click outside of modal, on cancel or on x button he will be redirect to index
-if((window.location.href).includes('http://127.0.0.1:5000/reset_change_confirm/')){
-
+// Function to for closing modal
+function modalClosing() {
+    // User click on dokument
     $(document).on('click', function(event) {
+        // If that click outside of modal, on cancel button or on 'x' button user will be redirect to index
         if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
                 window.location.href = '/';
         }
     });
 }
+
+
+
 
 
 
