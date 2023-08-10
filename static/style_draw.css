@@ -1,16 +1,37 @@
 /* style for item_tool */
 #toolbox{
     width: 600px;
-    height: 40px;
+    height: 50px;
 
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 
     border: 3px solid #c3d9ce;
     border-radius: 4px;
     background-color: #91a199;
 }
+
+
+/* style to sack for tools on left side of item bar */
+#leftTools{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+
+    margin-left: 5px;
+}
+
+/* style to sack for tools on right side of item bar */
+#rightTools{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+
+    margin-right: 5px;
+}
+
 
 /* style for button to clear up canvas */
 #buttonClear{
@@ -21,29 +42,67 @@
     align-items: center;
     justify-content: center;
 
-    /* for 'invisibility (only image is visible)'*/
+    /* for 'invisibility (only image is visible)' */
     background-color: #91a199;
     border: none;
 
-    margin-left: 5px;
     margin-right: 5px;
+    cursor: pointer;
 }
 
 
 /* styles for range with size of brush */
-/* range input */
-#toolbox_range{
-    width: 100px;
-}
-/* number input */
+/* style number input */
 #toolbox_number{
     width: 40px;
+    height: 30px;
+
+    border: 2px solid #c3d9ce;
+    border-radius: 10px;
+    font-color: blue;
+
+    background-color: #91a199;
+}
+/* style for number input when user click on it */
+#toolbox_number:focus{
+    outline: none;
+    background: #c3d9ce;
 }
 
 
+/* style for range input */
+#toolbox_range{
+    width: 100px;
+
+
+    cursor: pointer;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+/* color of circle in range input */
+.form-range::-webkit-slider-thumb {
+    background-color: #c3d9ce;
+}
 
 
 /* style to input with color of brush */
 .toolbox_color{
+    height: 30px;
+    width: 30px;
 
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+input[type=color]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
 }
