@@ -127,14 +127,19 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
         y = y2;
     });
 
-    /* Stopping drawing if user stop pressing mouse */
+    // Stopping drawing if user stop pressing mouse //
     canvas.on("mouseup", function (e) {
         isMouseDown = false;
+        // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
+        cord_wait_room.push(context.lineWidth, context.strokeStyle)
 
+        // Giving cord_wait_room to main storing array as one group of cords
         array_cords.push(cord_wait_room);
+
+        // Clearing array
         cord_wait_room = [];
 
-        /* Setting variables that holds position of mouse to null */
+        // Setting variables that holds position of mouse to null //
         x = null;
         y = null;
     })
@@ -181,8 +186,14 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
                 /* Restoring drawing on image without last
                 Iteration by group of array in array_cords (one array is one drawing without letting mouse off) */
                 for (var i = 0; i < array_cords.length; i++) {
+
                     // Assigning one array to cords_group variable
                     var cords_group = array_cords[i];
+
+                    //Setting color of brush that was used to paint drawing
+                    color = cords_group[cords_group.length - 1];
+                    // Setting size of brush that was used to paint drawing
+                    size = cords_group[cords_group.length - 2]/2 ;
 
                     // Iteration by array with all cords in group (know as x1, y1, x2, y2 in other funct)
                     for (var j = 0; j < cords_group.length; j++) {
@@ -195,6 +206,10 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
                         drawLine(cords[0], cords[1], cords[2], cords[3]);
                     }
                 }
+                // Changing showing color on menu to match color of the brush
+                colorInput.val(color);
+                // Changing showing size on menu to match size of the brush
+                $(".size").val(size);
             }
         }, 100); // How often it will be checking
     });
@@ -202,7 +217,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
 
 
     // Size of tool
-    sizeInput.on("input", function() {
+    sizeInput.on('input', function() {
         size = $(this).val();
 
         //Making sure that user dont enter value higher than max
