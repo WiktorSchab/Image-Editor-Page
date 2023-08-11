@@ -8,8 +8,17 @@ from scipy import ndimage as nd
 
 
 class img_class:
-    def __init__(self, app):
+    def __init__(self, app, access,file_name):
+        """Init function
+
+        app - Flask.app
+        access - variable that determinate if program can generate work page without form
+        file_name - variable that holds name of file
+        """
+
         self.app = app
+        self.access = access
+        self.file_name = file_name
 
     def __repr__(self):
         return f'App: {self.app}'

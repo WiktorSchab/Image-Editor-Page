@@ -30,19 +30,21 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
                    [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 
-img_instance = img_class(app)
+img_instance = img_class(app,0,0)
 
 # starting page
 @app.route('/', methods=['POST', 'GET'])
-def index(d={'access': 0, 'filename': None}):
+def index():
     form = FileForm()
-    if d['access'] == 1 or form.validate_on_submit():
-        d['access'] = 1  # access to edit
 
-        if not d['filename'] or (form.cover.data and form.cover.data.filename != d['filename']):
+    if img_instance.access == 1 or form.validate_on_submit():
+        img_instance.access = 1  # access to edit
+
+        if not img_instance.file_name or (form.cover.data and form.cover.data.filename != img_instance.file_name):
             # saving file from form
             f = form.cover.data
             filename = secure_filename(f.filename)
+
             path = os.path.join(app.root_path, 'static', 'download', 'modified', filename)
             f.save(path)
 
@@ -54,8 +56,9 @@ def index(d={'access': 0, 'filename': None}):
             shutil.copyfile(path, path.replace('modified', 'original'))
 
             # saving values to dict, so they won't be refreshed
-            d['filename'] = filename
-        filename = d['filename']
+            img_instance.file_name = filename
+
+        filename = img_instance.file_name
         return render_template('work_page.html', file_name=filename,
                                url_download=url_for('download', file_name=filename))
     return render_template('index.html', form=form)
@@ -69,6 +72,7 @@ def img_change_confirm(file_name):
 @app.route('/deleting_image')
 def img_change():
     form = FileForm()
+    img_instance.access = 0
     return render_template('index.html', form=form)
 
 
