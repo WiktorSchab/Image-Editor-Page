@@ -42,7 +42,14 @@ class img_class:
 
         # Opening file and saving in temporary directory
         img = Image.open(path_input)
-        img.save(path_output)
+
+        # Checking if extension its jpg
+        if extension == 'jpg':
+            # Removing alpha canal for jpg
+            img = img.convert("RGB")
+
+        # Saving file and ifts jpg changing temporary name to jpeg because PIL uses that name
+        img.save(path_output, format=extension.casefold().replace('jpg','jpeg'))
 
         # Calculating size in Mega byte
         file_size_bytes = os.path.getsize(path_output)
