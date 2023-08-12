@@ -42,7 +42,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     var canvas = $('#canvas');
 
     // Button to save draw
-    var saveButton = $('save_draw');
+    var buttonSave = $('#save_changes_button');
 
     // Buttons on draw menu
     var buttonClear = $('#buttonClear');
@@ -59,7 +59,6 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
     var color = '#000';
     var size = 10;
     var x,y;
-
 
     // Declaring array that will be contain cords of mouse drawing (one draw)
     var cord_wait_room = [];
@@ -142,11 +141,27 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
         // Setting variables that holds position of mouse to null //
         x = null;
         y = null;
-    })
+    });
 
     // Buttons
+    // Saving image button
+    buttonSave.on('click', function (e) {
+        var dataURI = canvas[0].toDataURL();
+
+        // Ajax request
+        $.ajax({
+            type: 'POST',  // Method
+            url: '{{ url_for("draw_mode_saving") }}',  // Address of flask page where to send data
+            data: { image_data_uri: dataURI },  // Data that will be send to server
+            success: function(response) {
+            console.log('Data was sent.');
+            }
+        });
+    });
+
+
     // Cleaning button
-    buttonClear.on("click", function (e) {
+    buttonClear.on('click', function (e) {
        // Cleaning canvas from everything
        context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -157,15 +172,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
        array_cords = [];
     });
 
-    buttonBack.on("click", function (e){
-       // Cleaning canvas from everything
-       context.clearRect(0, 0, canvas.width, canvas.height);
-
-       // Loading image as background again
-       load_image();
-    });
-
-    buttonBack.on("click", function (e){
+    buttonBack.on('click', function (e){
         /* Setting imageLoaded to false so other part of function will start if image will be fully loaded.
         imageLoaded is changing by the end of load_image function. */
         imageLoaded = false;
@@ -209,7 +216,7 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
                 // Changing showing color on menu to match color of the brush
                 colorInput.val(color);
                 // Changing showing size on menu to match size of the brush
-                $(".size").val(size);
+                $('.size').val(size);
             }
         }, 100); // How often it will be checking
     });
@@ -226,11 +233,11 @@ if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
         }
 
         // Changing displaying size on input number and input change
-        $(".size").val(size);
+        $('.size').val(size);
     });
 
     // Color of tool
-    colorInput.on("change", function (e) {
+    colorInput.on('change', function (e) {
         color = $(this).val()
     });
 }

@@ -11,6 +11,9 @@ from PIL import Image, ImageFilter
 
 import cv2
 
+from io import BytesIO
+import base64
+
 from img_funct import img_class
 
 app = Flask(__name__)
@@ -135,7 +138,6 @@ def only_color(file_name):
             lower = (int(i[0]), int(i[1]), int(i[2]))
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
-            print(lower, upper)
             result = img_class.display_color(path, lower, upper)
             if img is None:
                 img = result
@@ -154,7 +156,7 @@ def only_color(file_name):
 def download(file_name):
     if request.method == 'GET':
         path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-
+        print(path)
         # Checking with function in img_class size of file with certain extension, by creating file in temp.
         jpg = img_instance.get_image_size(file_name, 'jpg')
         png = img_instance.get_image_size(file_name, 'png')
@@ -180,8 +182,21 @@ def draw_mode(file_name):
 
 
 #temp page to save canvas as file in modified
-@app.route('/draw_mode/saving')
+@app.route('/draw_mode/saving',methods=['GET','POST'])
 def draw_mode_saving():
+    try:
+        image_data_uri = request.form['image_data_uri']
+        path = os.path.join(app.root_path, 'static', 'download', 'modified', img_instance.file_name)
+
+        image_data = image_data_uri.replace("data:image/png;base64,", "")
+        image_bytes = base64.b64decode(image_data)
+
+        image = Image.open(BytesIO(image_bytes))
+        image.save(path, format="PNG")
+    except:
+        pass
+
+
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
