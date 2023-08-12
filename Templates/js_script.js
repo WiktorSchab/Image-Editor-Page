@@ -75,7 +75,9 @@ function modalClosing() {
 
 
 //colors to buttons
-list_of_color = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1']
+list_of_color = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1'];
+var img_main = $('#img_main')[0];
+
 
 
 for (let i = 0; i < (list_of_color.length); i++) {
@@ -98,10 +100,12 @@ $(document).ready(function() {
     // Setting scroll position of window
     window.scrollTo(0, getCookie('position_cookie_window'));
 
+    img_main.src ="{{url_for('static',filename='download/modified/'+file_name)}}";
 
     // Showing modals (they will be on page only if user click specific button)
     $('#confirmModal').modal('show');
     $('#downloadModal').modal('show');
+
     // Checking if user is in correct location
     if(window.location.href.includes('http://127.0.0.1:5000/reset_change_confirm/')) {
         // function to close modal
