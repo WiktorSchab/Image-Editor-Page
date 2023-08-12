@@ -3,7 +3,7 @@
     <ul class="button_list">
         {% for i in range(0,url_list|length)%}
             <li class="p-2">
-                <a class="btn btn-outline-primary p-3 width-200" onclick="deleteCookie('Color_buttons')"
+                <a class="btn btn-outline-primary p-3 width-200" onclick="deleteCookie('Color_buttons'); scroll_rem({{ i }})"
                    href="{{ url_for(  url_list[i]   ,file_name=file_name) }}" role="button">
                     {{ display_list[i] }}
                 </a>

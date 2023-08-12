@@ -25,11 +25,17 @@ function getCookie(name){
     return result; // Returning value of cookie if it exists otherwise null
 }
 
+
 // Function to remember scroll position of object
 function scroll_rem(child) {
+    // Remembering scroll of color filters
     position_of_scroll = $(".position").scrollTop();
     setCookie('position_cookie', position_of_scroll, 1);
+
+    // Remembering scroll of window
+    setCookie('position_cookie_window', window.scrollY, 1);
 }
+
 
 // Function to add clicked button id to cookie file if its not there otherwise delete id from the file
 function color_button(id) {
@@ -55,8 +61,18 @@ function color_button(id) {
     }
 }
 
-// Setting scroll position of object
-$(".position").scrollTop(getCookie('position_cookie'));
+
+// Function to for closing modal
+function modalClosing() {
+    // User click on dokument
+    $(document).on('click', function(event) {
+        // If that click outside of modal, on cancel button or on 'x' button user will be redirect to index
+        if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
+                window.location.href = '/';
+        }
+    });
+}
+
 
 //colors to buttons
 list_of_color = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1']
@@ -76,11 +92,16 @@ for (let i = 0; i < (list_of_color.length); i++) {
 }
 
 
-// Showing modals (they will be on page only if user click specific button)
 $(document).ready(function() {
+    // Setting scroll position of color filters
+    $(".position").scrollTop(getCookie('position_cookie'));
+    // Setting scroll position of window
+    window.scrollTo(0, getCookie('position_cookie_window'));
+
+
+    // Showing modals (they will be on page only if user click specific button)
     $('#confirmModal').modal('show');
     $('#downloadModal').modal('show');
-
     // Checking if user is in correct location
     if(window.location.href.includes('http://127.0.0.1:5000/reset_change_confirm/')) {
         // function to close modal
@@ -93,20 +114,3 @@ $(document).ready(function() {
         modalClosing();
     }
 });
-
-// Function to for closing modal
-function modalClosing() {
-    // User click on dokument
-    $(document).on('click', function(event) {
-        // If that click outside of modal, on cancel button or on 'x' button user will be redirect to index
-        if (!$(event.target).closest('.modal-content').length || $(event.target).hasClass('cancel'))  {
-                window.location.href = '/';
-        }
-    });
-}
-
-
-
-
-
-
