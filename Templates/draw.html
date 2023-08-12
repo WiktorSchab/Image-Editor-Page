@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
         <!--Save changes && Exit buttons-->
         <div>
-            <a class="btn btn-outline-success p-3 width-200" href="{{ url_for('index') }}" role="button">Save changes</a>
+            <a class="btn btn-outline-success p-3 width-200" id="save_changes_button" href="{{ url_for('draw_mode_saving') }}" role="button">Save changes</a>
             <a class="btn btn-outline-danger p-3 width-200" href="{{ url_for('index') }}" role="button">Exit</a>
         </div>
 
@@ -43,10 +43,9 @@
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <canvas id="canvas" class="image-container"></canvas>
         </div>
-
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script type="text/javascript">{% include "js_script.js" %}</script>
     <script type="text/javascript">{% include "draw_mode_scripts.js" %}</script>
 {% endblock %}
