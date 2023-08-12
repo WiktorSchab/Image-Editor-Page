@@ -1,22 +1,25 @@
 <!--Bootstrap modal, it will show up if user will click download button-->
 {% include 'work_page.html' %}
-<div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="downloadModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Download Confirmation</h5>
+                <!-- Title of modal -->
+                <h5 id="exampleModalLabel" class="modal-title">Download Confirmation</h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="cancel" aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <form action="{{ url_for('download',file_name=file_name) }}" method="POST" id="downloadForm">
+            <form id="downloadForm" action="{{ url_for('download',file_name=file_name) }}" method="POST">
                 <div class="modal-body">
                 <h2>Choose format of file</h2><br>
+                <!-- Data about data formats showed in table -->
                 <table class="table table-hover">
                     <thead>
                     <tr>
+                        <!-- Titles of columns -->
                         <th scope="col">Format</th>
                         <th scope="col">Size</th>
                         <th scope="col">Vector?</th>
@@ -30,7 +33,7 @@
                         <td>No</td>
                         <th scope="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="format" id="formatJPG" value="jpg" required>
+                                <input id="formatJPG" class="form-check-input" type="radio" name="format" value="jpg" required>
                             </div>
                         </th>
                     </tr>
@@ -40,7 +43,7 @@
                         <td>Yes</td>
                         <th scope="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="format" id="formatPNG" value="png" required>
+                                <input id="formatPNG" class="form-check-input" type="radio" name="format" value="png" required>
                             </div>
                         </th>
                     </tr>
@@ -50,7 +53,7 @@
                         <td>No</td>
                         <th scope="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="format" id="formatTIFF" value="tiff" required>
+                                <input id="formatTIFF" class="form-check-input" type="radio" name="format" value="tiff" required>
                             </div>
                         </th>
                     </tr>
@@ -60,16 +63,19 @@
                         <td>No</td>
                         <th scope="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="format" id="formatGIF" value="gif" required>
+                                <input id="formatGIF" class="form-check-input" type="radio" name="format" value="gif" required>
                             </div>
                         </th>
                     </tr>
                     </tbody>
                 </table>
             </div>
+                <!-- Buttons of modal -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success" form="downloadForm">Download</button>
+                    <!--Deny Button -->
+                    <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">Cancel</button>
+                    <!-- Confirm button -->
+                    <button class="btn btn-success" type="submit" form="downloadForm">Download</button>
                 </div>
             </form>
         </div>

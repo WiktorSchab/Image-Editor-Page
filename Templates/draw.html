@@ -2,39 +2,46 @@
 {% from 'macros.html' import display_buttons,display_buttons_color  %}
 
 {% block content %}
-    <link href="{{ url_for('static', filename='style_draw.css') }}" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style_draw.css') }}">
 
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
-        <!--Save changes && Exit buttons-->
+        <!-- Save changes & Exit buttons -->
         <div>
-            <a class="btn btn-outline-success p-3 width-200" id="save_changes_button" href="{{ url_for('draw_mode_saving') }}" role="button">Save changes</a>
-            <a class="btn btn-outline-danger p-3 width-200" href="{{ url_for('index') }}" role="button">Exit</a>
+            <!-- Button that save changes on image -->
+            <a id="save_changes_button" class="btn btn-outline-success p-3 width-200" role="button"
+               href="{{ url_for('draw_mode_saving') }}">Save changes</a>
+
+            <!-- Button to exit draw mode without saving image -->
+            <a class="btn btn-outline-danger p-3 width-200" role="button" href="{{ url_for('index') }}">Exit</a>
         </div>
 
-        <!--Tools of draw mode-->
-        <div class="mt-4" id="toolbox">
+        <!-- Tools of draw mode -->
+        <div id="toolbox" class="mt-4">
 
-            <!--Tools on left-->
+            <!-- Tools on left -->
             <div id="leftTools">
-                <button class="button_small" id="buttonClear" title="Click to clear drawing on canvas">
+                <!-- Tool that clear every drawing made on image -->
+                <button id="buttonClear" class="button_small" title="Click to clear drawing on canvas">
                     <img src="{{ url_for('static', filename='icons/clear_canvas_icon.png') }}">
                 </button>
 
-                <button class="button_small" id="buttonBack" title="Click to undo last draw on canvas">
+                <!-- Tool that clear last drawing made by user (last mouse move with left-clicked) -->
+                <button id="buttonBack" class="button_small" title="Click to undo last draw on canvas">
                     <img src="{{ url_for('static', filename='icons/go_back_icon.png') }}">
                 </button>
 
                 <!--Size of brush inputs-->
-                <input class="size" id="toolbox_number" type="number"
-                       min="1" max="20" value="10" title="Choose size of brush"/>
+                <input id="toolbox_number" class="size" type="number"
+                       min="1" max="20" value="5" title="Choose size of brush"/>
 
-                <input class="form-range size" id="toolbox_range" type="range" type="number"
-                       min="1" max="20" value="10" title="Choose size of brush"/>
+                <input id="toolbox_range" class="form-range size" type="range"
+                       min="1" max="20" value="5" title="Choose size of brush"/>
             </div>
 
-            <!--Tools on right-->
+            <!-- Tools on right -->
+            <!-- Color pick box (user can choose color by clicking on it) -->
             <div id="rightTools">
-                <input class="toolbox_color" id="color_tool" type="color" title="Click to choose color"/>
+                <input id="color_tool" class="toolbox_color" type="color" title="Click to choose color"/>
             </div>
 
         </div>
