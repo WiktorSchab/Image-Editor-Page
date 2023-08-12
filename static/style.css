@@ -18,6 +18,7 @@ body{
 }
 
 
+/*style to list of buttons (for both)*/
 .button_list{
     /* sizing parameters*/
     border: 2px solid #CCE0D6;
@@ -76,12 +77,6 @@ body{
 }
 
 
-/* styles to buttons sack (above header) */
-#button_sack{
-    margin-left: 45px;
-}
-
-
 /* styles to header */
 #intro-example{
     height: 150px;
@@ -110,6 +105,12 @@ body{
     margin-left:50px;
     margin-right:50px;
 }
+
+#draw_mode_id{
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
 
 /* style to img that is displaying on */
 #img_main{
