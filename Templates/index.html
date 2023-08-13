@@ -2,16 +2,21 @@
 
 {% block content%}
     <div id="form_part" class="mb-3 d-flex justify-content-center">
+        <!-- Form where user gives image-->
         <form method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data" >
             {{form.csrf_token}}
 
+            <!-- Choose file -->
             {{form.cover.label}}<br/>{{form.cover}}
+
+            <!-- Showing errors (they will be used if user bypass html validation) -->
             <ul>
                 {% for error in form.cover.errors %}
                     {{ error }}
                 {% endfor %}
             </ul>
 
+            <!-- Submit button -->
             <input class="btn btn-outline-primary" type="submit" value="Go!">
         </form>
     </div>

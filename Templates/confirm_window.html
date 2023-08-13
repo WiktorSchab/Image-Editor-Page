@@ -1,20 +1,26 @@
 {% include 'work_page.html' %}
-
-<div class="modal" id="confirmModal" tabindex="-1" role="dialog">
+<!-- Modal for confirmation of changing image -->
+<div id="confirmModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content cancel">
             <div class="modal-header">
+                <!-- Title of modal -->
                 <h5 class="modal-title">Confirm</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span class="cancel" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Text that show up in modal -->
                 <p>Are you sure you want to change image? It will be lost.</p>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger" onclick="deleteCookie('Color_buttons')" href="{{ url_for('img_change') }}">Confirm</a>
-                <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">Close</button>
+                <!-- Buttons in modal -->
+                <!-- Confirm button -->
+                <a class="btn btn-danger" onclick="deleteCookie('Color_buttons')"
+                   href="{{ url_for('img_change') }}">Confirm</a>
+                <!-- Deny button -->
+                <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

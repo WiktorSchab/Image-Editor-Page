@@ -1,10 +1,12 @@
+<!-- Macro for displaying button with filters -->
 {% macro display_buttons(file_name, url_list,display_list)%}
-    <!--list with filter option-->
-    <ul class="button_list">
+    <ul class='button_list'>
+        <!-- Displaying every given button by for -->
         {% for i in range(0,url_list|length)%}
-            <li class="p-2">
-                <a class="btn btn-outline-primary p-3 width-200" onclick="deleteCookie('Color_buttons'); scroll_rem({{ i }})"
-                   href="{{ url_for(  url_list[i]   ,file_name=file_name) }}" role="button">
+            <li class='p-2'>
+                <a class='btn btn-outline-primary p-3 width-200' role='button'
+                   href='{{ url_for(  url_list[i]   ,file_name=file_name) }}'
+                   onclick='deleteCookie("Color_buttons"); scroll_rem({{ i }})'>
                     {{ display_list[i] }}
                 </a>
             </li>
@@ -12,14 +14,15 @@
     </ul>
 {% endmacro %}
 
-
+<!-- Macro for displaying button with color filters -->
 {% macro display_buttons_color(file_name, url, display_list,color,color_style)%}
-    <!--list with color option-->
-    <ul class="position button_list">
+    <ul class='position button_list'>
+        <!-- Displaying every given button by for -->
         {% for i in range(0,display_list|length)%}
-            <li class="p-2">
-                <a class="btn btn-outline-primary p-3 width-200" id="color_id{{ i }}"
-                   href="{{ url_for(  url   ,file_name=file_name,color=color[i]) }}" onclick="scroll_rem({{ i }}); color_button({{ i }});" role="button">
+            <li class='p-2'>
+                <a id='color_id{{ i }}' class='btn btn-outline-primary p-3 width-200' role='button'
+                   href='{{ url_for(  url   ,file_name=file_name,color=color[i]) }}'
+                   onclick='scroll_rem({{ i }}); color_button({{ i }});'>
                     {{ display_list[i] }}
                 </a>
             </li>

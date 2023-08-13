@@ -2,57 +2,63 @@
 {% from 'macros.html' import display_buttons,display_buttons_color  %}
 
 {% block content %}
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style_draw.css') }}">
+    <!-- Css with individuals styles for draw.html -->
+    <link type='text/css' rel='stylesheet' href='{{ url_for("static", filename="style_draw.css") }}'>
 
     <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
         <!-- Save changes & Exit buttons -->
         <div>
             <!-- Button that save changes on image -->
-            <a id="save_changes_button" class="btn btn-outline-success p-3 width-200" role="button"
-               href="{{ url_for('draw_mode_saving') }}">Save changes</a>
+            <a id='save_changes_button' class='btn btn-outline-success p-3 width-200' role='button'
+               href='{{ url_for("draw_mode_saving") }}'>Save changes</a>
 
             <!-- Button to exit draw mode without saving image -->
-            <a class="btn btn-outline-danger p-3 width-200" role="button" href="{{ url_for('index') }}">Exit</a>
+            <a class="btn btn-outline-danger p-3 width-200" role="button"
+               href="{{ url_for('index') }}">Exit</a>
         </div>
 
         <!-- Tools of draw mode -->
-        <div id="toolbox" class="mt-4">
+        <div id='toolbox' class='mt-4'>
 
             <!-- Tools on left -->
-            <div id="leftTools">
+            <div id='leftTools'>
                 <!-- Tool that clear every drawing made on image -->
-                <button id="buttonClear" class="button_small" title="Click to clear drawing on canvas">
-                    <img src="{{ url_for('static', filename='icons/clear_canvas_icon.png') }}">
+                <button id='buttonClear' class='button_small' title='Click to clear drawing on canvas'>
+                    <img src='{{ url_for("static", filename="icons/clear_canvas_icon.png") }}'>
                 </button>
 
                 <!-- Tool that clear last drawing made by user (last mouse move with left-clicked) -->
-                <button id="buttonBack" class="button_small" title="Click to undo last draw on canvas">
-                    <img src="{{ url_for('static', filename='icons/go_back_icon.png') }}">
+                <button id='buttonBack' class='button_small' title='Click to undo last draw on canvas'>
+                    <img src='{{ url_for("static", filename="icons/go_back_icon.png") }}'>
                 </button>
 
-                <!--Size of brush inputs-->
-                <input id="toolbox_number" class="size" type="number"
-                       min="1" max="20" value="5" title="Choose size of brush"/>
+                <!-- Number input to choose size of brush -->
+                <input id='toolbox_number' class='size' type='number' title='Choose size of brush'
+                       min='1' max='20' value='5'/>
 
-                <input id="toolbox_range" class="form-range size" type="range"
-                       min="1" max="20" value="5" title="Choose size of brush"/>
+                <!-- Range input to choose size of brush -->
+                <input id='toolbox_range' class='form-range size' type='range' title='Choose size of brush'
+                       min='1' max='20' value='5'/>
             </div>
 
             <!-- Tools on right -->
-            <!-- Color pick box (user can choose color by clicking on it) -->
-            <div id="rightTools">
-                <input id="color_tool" class="toolbox_color" type="color" title="Click to choose color"/>
+            <div id='rightTools'>
+                <!-- Color pick box (user can choose color by clicking on it) -->
+                <input id='color_tool' class='toolbox_color' type='color' title='Click to choose color'/>
             </div>
-
         </div>
 
-        <!--Drawing canvas-->
-        <div class="d-flex justify-content-center align-items-center w-100 h-100">
-            <canvas id="canvas" class="image-container"></canvas>
+        <!-- Drawing canvas -->
+        <div class='d-flex justify-content-center align-items-center w-100 h-100'>
+            <canvas id='canvas' class='image-container'></canvas>
         </div>
     </div>
 
+    <!-- Js scripts -->
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <!-- Main js script -->
     <script type="text/javascript">{% include "js_script.js" %}</script>
+    <!-- Script for drawings -->
     <script type="text/javascript">{% include "draw_mode_scripts.js" %}</script>
 {% endblock %}

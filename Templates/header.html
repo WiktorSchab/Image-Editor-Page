@@ -1,17 +1,18 @@
+<!-- Header -->
 <header>
-  <!-- Background image -->
   <div class="d-flex flex-row mt-2" id="button_sack">
+    <!-- Buttons to choose motive (don't work for now) -->
     <button class="btn btn-light motive_button">Light Mode</button>
     <button class="btn btn-dark motive_button">Dark Mode</button>
   </div>
-  <div
-    id="intro-example"
-    class="p-5 text-center bg-image "
-    style="background-image: url({{ url_for('static',filename='header.png') }});"
-  >
+  <!-- Background image -->
+  <div id="intro-example" class="p-5 text-center bg-image"
+    style="background-image: url({{ url_for('static',filename='header.png') }});">
+
     <div class="mask" id="mask_header">
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-white">
+          <!-- Text on header -->
           <h1 class="mb-3">Photo editor crazy</h1>
         </div>
       </div>
