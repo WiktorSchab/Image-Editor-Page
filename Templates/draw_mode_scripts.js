@@ -32,6 +32,18 @@ function load_image() {
 
 
 // Drawing functions
+// Setting current tool
+function setTool(toolReference){
+    // Checking if clicked tool is the same as it was
+    if (current_tool !== null && toolReference === current_tool.attr('id')){
+        current_tool = null;
+    }else{
+        // Setting new tool as current one
+        current_tool = $('#'+toolReference);
+        console.log(current_tool.attr('id'));
+    }
+}
+
 // Placing the circles in the place where the pressed mouse is
 function drawCircle(x,y) {
     // Starting drawing path
@@ -82,8 +94,10 @@ var sizeInput = $('.size');
 // On right
 // Tools to draw
 var rectangle = $('#rectangle_tool');
-var colorInput = $('#color_tool');
+var brush = $('#brush');
 
+// Input to choose color
+var colorInput = $('#color_tool');
 
 // Assigning object from html to variables
 var canvas = $('#canvas');
@@ -96,6 +110,9 @@ var isMouseDown = false;
 var color = '#000';
 var size = 10;
 var x,y;
+
+// Default tool is brush
+var current_tool = $('#brush');
 
 // Declaring array that will be contain cords of mouse drawing (one draw)
 var cord_wait_room = [];
