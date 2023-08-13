@@ -30,214 +30,220 @@ function load_image() {
     };
 };
 
+
+// Drawing functions
+// Placing the circles in the place where the pressed mouse is
+function drawCircle(x,y) {
+    // Starting drawing path
+    context.beginPath()
+
+    // Drawing circle with set color and size. Color is filling circle
+    context.arc(x, y, size, 0, Math.PI * 2);
+    context.fillStyle = color;
+    context.fill();
+}
+
+// Drawing line between circles (that appear when user draw fast)
+function drawLine(x1, y1, x2, y2) {
+    // Starting drawing path
+    context.beginPath();
+
+    // Setting start point
+    context.moveTo(x1,y1);
+
+    // Setting line from start point to point with x2, y2 cords
+    context.lineTo(x2,y2);
+
+    // Setting properties of drawing
+    context.strokeStyle = color;
+    context.lineWidth = size * 2;
+
+    // Drawing line
+    context.stroke();
+    a = context;
+}
+
+
 // Loading canvas with img background if page is generated
 $(document).ready(function() {
     load_image();
 });
 
 
-// Drawing functions
-if((window.location.href).includes('http://127.0.0.1:5000/draw_mode/')){
-    // Assigning object from html to variables
-    var canvas = $('#canvas');
+// Button to save draw
+var buttonSave = $('#save_changes_button');
 
-    // Button to save draw
-    var buttonSave = $('#save_changes_button');
+// Buttons & inputs on draw menu
+// On left
+var buttonClear = $('#buttonClear');
+var buttonBack = $('#buttonBack');
+var sizeInput = $('.size');
 
-    // Buttons on draw menu
-    var buttonClear = $('#buttonClear');
-    var buttonBack = $('#buttonBack');
-
-    var sizeInput = $('.size');
-    var colorInput = $('#color_tool');
-
-    // Creating context to allow user drawing and assigning it to context var
-    var context = $('#canvas')[0].getContext('2d');
-
-    //  Setting default variables
-    var isMouseDown = false;
-    var color = '#000';
-    var size = 10;
-    var x,y;
-
-    // Declaring array that will be contain cords of mouse drawing (one draw)
-    var cord_wait_room = [];
-    // Declaring aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
-    var array_cords = [];
-
-    // Placing the circles in the place where the pressed mouse is
-    function drawCircle(x,y) {
-        // Starting drawing path
-        context.beginPath()
-
-        // Drawing circle with set color and size. Color is filling circle
-        context.arc(x, y, size, 0, Math.PI * 2);
-        context.fillStyle = color;
-        context.fill();
-    }
-
-    // Drawing line between circles (that appear when user draw fast)
-    function drawLine(x1, y1, x2, y2) {
-        // Starting drawing path
-        context.beginPath();
-
-        // Setting start point
-        context.moveTo(x1,y1);
-
-        // Setting line from start point to point with x2, y2 cords
-        context.lineTo(x2,y2);
-
-        // Setting properties of drawing
-        context.strokeStyle = color;
-        context.lineWidth = size * 2;
-
-        // Drawing line
-        context.stroke();
-        a = context;
-    }
-
-    // Function that assign position of mouse to x,y if user click
-    canvas.on('mousedown', function (e){
-        isMouseDown = true;
-
-        // Setting mouse position to variable
-        x = e.offsetX;
-        y = e.offsetY;
-    });
-
-    // Drawing line that follow user mouse move
-    canvas.on('mousemove', function (e) {
-        // Returning from funct if user stop pressing mouse
-        if (!isMouseDown) return;
-
-        // Assigning actual position of mouse to variables
-        var x2 = e.offsetX;
-        var y2 = e.offsetY;
-
-        // Function to create circle in actual mouse position
-        drawCircle(x2,y2);
-        // Function that creates line between old and new mouse position
-        drawLine(x, y ,x2, y2);
-
-        cord_wait_room.push([x,y,x2,y2])
-
-        // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
-        x = x2;
-        y = y2;
-    });
-
-    // Stopping drawing if user stop pressing mouse //
-    canvas.on("mouseup", function (e) {
-        isMouseDown = false;
-        // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-        cord_wait_room.push(context.lineWidth, context.strokeStyle)
-
-        // Giving cord_wait_room to main storing array as one group of cords
-        array_cords.push(cord_wait_room);
-
-        // Clearing array
-        cord_wait_room = [];
-
-        // Setting variables that holds position of mouse to null //
-        x = null;
-        y = null;
-    });
-
-    // Buttons
-    // Saving image button
-    buttonSave.on('click', function (e) {
-        var dataURI = canvas[0].toDataURL();
-
-        // Ajax request
-        $.ajax({
-            type: 'POST',  // Method
-            url: '{{ url_for("draw_mode_saving") }}',  // Address of flask page where to send data
-            data: { image_data_uri: dataURI },  // Data that will be send to server
-            success: function(response) {
-            console.log('Data was sent.');
-            }
-        });
-    });
+// On right
+// Tools to draw
+var rectangle = $('#rectangle_tool');
+var colorInput = $('#color_tool');
 
 
-    // Cleaning button
-    buttonClear.on('click', function (e) {
-       // Cleaning canvas from everything
-       context.clearRect(0, 0, canvas.width, canvas.height);
+// Assigning object from html to variables
+var canvas = $('#canvas');
 
-       // Loading image as background again
-       load_image();
-       
-       // Deleting array drawing cords
-       array_cords = [];
-    });
+// Creating context to allow user drawing and assigning it to context var
+var context = $('#canvas')[0].getContext('2d');
 
-    buttonBack.on('click', function (e){
-        /* Setting imageLoaded to false so other part of function will start if image will be fully loaded.
-        imageLoaded is changing by the end of load_image function. */
-        imageLoaded = false;
+//  Setting default variables
+var isMouseDown = false;
+var color = '#000';
+var size = 10;
+var x,y;
 
-        /* Deleting last group of cord array (in other deleting last drawn from user from canvas ) */
-        array_cords.pop();
+// Declaring array that will be contain cords of mouse drawing (one draw)
+var cord_wait_room = [];
+// Declaring aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
+var array_cords = [];
 
-        /* Loading up canvas (only image as background) */
-        load_image();
 
-        // Setting interval that will be looking if image is fully loaded
-        var checkImageLoaded = setInterval(function() {
-            // imageLoaded is true if Image is fully loaded
-            if (imageLoaded) {
-                // Clearing Interval (so it will stop checking)
-                clearInterval(checkImageLoaded);
+// Function that assign position of mouse to x,y if user click. It runs when user start drawing
+canvas.on('mousedown', function (e){
+    isMouseDown = true;
 
-                /* Restoring drawing on image without last
-                Iteration by group of array in array_cords (one array is one drawing without letting mouse off) */
-                for (var i = 0; i < array_cords.length; i++) {
+    // Setting mouse position to variable
+    x = e.offsetX;
+    y = e.offsetY;
+});
 
-                    // Assigning one array to cords_group variable
-                    var cords_group = array_cords[i];
+// Drawing line that follow user mouse move. It runs when user is drawing
+canvas.on('mousemove', function (e) {
+    // Returning from funct if user stop pressing mouse
+    if (!isMouseDown) return;
 
-                    //Setting color of brush that was used to paint drawing
-                    color = cords_group[cords_group.length - 1];
-                    // Setting size of brush that was used to paint drawing
-                    size = cords_group[cords_group.length - 2]/2 ;
+    // Assigning actual position of mouse to variables
+    var x2 = e.offsetX;
+    var y2 = e.offsetY;
 
-                    // Iteration by array with all cords in group (know as x1, y1, x2, y2 in other funct)
-                    for (var j = 0; j < cords_group.length; j++) {
-                        // Assigning one array to cords variable
-                        var cords = cords_group[j];
+    // Function to create circle in actual mouse position
+    drawCircle(x2,y2);
+    // Function that creates line between old and new mouse position
+    drawLine(x, y ,x2, y2);
 
-                        // Drawing circle on canvas
-                        drawCircle(cords[2], cords[3]);
-                        // Connecting circle on canvas with line
-                        drawLine(cords[0], cords[1], cords[2], cords[3]);
-                    }
+    cord_wait_room.push([x,y,x2,y2])
+
+    // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
+    x = x2;
+    y = y2;
+});
+
+// Stopping drawing if user stop pressing mouse. It runs when user stops drawing
+canvas.on("mouseup", function (e) {
+    isMouseDown = false;
+    // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
+    cord_wait_room.push(context.lineWidth, context.strokeStyle)
+
+    // Giving cord_wait_room to main storing array as one group of cords
+    array_cords.push(cord_wait_room);
+
+    // Clearing array
+    cord_wait_room = [];
+
+    // Setting variables that holds position of mouse to null //
+    x = null;
+    y = null;
+});
+
+
+// Functions to objects on toolbar
+// Cleaning canvas
+buttonClear.on('click', function (e) {
+   // Cleaning canvas from everything
+   context.clearRect(0, 0, canvas.width, canvas.height);
+
+   // Loading image as background again
+   load_image();
+
+   // Deleting array drawing cords
+   array_cords = [];
+});
+
+// Deleting user last draw
+buttonBack.on('click', function (e){
+    /* Setting imageLoaded to false so other part of function will start if image will be fully loaded.
+    imageLoaded is changing by the end of load_image function. */
+    imageLoaded = false;
+
+    /* Deleting last group of cord array (in other deleting last drawn from user from canvas ) */
+    array_cords.pop();
+
+    /* Loading up canvas (only image as background) */
+    load_image();
+
+    // Setting interval that will be looking if image is fully loaded
+    var checkImageLoaded = setInterval(function() {
+        // imageLoaded is true if Image is fully loaded
+        if (imageLoaded) {
+            // Clearing Interval (so it will stop checking)
+            clearInterval(checkImageLoaded);
+
+            /* Restoring drawing on image without last
+            Iteration by group of array in array_cords (one array is one drawing without letting mouse off) */
+            for (var i = 0; i < array_cords.length; i++) {
+
+                // Assigning one array to cords_group variable
+                var cords_group = array_cords[i];
+
+                //Setting color of brush that was used to paint drawing
+                color = cords_group[cords_group.length - 1];
+                // Setting size of brush that was used to paint drawing
+                size = cords_group[cords_group.length - 2]/2 ;
+
+                // Iteration by array with all cords in group (know as x1, y1, x2, y2 in other funct)
+                for (var j = 0; j < cords_group.length; j++) {
+                    // Assigning one array to cords variable
+                    var cords = cords_group[j];
+
+                    // Drawing circle on canvas
+                    drawCircle(cords[2], cords[3]);
+                    // Connecting circle on canvas with line
+                    drawLine(cords[0], cords[1], cords[2], cords[3]);
                 }
-                // Changing showing color on menu to match color of the brush
-                colorInput.val(color);
-                // Changing showing size on menu to match size of the brush
-                $('.size').val(size);
             }
-        }, 100); // How often it will be checking
-    });
-
-
-
-    // Size of tool
-    sizeInput.on('input', function() {
-        size = $(this).val();
-
-        //Making sure that user dont enter value higher than max
-        if (size > 20){
-            size = 20
+            // Changing showing color on menu to match color of the brush
+            colorInput.val(color);
+            // Changing showing size on menu to match size of the brush
+            $('.size').val(size);
         }
+    }, 100); // How often it will be checking
+});
 
-        // Changing displaying size on input number and input change
-        $('.size').val(size);
-    });
+// Choosing size of tool
+sizeInput.on('input', function() {
+    size = $(this).val();
 
-    // Color of tool
-    colorInput.on('change', function (e) {
-        color = $(this).val()
+    //Making sure that user dont enter value higher than max
+    if (size > 20){
+        size = 20
+    }
+
+    // Changing displaying size on input number and input change
+    $('.size').val(size);
+});
+
+// Choosing color of tool
+colorInput.on('change', function (e) {
+    color = $(this).val()
+});
+
+
+// Saving changes & going to index.html
+buttonSave.on('click', function (e) {
+    var dataURI = canvas[0].toDataURL();
+
+    // Ajax request
+    $.ajax({
+        type: 'POST',  // Method
+        url: '{{ url_for("draw_mode_saving") }}',  // Address of flask page where to send data
+        data: { image_data_uri: dataURI },  // Data that will be send to server
+        success: function(response) {
+        console.log('Data was sent.');
+        }
     });
-}
+});
