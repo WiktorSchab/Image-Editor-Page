@@ -43,6 +43,17 @@
 
             <!-- Tools on right -->
             <div id='rightTools'>
+                <button id='brush' class='button_small' title='Click to draw with brush'>
+                    <img src='{{ url_for("static", filename="icons/brush_icon.png") }}'
+                    onclick='setTool("brush")'>
+                </button>
+
+                <!-- Tool to create rectangle -->
+                <button id='rectangle' class='button_small' title='Click to create rectangle'>
+                     <img src='{{ url_for("static", filename="icons/rectangle_icon.png") }}'
+                     onclick='setTool("rectangle")'>
+                </button>
+
                 <!-- Color pick box (user can choose color by clicking on it) -->
                 <input id='color_tool' class='toolbox_color' type='color' title='Click to choose color'/>
             </div>
