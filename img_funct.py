@@ -8,7 +8,7 @@ from scipy import ndimage as nd
 
 
 class img_class:
-    def __init__(self, app, access,file_name):
+    def __init__(self, app, access, file_name):
         """Init function
 
         app - Flask.app
@@ -49,7 +49,7 @@ class img_class:
             img = img.convert("RGB")
 
         # Saving file and ifts jpg changing temporary name to jpeg because PIL uses that name
-        img.save(path_output, format=extension.casefold().replace('jpg','jpeg'))
+        img.save(path_output, format=extension.casefold().replace('jpg', 'jpeg'))
 
         # Calculating size in Mega byte
         file_size_bytes = os.path.getsize(path_output)
@@ -75,7 +75,12 @@ class img_class:
 
     @staticmethod
     def save_img(img, path):
-        """Function to save img in delivered path"""
+        """Function to save img in delivered path
+
+        img - image obj to save
+        path - path where to save image
+        """
+
         pil_img = Image.fromarray(img)
         pil_img.save(path)
 
