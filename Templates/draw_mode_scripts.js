@@ -67,6 +67,7 @@ function drawCircle(x,y) {
 
 // Drawing line between circles (that appear when user draw fast)
 function drawLine(x1, y1, x2, y2) {
+
     // Starting drawing path
     context.beginPath();
 
@@ -90,41 +91,24 @@ function drawLine(x1, y1, x2, y2) {
 function drawing(){
     // Deleting added events for canvas
     canvas.off('mousedown mousemove mouseup');
+    if (current_tool === null){
+        return;
+    }
 
-    // Drawing functions when tool is brush
-    if (current_tool !== null && current_tool.attr('id') === 'brush'){
-        // Function that assign position of mouse to x,y if user click. It runs when user start drawing
-        canvas.on('mousedown', function (e){
+    // Function that assign position of mouse to x,y if user click. It runs when user start drawing
+    canvas.on('mousedown', function (e){
             isMouseDown = true;
 
-            // Setting mouse position to variable
+            // Getting current state of image
+            snapshot = context.getImageData(0,0, canvas[0].width, canvas[0].height);
+
+            // Starting cords
             x = e.offsetX;
             y = e.offsetY;
-        });
+    });
 
-        // Drawing line that follow user mouse move. It runs when user is drawing
-        canvas.on('mousemove', function (e) {
-            // Returning from funct if user stop pressing mouse
-            if (!isMouseDown) return;
-
-            // Assigning actual position of mouse to variables
-            var x2 = e.offsetX;
-            var y2 = e.offsetY;
-
-            // Function to create circle in actual mouse position
-            drawCircle(x2,y2);
-            // Function that creates line between old and new mouse position
-            drawLine(x, y ,x2, y2);
-
-            cord_wait_room.push([x,y,x2,y2])
-
-            // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
-            x = x2;
-            y = y2;
-        });
-
-        // Stopping drawing if user stop pressing mouse. It runs when user stops drawing
-        canvas.on("mouseup", function (e) {
+    // Stopping drawing if user stop pressing mouse. It runs when user stops drawing
+    canvas.on("mouseup", function (e) {
             isMouseDown = false;
             // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
             cord_wait_room.push(context.lineWidth, context.strokeStyle)
@@ -139,40 +123,60 @@ function drawing(){
             x = null;
             y = null;
         });
-    }else if (current_tool !== null && current_tool.attr('id') === 'rectangle'){
-        canvas.on('mousedown', function (e){
-            isMouseDown = true;
 
-            // Getting image of canvas
-            console.log(canvas[0].width, canvas[0].height);
+    // Functions that make drawing by following mouse move. It runs when user is drawing
+    // Function when current tool is brush
+    if (current_tool.attr('id') === 'brush') {
 
-            // Getting current state of image
-            snapshot = context.getImageData(0,0, canvas[0].width, canvas[0].height);
+        canvas.on('mousemove', function (e) {
+            // Returning from funct if user stop pressing mouse
+            if (!isMouseDown) return;
 
-            x = e.offsetX;
-            y = e.offsetY;
+            // Assigning actual position of mouse to variables
+            var x2 = e.offsetX;
+            var y2 = e.offsetY;
+
+            // Function to create circle in actual mouse position
+            drawCircle(x2,y2);
+            // Function that creates line between old and new mouse position
+            drawLine(x, y ,x2, y2);
+
+            // Sending cords of move to array that collects info
+            cord_wait_room.push([x,y,x2,y2])
+
+            // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
+            x = x2;
+            y = y2;
         });
+
+        // Returning from function (because there can be only one active tool at time)
+        return;
+    }
+    // Function when current tool is rectangle
+    if (current_tool.attr('id') === 'rectangle'){
+        // Setting properties of drawing
+        context.strokeStyle = color;
+        context.lineWidth = size * 2;
 
         canvas.on('mousemove', function (e){
             if (!isMouseDown) return;
-            console.log(snapshot);
+
 
             // Putting remembered image to context (rectangle will be now empty)
             context.putImageData(snapshot, 0, 0);
 
-            context.strokeStyle = color;
-            context.lineWidth = size * 2;
+            var x2 = e.offsetX;
+            var y2 = e.offsetY;
+
+
+
             // Creating Rectangle
-            context.strokeRect(e.offsetX,e.offsetY,x - e.offsetX, y - e.offsetY );
+            context.strokeRect(x2, y2, x - x2, y - y2);
         });
 
-        canvas.on("mouseup", function (e) {
-            isMouseDown = false;
-
-        });
-
+        // Returning from function (because there can be only one active tool at time)
+        return;
     }
-
 
 }
 
