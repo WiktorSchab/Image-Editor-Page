@@ -202,6 +202,8 @@ var buttonSave = $('#save_changes_button');
 var buttonClear = $('#buttonClear');
 var buttonBack = $('#buttonBack');
 var sizeInput = $('.size');
+var checkbox_fill = $('#checkbox_fill');
+var checkbox_fill_img = $('#checkbox_fill_img');
 
 // On right
 // Tools to draw
@@ -220,6 +222,7 @@ var context = $('#canvas')[0].getContext('2d');
 
 //  Setting default variables
 var isMouseDown = false;
+var checkbox_fill_value = false;
 var color = '#000';
 var size = 10;
 var x,y,snapshot;
@@ -314,7 +317,7 @@ buttonBack.on('click', function (e){
 
                         context.strokeStyle = color;
                         context.lineWidth = size * 2;
-                        
+
                         // Drawing rectangle
                         context.strokeRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
                     }
@@ -339,6 +342,27 @@ sizeInput.on('input', function() {
 
     // Changing displaying size on input number and input change
     $('.size').val(size);
+});
+
+// Button that works as checkbox (checkbox for fill value of figures)
+checkbox_fill.on('click',function (e) {
+    if (checkbox_fill_value){
+        // Changing value of checkbox to false
+        checkbox_fill_value = false;
+
+        // Changing appearance of checkbox
+        checkbox_fill_img.attr('src', '{{ url_for("static", filename="icons/checkbox_false_icon.png") }}');
+        // Changing title of checkbox
+        checkbox_fill_img.attr('title', 'Click to have filled figures');
+    }else{
+        // Changing value of checkbox to true
+        checkbox_fill_value = true;
+
+        // Changing appearance of checkbox
+        checkbox_fill_img.attr('src', '{{ url_for("static", filename="icons/checkbox_true_icon.png") }}');
+        // Changing title of checkbox
+        checkbox_fill_img.attr('title', 'Click to have empty figures');
+    }
 });
 
 // Choosing color of tool
