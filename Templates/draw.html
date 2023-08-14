@@ -43,13 +43,13 @@
 
             <!-- Tools on right -->
             <div id='rightTools'>
-                <button id='brush' class='button_small' title='Click to draw with brush'>
+                <button id='brush' class='button_small tool' title='Click to draw with brush'>
                     <img src='{{ url_for("static", filename="icons/brush_icon.png") }}'
                     onclick='setTool("brush")'>
                 </button>
 
                 <!-- Tool to create rectangle -->
-                <button id='rectangle' class='button_small' title='Click to create rectangle'>
+                <button id='rectangle' class='button_small tool' title='Click to create rectangle'>
                      <img src='{{ url_for("static", filename="icons/rectangle_icon.png") }}'
                      onclick='setTool("rectangle")'>
                 </button>
