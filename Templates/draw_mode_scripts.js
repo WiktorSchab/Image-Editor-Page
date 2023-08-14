@@ -95,7 +95,6 @@ function drawing(){
     if (current_tool !== null && current_tool.attr('id') === 'brush'){
         // Function that assign position of mouse to x,y if user click. It runs when user start drawing
         canvas.on('mousedown', function (e){
-            console.log('down');
             isMouseDown = true;
 
             // Setting mouse position to variable
@@ -140,7 +139,41 @@ function drawing(){
             x = null;
             y = null;
         });
+    }else if (current_tool !== null && current_tool.attr('id') === 'rectangle'){
+        canvas.on('mousedown', function (e){
+            isMouseDown = true;
+
+            // Getting image of canvas
+            console.log(canvas[0].width, canvas[0].height);
+
+            // Getting current state of image
+            snapshot = context.getImageData(0,0, canvas[0].width, canvas[0].height);
+
+            x = e.offsetX;
+            y = e.offsetY;
+        });
+
+        canvas.on('mousemove', function (e){
+            if (!isMouseDown) return;
+            console.log(snapshot);
+
+            // Putting remembered image to context (rectangle will be now empty)
+            context.putImageData(snapshot, 0, 0);
+
+            context.strokeStyle = color;
+            context.lineWidth = size * 2;
+            // Creating Rectangle
+            context.strokeRect(e.offsetX,e.offsetY,x - e.offsetX, y - e.offsetY );
+        });
+
+        canvas.on("mouseup", function (e) {
+            isMouseDown = false;
+
+        });
+
     }
+
+
 }
 
 
@@ -185,7 +218,7 @@ var context = $('#canvas')[0].getContext('2d');
 var isMouseDown = false;
 var color = '#000';
 var size = 10;
-var x,y;
+var x,y,snapshot;
 
 // Default tool is brush
 var current_tool = $('#brush');
