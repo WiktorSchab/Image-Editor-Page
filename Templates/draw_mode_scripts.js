@@ -111,7 +111,7 @@ function drawing(){
     canvas.on("mouseup", function (e) {
             isMouseDown = false;
             // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-            cord_wait_room.push(context.lineWidth, context.strokeStyle)
+            cord_wait_room.push(snapshot, current_tool.attr('id'),context.lineWidth, context.strokeStyle)
 
             // Giving cord_wait_room to main storing array as one group of cords
             array_cords.push(cord_wait_room);
@@ -154,12 +154,12 @@ function drawing(){
     }
     // Function when current tool is rectangle
     if (current_tool.attr('id') === 'rectangle'){
-        // Setting properties of drawing
-        context.strokeStyle = color;
-        context.lineWidth = size * 2;
-
         canvas.on('mousemove', function (e){
             if (!isMouseDown) return;
+
+            // Setting properties of drawing
+            context.strokeStyle = color;
+            context.lineWidth = size * 2;
 
 
             // Putting remembered image to context (rectangle will be now empty)
@@ -168,7 +168,7 @@ function drawing(){
             var x2 = e.offsetX;
             var y2 = e.offsetY;
 
-
+            cord_wait_room.push([x,y,x2,y2])
 
             // Creating Rectangle
             context.strokeRect(x2, y2, x - x2, y - y2);
@@ -284,21 +284,40 @@ buttonBack.on('click', function (e){
                 // Assigning one array to cords_group variable
                 var cords_group = array_cords[i];
 
+
                 //Setting color of brush that was used to paint drawing
                 color = cords_group[cords_group.length - 1];
                 // Setting size of brush that was used to paint drawing
                 size = cords_group[cords_group.length - 2]/2 ;
+                // Setting used tool
+                tool = cords_group[cords_group.length - 3];
+                // Setting snapshot
+                snapshot = cords_group[cords_group.length - 4];
+                console.log(tool);
 
                 /* Iteration by array with all cords in group (known as x1, y1, x2, y2 in other funct)
-                Iteration goes without last two elements, because they only hold info about size and color */
-                for (var j = 0; j < cords_group.length - 2; j++) {
+                Iteration goes without last three elements, because they only hold info about size, color and tool */
+                for (var j = 0; j < cords_group.length - 4; j++) {
                     // Assigning one array to cords variable
                     var cords = cords_group[j];
+                    // Restoring line if tool was brush
+                    if (tool === 'brush'){
+                        // Drawing circle on canvas
+                        drawCircle(cords[2], cords[3]);
+                        // Connecting circle on canvas with line
+                        drawLine(cords[0], cords[1], cords[2], cords[3]);
+                    }
+                    // Restoring rectangle if tool was rectangle
+                    if (tool === 'rectangle'){
+                        // Putting last image of canvas to make rectangle empty
+                        context.putImageData(snapshot, 0, 0);
 
-                    // Drawing circle on canvas
-                    drawCircle(cords[2], cords[3]);
-                    // Connecting circle on canvas with line
-                    drawLine(cords[0], cords[1], cords[2], cords[3]);
+                        context.strokeStyle = color;
+                        context.lineWidth = size * 2;
+                        
+                        // Drawing rectangle
+                        context.strokeRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
+                    }
                 }
             }
             // Changing showing color on menu to match color of the brush
