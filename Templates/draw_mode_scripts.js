@@ -86,6 +86,12 @@ function drawLine(x1, y1, x2, y2) {
     a = context;
 }
 
+function brush_tool(xy){
+
+
+
+}
+
 
 // Functions to draw
 function drawing(){
@@ -126,6 +132,7 @@ function drawing(){
         });
 
     // Functions that make drawing by following mouse move. It runs when user is drawing
+
     // Function when current tool is brush
     if (current_tool.attr('id') === 'brush') {
         canvas.on('mousemove', function (e) {
@@ -136,14 +143,14 @@ function drawing(){
             var x2 = e.offsetX;
             var y2 = e.offsetY;
 
+            // Sending cords of move to array that collects info
+            cord_wait_room.push([x,y,x2,y2]);
+
             // Function to create circle in actual mouse position
             drawCircle(x2,y2);
             // Function that creates line between old and new mouse position
             drawLine(x, y ,x2, y2);
-
-            // Sending cords of move to array that collects info
-            cord_wait_room.push([x,y,x2,y2])
-
+            
             // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
             x = x2;
             y = y2;
@@ -167,7 +174,6 @@ function drawing(){
             var x2 = e.offsetX;
             var y2 = e.offsetY;
 
-            console.log([x,y,x2,y2]);
             cord_wait_room.push([x,y,x2,y2]);
 
             // Checking if figure need to be full
@@ -177,9 +183,73 @@ function drawing(){
                 // Creating filled rectangle with one color
                 context.fillRect(x2, y2, x - x2, y - y2);
             }
-
+            context.fillStyle = color_side;
             // Creating empy rectangle
             context.strokeRect(x2, y2, x - x2, y - y2);
+        });
+        // Returning from function (because there can be only one active tool at time)
+        return;
+    }
+    // Function when current tool is circle
+    if (current_tool.attr('id') == 'circle'){
+        canvas.on('mousemove', function (e){
+            if (!isMouseDown) return;
+
+            // Setting properties of drawing
+            context.strokeStyle = color;
+            context.lineWidth = size * 2;
+
+            // Putting remembered image to context (rectangle could be now empty)
+            context.putImageData(snapshot, 0, 0);
+
+            var x2 = e.offsetX;
+            var y2 = e.offsetY;
+
+            // Checking if figure need to be full
+            if (checkbox_fill_value){
+                context.fillStyle = color_side;
+                context.fill();
+            }
+
+            context.beginPath();
+            var radius = Math.sqrt(Math.pow((x - x2), 2) + Math.pow((y - y2), 2));
+            context.arc(x,y, radius, 0, 2 * Math.PI);
+            context.stroke();
+
+        });
+        // Returning from function (because there can be only one active tool at time)
+        return;
+    }
+
+    // Function when current tool is triangle
+    if (current_tool.attr('id') == 'triangle'){
+        canvas.on('mousemove', function (e){
+            if (!isMouseDown) return;
+
+            // Setting properties of drawing
+            context.strokeStyle = color;
+            context.lineWidth = size * 2;
+
+            // Putting remembered image to context (rectangle could be now empty)
+            context.putImageData(snapshot, 0, 0);
+
+            var x2 = e.offsetX;
+            var y2 = e.offsetY;
+
+            // Checking if figure need to be full
+            if (checkbox_fill_value){
+                context.fillStyle = color_side;
+                context.fill();
+            }
+
+            context.beginPath();
+            context.moveTo(x, y);
+
+            context.lineTo(x2, y2);
+            context.lineTo(x * 2 - x2, y2)
+            context.closePath()
+
+            context.stroke();
 
         });
         // Returning from function (because there can be only one active tool at time)
@@ -237,7 +307,7 @@ var checkbox_fill_value = false;
 var color = '#000';
 var color_side = '#F5E3E0';
 var size = 10;
-var x,y,snapshot;
+var x,y,x2,y2,snapshot;
 
 // Default tool is brush
 var current_tool = $('#brush');
@@ -350,7 +420,6 @@ buttonBack.on('click', function (e){
                     }
                 }
             }
-            console.log(array_cords);
             // Changing showing colors on menu to match colors used in certain moment
             colorInputMain.val(color);
             colorInputSide.val(color_side);
