@@ -110,8 +110,9 @@ function drawing(){
     // Stopping drawing if user stop pressing mouse. It runs when user stops drawing
     canvas.on("mouseup", function (e) {
             isMouseDown = false;
+
             // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-            cord_wait_room.push(snapshot, current_tool.attr('id'),context.lineWidth, context.strokeStyle)
+            cord_wait_room.push(checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
 
             // Giving cord_wait_room to main storing array as one group of cords
             array_cords.push(cord_wait_room);
@@ -127,7 +128,6 @@ function drawing(){
     // Functions that make drawing by following mouse move. It runs when user is drawing
     // Function when current tool is brush
     if (current_tool.attr('id') === 'brush') {
-
         canvas.on('mousemove', function (e) {
             // Returning from funct if user stop pressing mouse
             if (!isMouseDown) return;
@@ -161,17 +161,26 @@ function drawing(){
             context.strokeStyle = color;
             context.lineWidth = size * 2;
 
-
-            // Putting remembered image to context (rectangle will be now empty)
+            // Putting remembered image to context (rectangle could be now empty)
             context.putImageData(snapshot, 0, 0);
 
             var x2 = e.offsetX;
             var y2 = e.offsetY;
 
-            cord_wait_room.push([x,y,x2,y2])
+            console.log([x,y,x2,y2]);
+            cord_wait_room.push([x,y,x2,y2]);
 
-            // Creating Rectangle
+            // Checking if figure need to be full
+            if (checkbox_fill_value){
+                // Filling rectangle with color
+                context.fillStyle = "red";
+                // Creating filled rectangle with one color
+                context.fillRect(x2, y2, x - x2, y - y2);
+            }
+
+            // Creating empy rectangle
             context.strokeRect(x2, y2, x - x2, y - y2);
+
         });
 
         // Returning from function (because there can be only one active tool at time)
@@ -296,13 +305,17 @@ buttonBack.on('click', function (e){
                 tool = cords_group[cords_group.length - 3];
                 // Setting snapshot
                 snapshot = cords_group[cords_group.length - 4];
-                console.log(tool);
+                // Setting checkbox_fill_value
+                checkbox_fill_value = cords_group[cords_group.length - 5];
 
                 /* Iteration by array with all cords in group (known as x1, y1, x2, y2 in other funct)
-                Iteration goes without last three elements, because they only hold info about size, color and tool */
-                for (var j = 0; j < cords_group.length - 4; j++) {
+                Iteration goes without last 5 elements.
+                They only hold info about size, color, tool and checkbox_fill_value */
+                for (var j = 0; j < cords_group.length - 5; j++) {
+
                     // Assigning one array to cords variable
                     var cords = cords_group[j];
+
                     // Restoring line if tool was brush
                     if (tool === 'brush'){
                         // Drawing circle on canvas
@@ -310,6 +323,7 @@ buttonBack.on('click', function (e){
                         // Connecting circle on canvas with line
                         drawLine(cords[0], cords[1], cords[2], cords[3]);
                     }
+
                     // Restoring rectangle if tool was rectangle
                     if (tool === 'rectangle'){
                         // Putting last image of canvas to make rectangle empty
@@ -318,11 +332,20 @@ buttonBack.on('click', function (e){
                         context.strokeStyle = color;
                         context.lineWidth = size * 2;
 
+                        if (checkbox_fill_value){
+                            // Filling rectangle with color
+                            context.fillStyle = "red";
+
+                            // Creating filled rectangle with one color
+                            context.fillRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
+                        }
+
                         // Drawing rectangle
                         context.strokeRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
                     }
                 }
             }
+            console.log(array_cords);
             // Changing showing color on menu to match color of the brush
             colorInput.val(color);
             // Changing showing size on menu to match size of the brush
