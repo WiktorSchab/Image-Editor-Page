@@ -263,7 +263,6 @@ var color_change = $('#color_change');
 var colorInputMain = $('#color_tool_main');
 var colorInputSide = $('#color_tool_side');
 
-
 // Assigning object from html to variables
 var canvas = $('#canvas');
 
@@ -280,16 +279,23 @@ var x,y,x2,y2,snapshot;
 
 // Default tool is brush
 var current_tool = $('#brush');
+
+//Arrays & dict
+// Declaring array that will be contain cords of mouse drawing (one draw)
+var cord_wait_room = [];
+// Declaring aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
+var array_cords = [];
+
 // Style for the chosen tool
 var chosen_tool_style = {'border':'3px solid #c3d9ce',
         'background-color':'white',
         'padding':'13px',
         'border-radius':'13px'}
 
-// Declaring array that will be contain cords of mouse drawing (one draw)
-var cord_wait_room = [];
-// Declaring aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
-var array_cords = [];
+// Css parameters for checkbox_fill_value
+var link_checkbox = {false: '{{ url_for("static", filename="icons/checkbox_false_icon.png") }}',
+    true:'{{ url_for("static", filename="icons/checkbox_true_icon.png") }}'};
+var title_checkbox = {false: 'Click to have filled figures', true: 'Click to have empty figures'}
 
 
 // Going to drawing function when user click on some tool
@@ -411,25 +417,16 @@ sizeInput.on('input', function() {
 
 // Button that works as checkbox (checkbox for fill value of figures)
 checkbox_fill.on('click',function (e) {
-    if (checkbox_fill_value){
-        // Changing value of checkbox to false
-        checkbox_fill_value = false;
 
-        // Changing appearance of checkbox
-        checkbox_fill_img.attr('src', '{{ url_for("static", filename="icons/checkbox_false_icon.png") }}');
-        // Changing title of checkbox
-        checkbox_fill_img.attr('title', 'Click to have filled figures');
-    }else{
-        // Changing value of checkbox to true
-        checkbox_fill_value = true;
 
-        // Changing appearance of checkbox
-        checkbox_fill_img.attr('src', '{{ url_for("static", filename="icons/checkbox_true_icon.png") }}');
-        // Changing title of checkbox
-        checkbox_fill_img.attr('title', 'Click to have empty figures');
-    }
+    // Operation not on checkbox_fill_value
+    checkbox_fill_value = checkbox_fill_value ? false : true;
+
+    // Changing appearance of checkbox
+    checkbox_fill_img.attr('src', link_checkbox[checkbox_fill_value]);
+    // Changing title of checkbox
+    checkbox_fill_img.attr('title', title_checkbox[checkbox_fill_value]);
 });
-
 
 // Swapping main color and with side color
 color_change.on('click', function (e){
