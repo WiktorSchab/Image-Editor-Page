@@ -112,7 +112,7 @@ function drawing(){
             isMouseDown = false;
 
             // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-            cord_wait_room.push(colorInputSide, checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
+            cord_wait_room.push(color_side, checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
 
             // Giving cord_wait_room to main storing array as one group of cords
             array_cords.push(cord_wait_room);
@@ -173,7 +173,7 @@ function drawing(){
             // Checking if figure need to be full
             if (checkbox_fill_value){
                 // Filling rectangle with color given as side color
-                context.fillStyle = colorInputSide.val();
+                context.fillStyle = color_side;
                 // Creating filled rectangle with one color
                 context.fillRect(x2, y2, x - x2, y - y2);
             }
@@ -218,6 +218,8 @@ var rectangle = $('#rectangle_tool');
 var brush = $('#brush');
 var tool_objects = $('.tool');
 
+// Button to swap colors
+var color_change = $('#color_change');
 // Inputs to choose color
 var colorInputMain = $('#color_tool_main');
 var colorInputSide = $('#color_tool_side');
@@ -233,6 +235,7 @@ var context = $('#canvas')[0].getContext('2d');
 var isMouseDown = false;
 var checkbox_fill_value = false;
 var color = '#000';
+var color_side = '#F5E3E0';
 var size = 10;
 var x,y,snapshot;
 
@@ -308,7 +311,7 @@ buttonBack.on('click', function (e){
                 // Setting checkbox_fill_value
                 checkbox_fill_value = cords_group[cords_group.length - 5];
                 // Setting side color_value
-                colorInputSide = cords_group[cords_group.length - 6];
+                color_side = cords_group[cords_group.length - 6];
 
                 /* Iteration by array with all cords in group (known as x1, y1, x2, y2 in other funct)
                 Iteration goes without last 6 elements.
@@ -336,7 +339,7 @@ buttonBack.on('click', function (e){
 
                         if (checkbox_fill_value){
                             // Filling rectangle with color
-                            context.fillStyle = colorInputSide.val();
+                            context.fillStyle = color_side;
 
                             // Creating filled rectangle with one color
                             context.fillRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
@@ -348,8 +351,9 @@ buttonBack.on('click', function (e){
                 }
             }
             console.log(array_cords);
-            // Changing showing color on menu to match color of the brush
+            // Changing showing colors on menu to match colors used in certain moment
             colorInputMain.val(color);
+            colorInputSide.val(color_side);
             // Changing showing size on menu to match size of the brush
             $('.size').val(size);
         }
@@ -390,9 +394,29 @@ checkbox_fill.on('click',function (e) {
     }
 });
 
-// Choosing color of tool
+
+// Swapping main color and with side color
+color_change.on('click', function (e){
+    var temp_color = color;
+
+    // Swapping values in variables
+    color = color_side;
+    color_side = temp_color;
+
+    // Displaying new values;
+    colorInputMain.val(color);
+    colorInputSide.val(color_side);
+});
+
+
+// If user change main color, assign new color to color var
 colorInputMain.on('change', function (e) {
     color = $(this).val()
+});
+
+// If user change side color, assign new color to color side var
+colorInputSide.on('change', function (e) {
+    color_side = $(this).val()
 });
 
 

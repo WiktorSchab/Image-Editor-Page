@@ -74,6 +74,13 @@
 
                 <!-- Color pick boxes (user can choose color by clicking on it) -->
                 <div id='color_tool_container'>
+                    <button id='color_change' class='button_small' title='Click to swap colors'>
+                         <img id ='color_change_img'
+                              src='{{ url_for("static", filename="icons/change_color_icon.png") }}'
+                         onclick=''>
+                    </button>
+
+
                     <!-- Main color -->
                     <input id='color_tool_main' class='toolbox_color' type='color'
                            title='Click to choose main color'/>
