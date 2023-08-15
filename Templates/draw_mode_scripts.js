@@ -86,12 +86,64 @@ function drawLine(x1, y1, x2, y2) {
     a = context;
 }
 
-function brush_tool(xy){
+// Functions that work when brush is current tool
+function brush_tool(x, y, x2, y2){
+    // Function to create circle in actual mouse position
+    drawCircle(x2,y2);
+    // Function that creates line between old and new mouse position
+    drawLine(x, y ,x2, y2);
 
-
-
+    // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
+    x = x2;
+    y = y2;
+    return [x,y]
 }
 
+// Functions that work when rectangle is current tool
+function rectangle_tool(x, y, x2, y2){
+    // Checking if figure need to be full
+    if (checkbox_fill_value){
+        // Filling rectangle with color given as side color
+        context.fillStyle = color_side;
+        // Creating filled rectangle with one color
+        context.fillRect(x2, y2, x - x2, y - y2);
+    }
+
+    // Creating empy rectangle
+    context.strokeRect(x2, y2, x - x2, y - y2);
+}
+
+// Functions that work when circle is current tool
+function circle_tool(x, y, x2, y2){
+    // Checking if figure need to be full
+    if (checkbox_fill_value){
+        context.fillStyle = color_side;
+        context.fill();
+    }
+
+    context.beginPath();
+    var radius = Math.sqrt(Math.pow((x - x2), 2) + Math.pow((y - y2), 2));
+    context.arc(x,y, radius, 0, 2 * Math.PI);
+    context.stroke();
+}
+
+// Functions that work when triangle is current tool
+function triangle(x, y, x2, y2){
+    // Checking if figure need to be full
+    if (checkbox_fill_value){
+        context.fillStyle = color_side;
+        context.fill();
+    }
+
+    context.beginPath();
+    context.moveTo(x, y);
+
+    context.lineTo(x2, y2);
+    context.lineTo(x * 2 - x2, y2)
+    context.closePath()
+
+    context.stroke();
+}
 
 // Functions to draw
 function drawing(){
@@ -132,131 +184,47 @@ function drawing(){
         });
 
     // Functions that make drawing by following mouse move. It runs when user is drawing
+    canvas.on('mousemove', function (e) {
+        // Returning from funct if user stop pressing mouse
+        if (!isMouseDown) return;
 
-    // Function when current tool is brush
-    if (current_tool.attr('id') === 'brush') {
-        canvas.on('mousemove', function (e) {
-            // Returning from funct if user stop pressing mouse
-            if (!isMouseDown) return;
+        // Setting properties of drawing
+        context.strokeStyle = color;
+        context.lineWidth = size * 2;
 
-            // Assigning actual position of mouse to variables
-            var x2 = e.offsetX;
-            var y2 = e.offsetY;
+        // Assigning actual position of mouse to variables
+        var x2 = e.offsetX;
+        var y2 = e.offsetY;
 
-            // Sending cords of move to array that collects info
-            cord_wait_room.push([x,y,x2,y2]);
+        // Sending cords of move to array that collects info
+        cord_wait_room.push([x,y,x2,y2]);
 
-            // Function to create circle in actual mouse position
-            drawCircle(x2,y2);
-            // Function that creates line between old and new mouse position
-            drawLine(x, y ,x2, y2);
-            
-            // Assigning actual position of mouse to x and y, so they can be used as old one in next function call
-            x = x2;
-            y = y2;
-        });
+        // Function when current tool is brush
+        if (current_tool.attr('id') === 'brush') {
+            // Calling brush function and assigning new cords as the old one
+            x, y = brush_tool(x, y, x2, y2);
+            return;
+        }
 
-        // Returning from function (because there can be only one active tool at time)
-        return;
-    }
-    // Function when current tool is rectangle
-    if (current_tool.attr('id') === 'rectangle'){
-        canvas.on('mousemove', function (e){
-            if (!isMouseDown) return;
+        // Putting remembered image to context (figures could be now empty)
+        context.putImageData(snapshot, 0, 0);
 
-            // Setting properties of drawing
-            context.strokeStyle = color;
-            context.lineWidth = size * 2;
+        // Function when current tool is rectangle
+        if (current_tool.attr('id') === 'rectangle'){
+           rectangle_tool(x, y, x2, y2);
+        }
 
-            // Putting remembered image to context (rectangle could be now empty)
-            context.putImageData(snapshot, 0, 0);
+        // Function when current tool is circle
+        if (current_tool.attr('id') === 'circle'){
+            circle_tool(x, y, x2, y2);
+        }
 
-            var x2 = e.offsetX;
-            var y2 = e.offsetY;
-
-            cord_wait_room.push([x,y,x2,y2]);
-
-            // Checking if figure need to be full
-            if (checkbox_fill_value){
-                // Filling rectangle with color given as side color
-                context.fillStyle = color_side;
-                // Creating filled rectangle with one color
-                context.fillRect(x2, y2, x - x2, y - y2);
-            }
-            context.fillStyle = color_side;
-            // Creating empy rectangle
-            context.strokeRect(x2, y2, x - x2, y - y2);
-        });
-        // Returning from function (because there can be only one active tool at time)
-        return;
-    }
-    // Function when current tool is circle
-    if (current_tool.attr('id') == 'circle'){
-        canvas.on('mousemove', function (e){
-            if (!isMouseDown) return;
-
-            // Setting properties of drawing
-            context.strokeStyle = color;
-            context.lineWidth = size * 2;
-
-            // Putting remembered image to context (rectangle could be now empty)
-            context.putImageData(snapshot, 0, 0);
-
-            var x2 = e.offsetX;
-            var y2 = e.offsetY;
-
-            // Checking if figure need to be full
-            if (checkbox_fill_value){
-                context.fillStyle = color_side;
-                context.fill();
-            }
-
-            context.beginPath();
-            var radius = Math.sqrt(Math.pow((x - x2), 2) + Math.pow((y - y2), 2));
-            context.arc(x,y, radius, 0, 2 * Math.PI);
-            context.stroke();
-
-        });
-        // Returning from function (because there can be only one active tool at time)
-        return;
-    }
-
-    // Function when current tool is triangle
-    if (current_tool.attr('id') == 'triangle'){
-        canvas.on('mousemove', function (e){
-            if (!isMouseDown) return;
-
-            // Setting properties of drawing
-            context.strokeStyle = color;
-            context.lineWidth = size * 2;
-
-            // Putting remembered image to context (rectangle could be now empty)
-            context.putImageData(snapshot, 0, 0);
-
-            var x2 = e.offsetX;
-            var y2 = e.offsetY;
-
-            // Checking if figure need to be full
-            if (checkbox_fill_value){
-                context.fillStyle = color_side;
-                context.fill();
-            }
-
-            context.beginPath();
-            context.moveTo(x, y);
-
-            context.lineTo(x2, y2);
-            context.lineTo(x * 2 - x2, y2)
-            context.closePath()
-
-            context.stroke();
-
-        });
-        // Returning from function (because there can be only one active tool at time)
-        return;
-    }
+        // Function when current tool is triangle
+        if (current_tool.attr('id') === 'triangle'){
+            triangle(x, y, x2, y2);
+        }
+    });
 }
-
 
 // Waiting for document to fully load up
 $(document).ready(function() {
