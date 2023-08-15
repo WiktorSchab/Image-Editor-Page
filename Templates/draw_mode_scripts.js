@@ -86,6 +86,7 @@ function drawLine(x1, y1, x2, y2) {
     a = context;
 }
 
+
 // Functions that work when brush is current tool
 function brush_tool(x, y, x2, y2){
     // Function to create circle in actual mouse position
@@ -202,7 +203,7 @@ function drawing(){
         // Function when current tool is brush
         if (current_tool.attr('id') === 'brush') {
             // Calling brush function and assigning new cords as the old one
-            x, y = brush_tool(x, y, x2, y2);
+            [x, y] = brush_tool(x, y, x2, y2);
             return;
         }
 
@@ -356,35 +357,33 @@ buttonBack.on('click', function (e){
                 They only hold info about size, color, tool, checkbox_fill_value and side color */
                 for (var j = 0; j < cords_group.length - 6; j++) {
 
-                    // Assigning one array to cords variable
-                    var cords = cords_group[j];
+                    // Assigning one array to cords
+                    [x, y , x2, y2] = cords_group[j];
 
-                    // Restoring line if tool was brush
+                    // Restoring line if tool was brush. Else restoring figure
                     if (tool === 'brush'){
                         // Drawing circle on canvas
-                        drawCircle(cords[2], cords[3]);
+                        drawCircle(x2, y2);
                         // Connecting circle on canvas with line
-                        drawLine(cords[0], cords[1], cords[2], cords[3]);
-                    }
-
-                    // Restoring rectangle if tool was rectangle
-                    if (tool === 'rectangle'){
-                        // Putting last image of canvas to make rectangle empty
+                        drawLine(x, y, x2, y2);
+                    }else{
+                        /* Restoring figures
+                         Putting last image of canvas to make figures empty */
                         context.putImageData(snapshot, 0, 0);
 
+                        // Assigning parameters for figures
                         context.strokeStyle = color;
                         context.lineWidth = size * 2;
 
-                        if (checkbox_fill_value){
-                            // Filling rectangle with color
-                            context.fillStyle = color_side;
-
-                            // Creating filled rectangle with one color
-                            context.fillRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
+                        // Restoring rectangle if tool was rectangle, if else circle, else triangle
+                        if (tool === 'rectangle'){
+                            // Calling function to draw rectangle
+                            rectangle_tool(x, y, x2, y2);
+                        }else if(tool == 'circle'){
+                            circle_tool(x, y, x2, y2);
+                        }else{
+                            triangle(x, y, x2, y2);
                         }
-
-                        // Drawing rectangle
-                        context.strokeRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
                     }
                 }
             }
@@ -434,11 +433,8 @@ checkbox_fill.on('click',function (e) {
 
 // Swapping main color and with side color
 color_change.on('click', function (e){
-    var temp_color = color;
-
     // Swapping values in variables
-    color = color_side;
-    color_side = temp_color;
+    [color,color_side] = [color_side,color];
 
     // Displaying new values;
     colorInputMain.val(color);
