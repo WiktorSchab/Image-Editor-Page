@@ -41,7 +41,7 @@
                        min='1' max='20' value='10'/>
 
                 <button id='checkbox_fill' class='button_small' >
-                    <img id='checkbox_fill_img' title='Click to have filled figures'
+                    <img id='checkbox_fill_img' title='Click to have figures filled with side color'
                          src='{{ url_for("static", filename="icons/checkbox_false_icon.png") }}'>
                 </button>
 
@@ -66,13 +66,22 @@
                      onclick='setTool("circle")'>
                 </button>
 
+                <!-- Tool to create triangle -->
                 <button id='triangle' class='button_small tool' title='Click to create triangle'>
                      <img src='{{ url_for("static", filename="icons/triangle_icon.png") }}'
                      onclick='setTool("triangle")'>
                 </button>
 
-                <!-- Color pick box (user can choose color by clicking on it) -->
-                <input id='color_tool' class='toolbox_color' type='color' title='Click to choose color'/>
+                <!-- Color pick boxes (user can choose color by clicking on it) -->
+                <div id='color_tool_container'>
+                    <!-- Main color -->
+                    <input id='color_tool_main' class='toolbox_color' type='color'
+                           title='Click to choose main color'/>
+
+                    <!-- Side color -->
+                    <input id='color_tool_side' class='toolbox_color' type='color'
+                           title='Click to choose side color' value='#F5E3E0'/>
+                </div>
             </div>
         </div>
 

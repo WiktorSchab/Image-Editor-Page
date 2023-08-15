@@ -112,7 +112,7 @@ function drawing(){
             isMouseDown = false;
 
             // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-            cord_wait_room.push(checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
+            cord_wait_room.push(colorInputSide, checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
 
             // Giving cord_wait_room to main storing array as one group of cords
             array_cords.push(cord_wait_room);
@@ -172,8 +172,8 @@ function drawing(){
 
             // Checking if figure need to be full
             if (checkbox_fill_value){
-                // Filling rectangle with color
-                context.fillStyle = "red";
+                // Filling rectangle with color given as side color
+                context.fillStyle = colorInputSide.val();
                 // Creating filled rectangle with one color
                 context.fillRect(x2, y2, x - x2, y - y2);
             }
@@ -182,11 +182,9 @@ function drawing(){
             context.strokeRect(x2, y2, x - x2, y - y2);
 
         });
-
         // Returning from function (because there can be only one active tool at time)
         return;
     }
-
 }
 
 
@@ -220,8 +218,10 @@ var rectangle = $('#rectangle_tool');
 var brush = $('#brush');
 var tool_objects = $('.tool');
 
-// Input to choose color
-var colorInput = $('#color_tool');
+// Inputs to choose color
+var colorInputMain = $('#color_tool_main');
+var colorInputSide = $('#color_tool_side');
+
 
 // Assigning object from html to variables
 var canvas = $('#canvas');
@@ -307,11 +307,13 @@ buttonBack.on('click', function (e){
                 snapshot = cords_group[cords_group.length - 4];
                 // Setting checkbox_fill_value
                 checkbox_fill_value = cords_group[cords_group.length - 5];
+                // Setting side color_value
+                colorInputSide = cords_group[cords_group.length - 6];
 
                 /* Iteration by array with all cords in group (known as x1, y1, x2, y2 in other funct)
-                Iteration goes without last 5 elements.
-                They only hold info about size, color, tool and checkbox_fill_value */
-                for (var j = 0; j < cords_group.length - 5; j++) {
+                Iteration goes without last 6 elements.
+                They only hold info about size, color, tool, checkbox_fill_value and side color */
+                for (var j = 0; j < cords_group.length - 6; j++) {
 
                     // Assigning one array to cords variable
                     var cords = cords_group[j];
@@ -334,7 +336,7 @@ buttonBack.on('click', function (e){
 
                         if (checkbox_fill_value){
                             // Filling rectangle with color
-                            context.fillStyle = "red";
+                            context.fillStyle = colorInputSide.val();
 
                             // Creating filled rectangle with one color
                             context.fillRect(cords[2], cords[3], cords[0] - cords[2], cords[1] - cords[3]);
@@ -347,7 +349,7 @@ buttonBack.on('click', function (e){
             }
             console.log(array_cords);
             // Changing showing color on menu to match color of the brush
-            colorInput.val(color);
+            colorInputMain.val(color);
             // Changing showing size on menu to match size of the brush
             $('.size').val(size);
         }
@@ -389,7 +391,7 @@ checkbox_fill.on('click',function (e) {
 });
 
 // Choosing color of tool
-colorInput.on('change', function (e) {
+colorInputMain.on('change', function (e) {
     color = $(this).val()
 });
 

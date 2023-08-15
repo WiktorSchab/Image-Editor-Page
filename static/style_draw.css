@@ -51,7 +51,7 @@
 }
 
 
-/* styles for range with size of brush */
+/* styles for range with size*/
 /* style number input */
 #toolbox_number{
     width: 40px;
@@ -84,12 +84,18 @@
     background-color: #c3d9ce;
 }
 
+/* style to container for color tools */
+#color_tool_container{
+    position: relative;
 
-/* style to input with color of brush */
+    display:flex;
+    align-items:center;
+    width: 50px;
+    height: 50px;
+}
+
+/* style to input with color*/
 .toolbox_color{
-    height: 30px;
-    width: 30px;
-
     border-radius: 50%;
     margin: 0;
     padding: 0;
@@ -104,4 +110,23 @@ input[type=color]::-webkit-color-swatch-wrapper {
     border: none;
     border-radius: 50%;
     padding: 0;
+}
+
+/* Style main color tool*/
+#color_tool_main{
+    height: 32px;
+    width: 32px;
+
+    position: absolute;
+    z-index: 2;
+    left: 0;
+}
+/* Style side color tool*/
+#color_tool_side{
+    height: 25px;
+    width: 25px;
+
+    position: absolute;
+    z-index: 1;
+    right: 0;
 }
