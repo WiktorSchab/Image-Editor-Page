@@ -393,6 +393,11 @@ buttonBack.on('click', function (e){
                     }
                 }
             }
+            // Changing appearance of checkbox
+            checkbox_fill_img.attr('src', link_checkbox[checkbox_fill_value]);
+            // Changing title of checkbox
+            checkbox_fill_img.attr('title', title_checkbox[checkbox_fill_value]);
+
             // Changing showing colors on menu to match colors used in certain moment
             colorInputMain.val(color);
             colorInputSide.val(color_side);
