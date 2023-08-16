@@ -5,7 +5,15 @@
     <!-- Css with individuals styles for draw.html -->
     <link type='text/css' rel='stylesheet' href='{{ url_for("static", filename="style_draw.css") }}'>
 
-    <div class="d-flex justify-content-center align-items-center" style="height:700px; flex-direction:column">
+    <div class="d-flex justify-content-center align-items-center" style="height:650px; flex-direction:column">
+        <!-- Importing toolbar -->
+        {% include 'tool_box.html'%}
+
+        <!-- Drawing canvas -->
+        <div class='d-flex justify-content-center align-items-center w-100 h-100'>
+            <canvas id='canvas' class='image-container'></canvas>
+        </div>
+
         <!-- Save changes & Exit buttons -->
         <div>
             <!-- Button that save changes on image -->
@@ -15,86 +23,6 @@
             <!-- Button to exit draw mode without saving image -->
             <a class="btn btn-outline-danger p-3 width-200" role="button"
                href="{{ url_for('index') }}">Exit</a>
-        </div>
-
-        <!-- Tools of draw mode -->
-        <div id='toolbox' class='mt-4'>
-
-            <!-- Tools on left -->
-            <div id='leftTools'>
-                <!-- Tool that clear every drawing made on image -->
-                <button id='buttonClear' class='button_small' title='Click to clear drawing on canvas'>
-                    <img src='{{ url_for("static", filename="icons/clear_canvas_icon.png") }}'>
-                </button>
-
-                <!-- Tool that clear last drawing made by user (last mouse move with left-clicked) -->
-                <button id='buttonBack' class='button_small' title='Click to undo last draw on canvas'>
-                    <img src='{{ url_for("static", filename="icons/go_back_icon.png") }}'>
-                </button>
-
-                <!-- Number input to choose size of brush -->
-                <input id='toolbox_number' class='size' type='number' title='Choose size of brush'
-                       min='1' max='20' value='10'/>
-
-                <!-- Range input to choose size of brush -->
-                <input id='toolbox_range' class='form-range size' type='range' title='Choose size of brush'
-                       min='1' max='20' value='10'/>
-
-                <button id='checkbox_fill' class='button_small' >
-                    <img id='checkbox_fill_img' title='Click to have figures filled with side color'
-                         src='{{ url_for("static", filename="icons/checkbox_false_icon.png") }}'>
-                </button>
-
-            </div>
-
-            <!-- Tools on right -->
-            <div id='rightTools'>
-                <button id='brush' class='button_small tool' title='Click to draw with brush'>
-                    <img src='{{ url_for("static", filename="icons/brush_icon.png") }}'
-                    onclick='setTool("brush")'>
-                </button>
-
-                <!-- Tool to create rectangle -->
-                <button id='rectangle' class='button_small tool' title='Click to create rectangle'>
-                     <img src='{{ url_for("static", filename="icons/rectangle_icon.png") }}'
-                     onclick='setTool("rectangle")'>
-                </button>
-
-                <!-- Tool to create circle -->
-                <button id='circle' class='button_small tool' title='Click to create circle'>
-                     <img src='{{ url_for("static", filename="icons/circle_icon.png") }}'
-                     onclick='setTool("circle")'>
-                </button>
-
-                <!-- Tool to create triangle -->
-                <button id='triangle' class='button_small tool' title='Click to create triangle'>
-                     <img src='{{ url_for("static", filename="icons/triangle_icon.png") }}'
-                     onclick='setTool("triangle")'>
-                </button>
-
-                <!-- Color pick boxes (user can choose color by clicking on it) -->
-                <div id='color_tool_container'>
-                    <button id='color_change' class='button_small' title='Click to swap colors'>
-                         <img id ='color_change_img'
-                              src='{{ url_for("static", filename="icons/change_color_icon.png") }}'
-                         onclick=''>
-                    </button>
-
-
-                    <!-- Main color -->
-                    <input id='color_tool_main' class='toolbox_color' type='color'
-                           title='Click to choose main color'/>
-
-                    <!-- Side color -->
-                    <input id='color_tool_side' class='toolbox_color' type='color'
-                           title='Click to choose side color' value='#F5E3E0'/>
-                </div>
-            </div>
-        </div>
-
-        <!-- Drawing canvas -->
-        <div class='d-flex justify-content-center align-items-center w-100 h-100'>
-            <canvas id='canvas' class='image-container'></canvas>
         </div>
     </div>
 
