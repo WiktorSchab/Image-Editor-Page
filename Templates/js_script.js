@@ -26,15 +26,15 @@ function getCookie(name){
 }
 
 
-// Function to remember scroll position of object
-function scroll_rem(child) {
+// Function to remember scroll position of object after clicking on <a> obj
+$('a').on('click', function() {
     // Remembering scroll of color filters
     position_of_scroll = $(".position").scrollTop();
     setCookie('position_cookie', position_of_scroll, 1);
 
     // Remembering scroll of window
     setCookie('position_cookie_window', window.scrollY, 1);
-}
+});
 
 
 // Function to add clicked button id to cookie file if its not there otherwise delete id from the file

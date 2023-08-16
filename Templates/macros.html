@@ -6,7 +6,7 @@
             <li class='p-2'>
                 <a class='btn btn-outline-primary p-3 width-200' role='button'
                    href='{{ url_for(  url_list[i]   ,file_name=file_name) }}'
-                   onclick='deleteCookie("Color_buttons"); scroll_rem({{ i }})'>
+                   onclick='deleteCookie("Color_buttons");'>
                     {{ display_list[i] }}
                 </a>
             </li>
@@ -22,7 +22,7 @@
             <li class='p-2'>
                 <a id='color_id{{ i }}' class='btn btn-outline-primary p-3 width-200' role='button'
                    href='{{ url_for(  url   ,file_name=file_name,color=color[i]) }}'
-                   onclick='scroll_rem({{ i }}); color_button({{ i }});'>
+                   onclick='color_button({{ i }});'>
                     {{ display_list[i] }}
                 </a>
             </li>
