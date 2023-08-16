@@ -1,5 +1,6 @@
-<!--Bootstrap modal, it will show up if user will click download button-->
+{% from 'macros.html' import display_table_column  %}
 {% include 'work_page.html' %}
+<!--Bootstrap modal, it will show up if user will click download button-->
 <div id="downloadModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -15,60 +16,14 @@
             <form id="downloadForm" action="{{ url_for('download',file_name=file_name) }}" method="POST">
                 <div class="modal-body">
                 <h2>Choose format of file</h2><br>
-                <!-- Data about data formats showed in table -->
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <!-- Titles of columns -->
-                        <th scope="col">Format</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Vector?</th>
-                        <th scope="col">Pick format</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">JPG</th>
-                        <td>{{ file_sizes[0] }}</td>
-                        <td>No</td>
-                        <th scope="col">
-                            <div class="form-check">
-                                <input id="formatJPG" class="form-check-input" type="radio" name="format" value="jpg" required>
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row">PNG</th>
-                        <td>{{ file_sizes[1] }}</td>
-                        <td>Yes</td>
-                        <th scope="col">
-                            <div class="form-check">
-                                <input id="formatPNG" class="form-check-input" type="radio" name="format" value="png" required>
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row">TIFF</th>
-                        <td>{{ file_sizes[2] }}</td>
-                        <td>No</td>
-                        <th scope="col">
-                            <div class="form-check">
-                                <input id="formatTIFF" class="form-check-input" type="radio" name="format" value="tiff" required>
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row">GIF</th>
-                        <td>{{ file_sizes[3] }}</td>
-                        <td>No</td>
-                        <th scope="col">
-                            <div class="form-check">
-                                <input id="formatGIF" class="form-check-input" type="radio" name="format" value="gif" required>
-                            </div>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <!-- Data about data formats showed in table
+                First argument is array with columns names
+                Second argument is array with arrays that contains data about extension
+                (name, isVector, file_size[num_of_extension])-->
+                {{ display_table_column(['Format', 'Size', 'Vector?', 'Pick format'],
+                    [ ['JPG','NO', file_sizes[0]], ['PNG','YES', file_sizes[1]],
+                    ['TIFF','NO', file_sizes[2]], ['GIF','NO', file_sizes[3]] ])}}
             </div>
                 <!-- Buttons of modal -->
                 <div class="modal-footer">
