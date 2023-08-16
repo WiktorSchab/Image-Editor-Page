@@ -3,11 +3,56 @@
 
 {% block content %}
     <div class='d-flex justify-content-center align-items-center' style='height:700px; flex-direction:column'>
-        <!--Button to enter draw-mode-->
-        <div id='draw_mode_id'>
-            <a title="Click to enter draw mode." href='{{ url_for("draw_mode", file_name=file_name) }}'>
-                <img src='{{ url_for("static", filename="icons/draw_mode_icon.png") }}'>
-            </a>
+
+
+        <!--Displaying image and buttons that change appearance of image-->
+        <div class='d-flex justify-content-center align-items-center w-100'>
+            <!-- Filters -->
+            <div class='image_change_tools'>
+                <!-- Button to enter filter mode (in progress) -->
+                <div id='filter_mod_id'>
+                    <a title="Click to enter filter mode [work_in_progress]." href='#work_in_progress'>
+                        <img class='enter_mode_icon'
+                             src='{{ url_for("static", filename="icons/work_in_progress_icon.png") }}'>
+                    </a>
+                </div>
+
+                <!-- Calling function that generates buttons.
+                First one is a name of image that modifies, second argument is name of flask function and third
+                one is what will be displayed on button -->
+                {{ display_buttons(file_name,
+                    ('bw_filter','rbw_filter','con_filter','blur_filter','emb_filter'),
+                    ('Black & white','Real Black & white','Contour','Blur','Emboss')) }}
+            </div>
+
+            <!-- Displaying image
+            src will be change by js when page loads -->
+            <img id='img_main' src='' alt='Main Image'>
+
+
+            <!-- Color filters -->
+            <div class='image_change_tools'>
+                <!--Button to enter draw-mode-->
+                <div id='draw_mode_id'>
+                    <a title="Click to enter draw mode." href='{{ url_for("draw_mode", file_name=file_name) }}'>
+                        <img class='enter_mode_icon'
+                             src='{{ url_for("static", filename="icons/draw_mode_icon.png") }}'>
+                    </a>
+                </div>
+
+                <!--Calling function that generates buttons.
+                First one is a name of image that modifies, second argument is name of flask function, third one is what
+                will be displayed on button and last is range of colors that button displays -->
+                {{ display_buttons_color(file_name, 'only_color',
+
+                ('Only purple colors','Only pink colors','Only red colors',
+                'Only orange colors','Only yellow colors', 'Only green colors',
+                'Only blue colors','Only white colors'),
+
+                ([150,100,100, 174,255,255],[130,100,100, 150,255,255],[119,100,100, 129,255,255],
+                [100,50,50, 118,255,255], [91,50,50, 99,255,255],[40,50,50, 90,255,255],
+                [0,50,50, 38,255,255], [0,0,0, 180,25,230])) }}
+            </div>
         </div>
 
         <!--Image management buttons-->
@@ -27,41 +72,6 @@
                href ='{{ url_for("img_reset",file_name=file_name) }}'
                onclick='deleteCookie("Color_buttons")'>Reset
             </a>
-        </div>
-
-        <!--Displaying image and buttons that change appearance of image-->
-        <div class='d-flex justify-content-center align-items-center w-100'>
-
-            <!-- Filters
-            Calling function that generates buttons.
-            First one is a name of image that modifies, second argument is name of flask function and third one is what
-            will be displayed on button -->
-            <div>
-                {{ display_buttons(file_name,
-                    ('bw_filter','rbw_filter','con_filter','blur_filter','emb_filter'),
-                    ('Black & white','Real Black & white','Contour','Blur','Emboss')) }}
-            </div>
-
-            <!-- Displaying image
-            src will be change by js when page loads -->
-            <img id='img_main' src='' alt='Main Image'>
-
-
-            <!-- Color filters
-            Calling function that generates buttons.
-            First one is a name of image that modifies, second argument is name of flask function, third one is what
-            will be displayed on button and last is range of colors that button displays -->
-            <div>
-                {{ display_buttons_color(file_name, 'only_color',
-
-                ('Only purple colors','Only pink colors','Only red colors',
-                'Only orange colors','Only yellow colors', 'Only green colors',
-                'Only blue colors','Only white colors'),
-
-                ([150,100,100, 174,255,255],[130,100,100, 150,255,255],[119,100,100, 129,255,255],
-                [100,50,50, 118,255,255], [91,50,50, 99,255,255],[40,50,50, 90,255,255],
-                [0,50,50, 38,255,255], [0,0,0, 180,25,230])) }}
-            </div>
         </div>
     </div>
 

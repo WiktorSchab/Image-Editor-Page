@@ -7,24 +7,32 @@ body{
     padding: 0px;
 }
 
-/* style to buttons (motive choose) above header */
-.motive_button{
-    height: 35px;
-    width: 100px;
 
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 13px;
+
+/* style that to obj that contains all tools with specific category */
+.image_change_tools{
+    height: 450px;
+
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+/* style for icons to enter modes (draw etc.) */
+.enter_mode_icon{
+    height: 50px;
+    width: 50px;
 }
 
 
-/*style to list of buttons (for both)*/
+/* style to list of buttons (for both)*/
 .button_list{
     /* sizing parameters*/
     border: 2px solid #CCE0D6;
     border-radius: 12px;
-    padding: 5px;
 
+    padding: 5px;
+    align-self: flex-end;
     list-style-type: none;
 
     /* for scrolling option */
@@ -34,10 +42,19 @@ body{
 }
 
 
+/* style to buttons (motive choose) above footer */
+.motive_button{
+    height: 35px;
+    width: 100px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
 .width-200{
   width: 200px;
 }
-
 
 /*colors of button*/
 #color_id0:hover{background: #9c31bd; border-color:#9c31bd;}
@@ -92,33 +109,32 @@ body{
 }
 
 
-
 /* style to form */
 #form_part{
     min-height:60vh;
 }
 
 
-/* style to download button in menu above main img*/
+/* Style to download button in menu above main img*/
 #download_button{
     width: 100px;
     margin-left:50px;
     margin-right:50px;
 }
 
-#draw_mode_id{
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-
-/* style to img that is displaying on */
+/* Style to img that is displaying on */
 #img_main{
     height:512px;
 
     padding:10px;
     border: 5px solid;
     margin: 10px;
+}
+
+
+/* Style for button sack (contains light/dark method )*/
+#button_sack{
+    background-color: white;
 }
 
 
