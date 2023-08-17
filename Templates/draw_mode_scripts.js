@@ -1,5 +1,5 @@
 // Setting size of canvas to size of image and using image as background */
-function load_image() {
+function imageLoad() {
     var canvas = $('#canvas')[0];
 
     // Creating new image obj //
@@ -22,7 +22,7 @@ function load_image() {
         canvas.width = width;
         canvas.height = height;
 
-        // Getting 2d render of context of canvas
+        // Getting 2d render of ctx of canvas
         var ctx = canvas.getContext('2d');
 
         // Drawing loaded render of given image
@@ -34,22 +34,22 @@ function load_image() {
 // Drawing functions
 // Setting current tool
 function setTool(toolReference){
-    // Deleting border if current_tool is not null
-    if (current_tool){
-            current_tool.css({'border':'none',
+    // Deleting border if toolCurrent is not null
+    if (toolCurrent){
+            toolCurrent.css({'border':'none',
             'background-color':'transparent',
             'padding':'0px'});
     }
 
     // Checking if clicked tool is the same as it was
-    if (current_tool !== null && toolReference === current_tool.attr('id')){
-        current_tool = null;
+    if (toolCurrent !== null && toolReference === toolCurrent.attr('id')){
+        toolCurrent = null;
     }else{
         // Setting new tool as current one
-        current_tool = $('#'+toolReference);
+        toolCurrent = $('#'+toolReference);
 
         // Setting border to new tool
-        current_tool.css(chosen_tool_style)
+        toolCurrent.css(toolCurrentStyle)
     }
 }
 
@@ -57,38 +57,38 @@ function setTool(toolReference){
 // Placing the circles in the place where the pressed mouse is
 function drawCircle(x,y) {
     // Starting drawing path
-    context.beginPath()
+    ctx.beginPath()
 
     // Drawing circle with set color and size. Color is filling circle
-    context.arc(x, y, size, 0, Math.PI * 2);
-    context.fillStyle = color;
-    context.fill();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
 }
 
 // Drawing line between circles (that appear when user draw fast)
 function drawLine(x1, y1, x2, y2) {
 
     // Starting drawing path
-    context.beginPath();
+    ctx.beginPath();
 
     // Setting start point
-    context.moveTo(x1,y1);
+    ctx.moveTo(x1,y1);
 
     // Setting line from start point to point with x2, y2 cords
-    context.lineTo(x2,y2);
+    ctx.lineTo(x2,y2);
 
     // Setting properties of drawing
-    context.strokeStyle = color;
-    context.lineWidth = size * 2;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size * 2;
 
     // Drawing line
-    context.stroke();
-    a = context;
+    ctx.stroke();
+    a = ctx;
 }
 
 
 // Functions that work when brush is current tool
-function brush_tool(x, y, x2, y2){
+function toolBrush(x, y, x2, y2){
     // Function to create circle in actual mouse position
     drawCircle(x2,y2);
     // Function that creates line between old and new mouse position
@@ -101,56 +101,56 @@ function brush_tool(x, y, x2, y2){
 }
 
 // Functions that work when rectangle is current tool
-function rectangle_tool(x, y, x2, y2){
+function toolRectangle(x, y, x2, y2){
     // Checking if figure need to be full
-    if (checkbox_fill_value){
+    if (checkboxFillValue){
         // Filling rectangle with color given as side color
-        context.fillStyle = color_side;
+        ctx.fillStyle = colorSide;
         // Creating filled rectangle with one color
-        context.fillRect(x2, y2, x - x2, y - y2);
+        ctx.fillRect(x2, y2, x - x2, y - y2);
     }
 
     // Creating empy rectangle
-    context.strokeRect(x2, y2, x - x2, y - y2);
+    ctx.strokeRect(x2, y2, x - x2, y - y2);
 }
 
 // Functions that work when circle is current tool
-function circle_tool(x, y, x2, y2){
+function toolCircle(x, y, x2, y2){
     // Checking if figure need to be full
-    if (checkbox_fill_value){
-        context.fillStyle = color_side;
-        context.fill();
+    if (checkboxFillValue){
+        ctx.fillStyle = colorSide;
+        ctx.fill();
     }
 
-    context.beginPath();
+    ctx.beginPath();
     var radius = Math.sqrt(Math.pow((x - x2), 2) + Math.pow((y - y2), 2));
-    context.arc(x,y, radius, 0, 2 * Math.PI);
-    context.stroke();
+    ctx.arc(x,y, radius, 0, 2 * Math.PI);
+    ctx.stroke();
 }
 
 // Functions that work when triangle is current tool
-function triangle(x, y, x2, y2){
+function toolTriangle(x, y, x2, y2){
     // Checking if figure need to be full
-    if (checkbox_fill_value){
-        context.fillStyle = color_side;
-        context.fill();
+    if (checkboxFillValue){
+        ctx.fillStyle = colorSide;
+        ctx.fill();
     }
 
-    context.beginPath();
-    context.moveTo(x, y);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
 
-    context.lineTo(x2, y2);
-    context.lineTo(x * 2 - x2, y2)
-    context.closePath()
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x * 2 - x2, y2)
+    ctx.closePath()
 
-    context.stroke();
+    ctx.stroke();
 }
 
 // Functions to draw
 function drawing(){
     // Deleting added events for canvas
     canvas.off('mousedown mousemove mouseup');
-    if (current_tool === null){
+    if (toolCurrent === null){
         return;
     }
 
@@ -159,7 +159,7 @@ function drawing(){
             isMouseDown = true;
 
             // Getting current state of image
-            snapshot = context.getImageData(0,0, canvas[0].width, canvas[0].height);
+            snapshot = ctx.getImageData(0,0, canvas[0].width, canvas[0].height);
 
             // Starting cords
             x = e.offsetX;
@@ -170,14 +170,14 @@ function drawing(){
     canvas.on("mouseup", function (e) {
             isMouseDown = false;
 
-            // Giving as last elements of cord_wait_room info about size and color of brush so they will be remembered
-            cord_wait_room.push(color_side, checkbox_fill_value, snapshot, current_tool.attr('id'), context.lineWidth, context.strokeStyle)
+            // Giving as last elements of cordTempArray info about size and color of brush so they will be remembered
+            cordTempArray.push(colorSide, checkboxFillValue, snapshot, toolCurrent.attr('id'), ctx.lineWidth, ctx.strokeStyle)
 
-            // Giving cord_wait_room to main storing array as one group of cords
-            array_cords.push(cord_wait_room);
+            // Giving cordTempArray to main storing array as one group of cords
+            cordArray.push(cordTempArray);
 
             // Clearing array
-            cord_wait_room = [];
+            cordTempArray = [];
 
             // Setting variables that holds position of mouse to null //
             x = null;
@@ -190,39 +190,39 @@ function drawing(){
         if (!isMouseDown) return;
 
         // Setting properties of drawing
-        context.strokeStyle = color;
-        context.lineWidth = size * 2;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = size * 2;
 
         // Assigning actual position of mouse to variables
         var x2 = e.offsetX;
         var y2 = e.offsetY;
 
         // Sending cords of move to array that collects info
-        cord_wait_room.push([x,y,x2,y2]);
+        cordTempArray.push([x,y,x2,y2]);
 
         // Function when current tool is brush
-        if (current_tool.attr('id') === 'brush') {
+        if (toolCurrent.attr('id') === 'brush') {
             // Calling brush function and assigning new cords as the old one
-            [x, y] = brush_tool(x, y, x2, y2);
+            [x, y] = toolBrush(x, y, x2, y2);
             return;
         }
 
-        // Putting remembered image to context (figures could be now empty)
-        context.putImageData(snapshot, 0, 0);
+        // Putting remembered image to ctx (figures could be now empty)
+        ctx.putImageData(snapshot, 0, 0);
 
         // Function when current tool is rectangle
-        if (current_tool.attr('id') === 'rectangle'){
-           rectangle_tool(x, y, x2, y2);
+        if (toolCurrent.attr('id') === 'rectangle'){
+           toolRectangle(x, y, x2, y2);
         }
 
         // Function when current tool is circle
-        if (current_tool.attr('id') === 'circle'){
-            circle_tool(x, y, x2, y2);
+        if (toolCurrent.attr('id') === 'circle'){
+            toolCircle(x, y, x2, y2);
         }
 
         // Function when current tool is triangle
-        if (current_tool.attr('id') === 'triangle'){
-            triangle(x, y, x2, y2);
+        if (toolCurrent.attr('id') === 'triangle'){
+            toolTriangle(x, y, x2, y2);
         }
     });
 }
@@ -230,10 +230,10 @@ function drawing(){
 // Waiting for document to fully load up
 $(document).ready(function() {
     // Loading image that user send as background for canvas
-    load_image();
+    imageLoad();
 
     // Setting border to default chosen tool
-    current_tool.css(chosen_tool_style);
+    toolCurrent.css(toolCurrentStyle);
 
     // Starting drawing function
     drawing();
@@ -248,17 +248,17 @@ var buttonSave = $('#save_changes_button');
 var buttonClear = $('#buttonClear');
 var buttonBack = $('#buttonBack');
 var sizeInput = $('.size');
-var checkbox_fill = $('#checkbox_fill');
-var checkbox_fill_img = $('#checkbox_fill_img');
+var checkboxFill = $('#checkbox_fill');
+var checkboxFillImg = $('#checkbox_fill_img');
 
 // On right
 // Tools to draw
 var rectangle = $('#rectangle_tool');
 var brush = $('#brush');
-var tool_objects = $('.tool');
+var toolObjects = $('.tool');
 
 // Button to swap colors
-var color_change = $('#color_change');
+var colorSwap = $('#color_change');
 // Inputs to choose color
 var colorInputMain = $('#color_tool_main');
 var colorInputSide = $('#color_tool_side');
@@ -266,40 +266,40 @@ var colorInputSide = $('#color_tool_side');
 // Assigning object from html to variables
 var canvas = $('#canvas');
 
-// Creating context to allow user drawing and assigning it to context var
-var context = $('#canvas')[0].getContext('2d');
+// Creating ctx to allow user drawing and assigning it to ctx var
+var ctx = $('#canvas')[0].getContext('2d');
 
 //  Setting default variables
 var isMouseDown = false;
-var checkbox_fill_value = false;
+var checkboxFillValue = false;
 var color = '#000';
-var color_side = '#F5E3E0';
+var colorSide = '#F5E3E0';
 var size = 10;
 var x,y,x2,y2,snapshot;
 
 // Default tool is brush
-var current_tool = $('#brush');
+var toolCurrent = $('#brush');
 
 //Arrays & dict
 // Declaring array that will be contain cords of mouse drawing (one draw)
-var cord_wait_room = [];
-// Declaring aray will holds cord_wait_rooms values as values (one cord_wait_room == one value)
-var array_cords = [];
+var cordTempArray = [];
+// Declaring aray will holds cordTempArrays values as values (one cordTempArray == one value)
+var cordArray = [];
 
 // Style for the chosen tool
-var chosen_tool_style = {'border':'3px solid #c3d9ce',
+var toolCurrentStyle = {'border':'3px solid #c3d9ce',
         'background-color':'white',
         'padding':'13px',
         'border-radius':'13px'}
 
-// Css parameters for checkbox_fill_value
-var link_checkbox = {false: '{{ url_for("static", filename="icons/checkbox_false_icon.png") }}',
+// Css parameters for checkboxFillValue
+var checkboxLink = {false: '{{ url_for("static", filename="icons/checkbox_false_icon.png") }}',
     true:'{{ url_for("static", filename="icons/checkbox_true_icon.png") }}'};
-var title_checkbox = {false: 'Click to have filled figures', true: 'Click to have empty figures'}
+var checkboxTitle = {false: 'Click to have filled figures', true: 'Click to have empty figures'}
 
 
 // Going to drawing function when user click on some tool
-tool_objects.on('click', function (e) {
+toolObjects.on('click', function (e) {
     // Function check what tool was clicked and give specific events for mouse on canvas
     drawing();
 });
@@ -309,26 +309,26 @@ tool_objects.on('click', function (e) {
 // Cleaning canvas
 buttonClear.on('click', function (e) {
    // Cleaning canvas from everything
-   context.clearRect(0, 0, canvas.width, canvas.height);
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
    // Loading image as background again
-   load_image();
+   imageLoad();
 
    // Deleting array drawing cords
-   array_cords = [];
+   cordArray = [];
 });
 
 // Deleting user last draw
 buttonBack.on('click', function (e){
     /* Setting imageLoaded to false so other part of function will start if image will be fully loaded.
-    imageLoaded is changing by the end of load_image function. */
+    imageLoaded is changing by the end of imageLoad function. */
     imageLoaded = false;
 
     /* Deleting last group of cord array (in other words deleting last drawing from user from canvas ) */
-    array_cords.pop();
+    cordArray.pop();
 
     /* Loading up canvas (only image as background) */
-    load_image();
+    imageLoad();
 
     // Setting interval that will be looking if image is fully loaded
     var checkImageLoaded = setInterval(function() {
@@ -338,33 +338,33 @@ buttonBack.on('click', function (e){
             clearInterval(checkImageLoaded);
 
             /* Restoring drawing on image without last move
-            Iteration by group of array in array_cords (one array is one drawing without letting mouse off) */
-            for (var i = 0; i < array_cords.length; i++) {
+            Iteration by group of array in cordArray (one array is one drawing without letting mouse off) */
+            for (var i = 0; i < cordArray.length; i++) {
 
-                // Assigning one array to cords_group variable
-                var cords_group = array_cords[i];
+                // Assigning one array to cordGroup variable
+                var cordGroup = cordArray[i];
 
 
                 //Setting color of brush that was used to paint drawing
-                color = cords_group[cords_group.length - 1];
+                color = cordGroup[cordGroup.length - 1];
                 // Setting size of brush that was used to paint drawing
-                size = cords_group[cords_group.length - 2]/2 ;
+                size = cordGroup[cordGroup.length - 2]/2 ;
                 // Setting used tool
-                tool = cords_group[cords_group.length - 3];
+                tool = cordGroup[cordGroup.length - 3];
                 // Setting snapshot
-                snapshot = cords_group[cords_group.length - 4];
-                // Setting checkbox_fill_value
-                checkbox_fill_value = cords_group[cords_group.length - 5];
+                snapshot = cordGroup[cordGroup.length - 4];
+                // Setting checkboxFillValue
+                checkboxFillValue = cordGroup[cordGroup.length - 5];
                 // Setting side color_value
-                color_side = cords_group[cords_group.length - 6];
+                colorSide = cordGroup[cordGroup.length - 6];
 
                 /* Iteration by array with all cords in group (known as x1, y1, x2, y2 in other funct)
                 Iteration goes without last 6 elements.
-                They only hold info about size, color, tool, checkbox_fill_value and side color */
-                for (var j = 0; j < cords_group.length - 6; j++) {
+                They only hold info about size, color, tool, checkboxFillValue and side color */
+                for (var j = 0; j < cordGroup.length - 6; j++) {
 
                     // Assigning one array to cords
-                    [x, y , x2, y2] = cords_group[j];
+                    [x, y , x2, y2] = cordGroup[j];
 
                     // Restoring line if tool was brush. Else restoring figure
                     if (tool === 'brush'){
@@ -375,32 +375,32 @@ buttonBack.on('click', function (e){
                     }else{
                         /* Restoring figures
                          Putting last image of canvas to make figures empty */
-                        context.putImageData(snapshot, 0, 0);
+                        ctx.putImageData(snapshot, 0, 0);
 
                         // Assigning parameters for figures
-                        context.strokeStyle = color;
-                        context.lineWidth = size * 2;
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = size * 2;
 
                         // Restoring rectangle if tool was rectangle, if else circle, else triangle
                         if (tool === 'rectangle'){
                             // Calling function to draw rectangle
-                            rectangle_tool(x, y, x2, y2);
+                            toolRectangle(x, y, x2, y2);
                         }else if(tool == 'circle'){
-                            circle_tool(x, y, x2, y2);
+                            toolCircle(x, y, x2, y2);
                         }else{
-                            triangle(x, y, x2, y2);
+                            toolTriangle(x, y, x2, y2);
                         }
                     }
                 }
             }
             // Changing appearance of checkbox
-            checkbox_fill_img.attr('src', link_checkbox[checkbox_fill_value]);
+            checkboxFillImg.attr('src', checkboxLink[checkboxFillValue]);
             // Changing title of checkbox
-            checkbox_fill_img.attr('title', title_checkbox[checkbox_fill_value]);
+            checkboxFillImg.attr('title', checkboxTitle[checkboxFillValue]);
 
             // Changing showing colors on menu to match colors used in certain moment
             colorInputMain.val(color);
-            colorInputSide.val(color_side);
+            colorInputSide.val(colorSide);
             // Changing showing size on menu to match size of the brush
             $('.size').val(size);
         }
@@ -421,26 +421,26 @@ sizeInput.on('input', function() {
 });
 
 // Button that works as checkbox (checkbox for fill value of figures)
-checkbox_fill.on('click',function (e) {
+checkboxFill.on('click',function (e) {
 
 
-    // Operation not on checkbox_fill_value
-    checkbox_fill_value = checkbox_fill_value ? false : true;
+    // Operation not on checkboxFillValue
+    checkboxFillValue = checkboxFillValue ? false : true;
 
     // Changing appearance of checkbox
-    checkbox_fill_img.attr('src', link_checkbox[checkbox_fill_value]);
+    checkboxFillImg.attr('src', checkboxLink[checkboxFillValue]);
     // Changing title of checkbox
-    checkbox_fill_img.attr('title', title_checkbox[checkbox_fill_value]);
+    checkboxFillImg.attr('title', checkboxTitle[checkboxFillValue]);
 });
 
 // Swapping main color and with side color
-color_change.on('click', function (e){
+colorSwap.on('click', function (e){
     // Swapping values in variables
-    [color,color_side] = [color_side,color];
+    [color,colorSide] = [colorSide,color];
 
     // Displaying new values;
     colorInputMain.val(color);
-    colorInputSide.val(color_side);
+    colorInputSide.val(colorSide);
 });
 
 
@@ -451,7 +451,7 @@ colorInputMain.on('change', function (e) {
 
 // If user change side color, assign new color to color side var
 colorInputSide.on('change', function (e) {
-    color_side = $(this).val()
+    colorSide = $(this).val()
 });
 
 

@@ -134,8 +134,8 @@ def emb_filter(file_name):
 # Color filter
 @app.route('/color/<file_name>')
 def only_color(file_name):
-    # Getting cookie with Color_buttons name
-    cookie = request.cookies.get('Color_buttons')
+    # Getting cookie with colorButtons name
+    cookie = request.cookies.get('colorButtons')
 
     # Checking if cookie exist
     if cookie is not None:
