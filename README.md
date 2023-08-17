@@ -13,5 +13,5 @@ http://nyyyn.pythonanywhere.com
 - Reset changes: revert the image back to the original.
 - Download modified images in different formats (jpg, png, tiff, gif).
 
-- ## Author
+  ## Author
 - Wiktor Schab (https://github.com/WiktorSchab)
