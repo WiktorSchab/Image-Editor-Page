@@ -1,0 +1,2 @@
+(link to pretrained model, 122MB)
+https://drive.google.com/drive/folders/1dyOdadtd4wSUZTem3tyHKmc6_Tuxsh0o?usp=drive_link
