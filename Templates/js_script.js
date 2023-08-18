@@ -28,12 +28,16 @@ function getCookie(name){
 
 // Function to remember scroll position of object after clicking on <a> obj
 $('a').on('click', function() {
-    // Remembering scroll of color filters
-    positionScrollWindow = $(".position").scrollTop();
-    setCookie('positionCookieColor', positionScrollWindow, 1);
-
     // Remembering scroll of window
     setCookie('positionCookieWindow', window.scrollY, 1);
+
+    // Remembering scroll of color filters
+    positionScrollWindowColor = $(".position_color").scrollTop();
+    setCookie('positionCookieColor', positionScrollWindowColor, 1);
+
+    // Remembering scroll of color filters
+    positionScrollWindowFilter = $(".position_filter").scrollTop();
+    setCookie('positionCookieFilter', positionScrollWindowFilter, 1);
 });
 
 
@@ -95,10 +99,15 @@ for (let i = 0; i < (colorList.length); i++) {
 
 
 $(document).ready(function() {
-    // Setting scroll position of color filters
-    $(".position").scrollTop(getCookie('positionCookieColor'));
     // Setting scroll position of window
     window.scrollTo(0, getCookie('positionCookieWindow'));
+
+    // Setting scroll position of color filters
+    $(".position_color").scrollTop(getCookie('positionCookieColor'));
+
+    // Setting scroll position of filters
+    $(".position_filter").scrollTop(getCookie('positionCookieFilter'));
+
 
     // Showing modals (they will be on page only if user click specific button)
     $('#confirmModal').modal('show');

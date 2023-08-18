@@ -1,6 +1,6 @@
 <!-- Macro for displaying button with filters -->
 {% macro display_buttons(file_name, url_list,display_list) %}
-    <ul class='button_list'>
+    <ul class='position_filter button_list'>
         <!-- Displaying every given button by for -->
         {% for i in range(0, url_list|length) %}
             <li class='p-2'>
@@ -16,7 +16,7 @@
 
 <!-- Macro for displaying button with color filters -->
 {% macro display_buttons_color(file_name, url, display_list,color,color_style)%}
-    <ul class='position button_list'>
+    <ul class='position_color button_list'>
         <!-- Displaying every given button by for -->
         {% for i in range(0, display_list|length) %}
             <li class='p-2'>
