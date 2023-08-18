@@ -7,7 +7,7 @@ import os
 import shutil
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 
 import cv2
 
@@ -15,6 +15,7 @@ from io import BytesIO
 import base64
 
 from img_funct import img_class
+from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'P@$$w0rda'
@@ -128,6 +129,14 @@ def blur_filter(file_name):
 @app.route('/emb_filter/<file_name>')
 def emb_filter(file_name):
     img_instance.filter_funct("filter(ImageFilter.EMBOSS)", file_name)
+    return redirect(url_for('index'))
+
+
+# Colorize image filter
+@app.route('/colorize_filter/<file_name>/')
+def colorize_filter(file_name):
+    # Calling function to colorize image
+    colorize(file_name,app)
     return redirect(url_for('index'))
 
 
