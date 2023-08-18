@@ -76,7 +76,14 @@ def index():
 # Confirmation of image change
 @app.route('/reset_change_confirm/<file_name>')
 def img_change_confirm(file_name):
-    return render_template('confirm_window.html', file_name=file_name)
+    # Passing arguments needed to generate confirm_window
+    context = {
+        'title': 'Confirm',
+        'text': 'Are you sure you want to change image? It will be lost.',
+        'positive_answer': {'text': 'Confirm', 'link': 'img_change'},
+        'negative_answer': {'text': 'Close'}
+    }
+    return render_template('confirm_window.html', file_name=file_name, **context)
 
 
 # Changing image
@@ -132,11 +139,24 @@ def emb_filter(file_name):
     return redirect(url_for('index'))
 
 
+@app.route('/colorize_filter/confirm/<file_name>')
+def colorize_filter_confirm(file_name):
+    # Passing arguments needed to generate confirm_window
+    context = {
+        'title': 'Confirm',
+        'text': 'Are you sure you want to use that filter? Original image will be lost.',
+        'positive_answer': {'text': 'Confirm', 'link': 'colorize_filter'},
+        'negative_answer': {'text': 'Close'}
+    }
+
+    return render_template('confirm_window.html', file_name=file_name, **context)
+
+
 # Colorize image filter
-@app.route('/colorize_filter/<file_name>/')
+@app.route('/colorize_filter/<file_name>')
 def colorize_filter(file_name):
     # Calling function to colorize image
-    colorize(file_name,app)
+    colorize(file_name, app)
     return redirect(url_for('index'))
 
 

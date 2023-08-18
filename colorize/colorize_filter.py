@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import os
 
+
 def colorize(file_name, app):
     # Path to models and data (they are from https://github.com/richzhang/colorization)
     prototxt_path = 'colorize/models/colorization_deploy_v2.prototxt'
@@ -10,7 +11,7 @@ def colorize(file_name, app):
 
     # Path to image and path where to save image
     path_input = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
-    path_output = path_input.replace('original','modified')
+    path_output = path_input.replace('original', 'modified')
     image_path = path_input
 
     # Loading pretrain modal
@@ -43,5 +44,6 @@ def colorize(file_name, app):
     colorized = cv2.cvtColor(colorized, cv2.COLOR_LAB2BGR)
     colorized = (255.0 * colorized).astype('uint8')
 
-    # Saving image
+    # Saving image (in every modified and original, so color filter and other will work on it)
+    cv2.imwrite(path_input, colorized)
     cv2.imwrite(path_output, colorized)

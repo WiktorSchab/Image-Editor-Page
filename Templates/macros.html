@@ -66,3 +66,35 @@
         {% endfor %}
     </tbody>
 {% endmacro %}
+
+
+<!-- Generate window for confirmation of action -->
+{% macro confirmWindow(title, text, positive_answer, negative_answer,file_name) %}
+    <div id="confirmModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content cancel">
+            <div class="modal-header">
+                <!-- Title of modal -->
+                <h5 class="modal-title">{{ title }}</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span class="cancel" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Text that show up in modal -->
+                <p>{{ text }}</p>
+            </div>
+            <div class="modal-footer">
+                <!-- Buttons in modal -->
+                <!-- Confirm button -->
+
+                <a class="btn btn-danger" onclick="deleteCookie('colorButtons')"
+                   href="{{ url_for(positive_answer['link'], file_name=file_name) }}">{{ positive_answer['text'] }}</a>
+                <!-- Deny button -->
+                <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">
+                    {{ negative_answer['text'] }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
