@@ -1,10 +1,10 @@
 <!-- Macro for displaying button with filters -->
-{% macro display_buttons(file_name, url_list,display_list) %}
+{% macro display_buttons(file_name, url_list, display_list) %}
     <ul class='position_filter button_list'>
         <!-- Displaying every given button by for -->
         {% for i in range(0, url_list|length) %}
             <li class='p-2'>
-                <a class='btn btn-outline-primary p-3 width-200' role='button'
+                <a id='{{ url_list[i] }}' class='btn btn-outline-primary p-3 width-200' role='button'
                    href='{{ url_for(  url_list[i]   ,file_name=file_name) }}'
                    onclick='deleteCookie("colorButtons");'>
                     {{ display_list[i] }}

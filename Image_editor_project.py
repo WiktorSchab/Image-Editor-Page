@@ -166,16 +166,17 @@ def only_color(file_name):
     # Getting cookie with colorButtons name
     cookie = request.cookies.get('colorButtons')
 
+    input_path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
+    output_path = input_path.replace('original', 'modified')
+    print(cookie)
     # Checking if cookie exist
-    if cookie is not None:
+    if cookie is not None and len(cookie) > 3:
         # Deleting useless syntax's from cookie value
         cookie = cookie[3:]
         cookie = cookie.strip()
 
         # Making list from id numbers from cookie file
         color = [color_floor_top[i] for i in range(0, len(color_floor_top)) if str(i) in cookie]
-
-        path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
 
         # Declaring image
         img = None
@@ -185,7 +186,7 @@ def only_color(file_name):
             lower = (int(i[0]), int(i[1]), int(i[2]))
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
-            result = img_class.display_color(path, lower, upper)
+            result = img_class.display_color(input_path, lower, upper)
 
             # It goes to if it is for only start iteration
             if img is None:
@@ -196,8 +197,12 @@ def only_color(file_name):
 
         # checking if img is not none (img will none if there will be 0 colors chosen)
         if img is not None:
-            path = path.replace('original', 'modified')
-            img_class.save_img(img, path.replace('original', 'modified'))
+            img_class.save_img(img, output_path)
+    else:
+        # taking original image and putting it in displaying place
+        print('a')
+        shutil.copyfile(input_path, output_path)
+
 
     return redirect(url_for('index'))
 
