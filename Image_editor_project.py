@@ -92,8 +92,14 @@ def img_change_confirm(file_name):
 
 
 # Changing image
-@app.route('/deleting_image')
-def img_change():
+@app.route('/deleting_image/<file_name>')
+def img_change(file_name):
+    path = os.path.join(app.root_path, 'static', 'download', 'modified', file_name)
+
+    # Deleting old images
+    os.remove(path)
+    os.remove(path.replace('modified','original'))
+
     # Rendering form and changing access to 0, user will need to send image again
     form = FileForm()
     img_instance.access = 0
