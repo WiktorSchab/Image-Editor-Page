@@ -39,29 +39,34 @@ img_instance = img_class(app, 0, 0)
 # starting page
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    # Checking if there is temporary file, if there is function to delete files will be called
+    if len(img_instance.temp_file) > 0:
+        img_instance.delete_temp()
+
+    # Generating form
     form = FileForm()
 
-    # checking if user have access (bypass validation earlier with same file) or bypass the validation
+    # Checking if user have access (bypass validation earlier with same file) or bypass the validation
     if img_instance.access == 1 or form.validate_on_submit():
         img_instance.access = 1  # access to edit
 
-        # checking if there is no filename or given filename is not the same as saved one
+        # Checking if there is no filename or given filename is not the same as saved one
         if not img_instance.file_name or (form.cover.data and form.cover.data.filename != img_instance.file_name):
-            # saving file from form
+            # Saving file from form
             f = form.cover.data
             filename = secure_filename(f.filename)
 
             path = os.path.join(app.root_path, 'static', 'download', 'modified', filename)
             f.save(path)
 
-            # opening file as array and saving file
+            # Opening file as array and saving file
             img = np.array(Image.open(path))
             img_class.save_img(img, path)
 
-            # making copy of img
+            # Making copy of img
             shutil.copyfile(path, path.replace('modified', 'original'))
 
-            # saving values to class to have access to it later
+            # Saving values to class to have access to it later
             img_instance.file_name = filename
         filename = img_instance.file_name
 

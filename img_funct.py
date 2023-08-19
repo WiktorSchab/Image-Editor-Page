@@ -14,11 +14,14 @@ class img_class:
         app - Flask.app
         access - variable that determinate if program can generate work page without form
         file_name - variable that holds name of file
+        temp_file - array that will be created automatically and will have temp file names so script can delete it after
+        using it
         """
 
         self.app = app
         self.access = access
         self.file_name = file_name
+        self.temp_file = []
 
     def __repr__(self):
         return f'App: {self.app}'
@@ -54,7 +57,21 @@ class img_class:
         # Calculating size in Mega byte
         file_size_bytes = os.path.getsize(path_output)
         file_size_mb = file_size_bytes / (1024 * 1024)
+
+        self.temp_file.append(path_output)
         return f'{file_size_mb:.2}MB'
+
+    def delete_temp(self):
+        """ Function to delete temp files. Paths to that files is stored in instance of class.
+        Function return nothing"""
+
+        # Deleting every temporary file that path is saved in list
+        for i in self.temp_file:
+            os.remove(i)
+
+        # clearing list with path to temp files
+        self.temp_file = []
+
 
     def filter_funct(self, method, file_name):
         """Function to change appearance of image
