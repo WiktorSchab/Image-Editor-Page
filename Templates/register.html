@@ -1,0 +1,34 @@
+{% extends '/base.html' %}
+
+{% block content%}
+    <div id="form_register" class="mb-3 d-flex flex-column">
+        <!-- Form where user gives data-->
+        <form class='d-flex mx-auto flex-column'
+              method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data" >
+            {{form.csrf_token}}
+
+            <!-- Register -->
+            <div class="mx-auto">
+                {{form.name.label}} </br> {{form.name}}</br>
+                {{form.password.label}} </br> {{form.password}}</br>
+                {{form.repeat_password.label}} </br> {{form.repeat_password}}</br>
+
+                {{form.email.label}} </br> {{form.email}}</br>
+                <!--Showing invalid error message if email is invalid-->
+                {% for error in form.email.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            <!-- Submit button -->
+            <div class="mx-auto mt-2">
+                <input class="btn btn-outline-primary" type="submit" value="Go!">
+            </div>
+        </form>
+
+        <!-- Text with link to login -->
+        <div class='mx-auto'>
+            You are already registered? Click <a href="{{ url_for('login') }}">here</a> to login.
+        </div>
+    </div>
+{% endblock%}
