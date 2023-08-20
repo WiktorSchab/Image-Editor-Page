@@ -1,0 +1,17 @@
+{% extends '/base.html' %}
+
+{% block content%}
+    <div id="form_part" class="mb-3 d-flex justify-content-center">
+        <!-- Form where user gives data-->
+        <form method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data" >
+            {{form.csrf_token}}
+
+            <!-- Login -->
+            {{form.name.label}} </br> {{form.name}}</br>
+            {{form.password.label}} </br> {{form.password}}
+
+            <!-- Submit button -->
+            <input class="btn btn-outline-primary" type="submit" value="Go!">
+        </form>
+    </div>
+{% endblock%}

@@ -309,7 +309,7 @@ def draw_mode(file_name):
     return render_template('draw.html', file_name=file_name)
 
 
-# temp page to save canvas as file in modified
+# Receiving canvas from ajax and saving it as png
 @app.route('/draw_mode/saving', methods=['GET', 'POST'])
 def draw_mode_saving():
     try:
@@ -332,6 +332,17 @@ def draw_mode_saving():
     return redirect(url_for('index'))
 
 
+# Login page
+@app.route('/login',methods=['GET','POST'])
+def login():
+    isLoged = session.get('user')
+    if not isLoged:
+        # Generating form
+        form = LoginForm()
+
+        return render_template('login.html', form=form)
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
