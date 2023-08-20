@@ -1,5 +1,8 @@
-from flask import Flask, render_template, url_for, request, redirect, send_file, session
+from flask import Flask, render_template, url_for, request, redirect, send_file, session, flash
 from flask_wtf import FlaskForm
+
+from wtforms.validators import InputRequired, Email
+
 from wtforms import StringField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
@@ -37,8 +40,16 @@ class FileForm(FlaskForm):
 
 # Form to log in
 class LoginForm(FlaskForm):
-    name = StringField('Enter login')
-    password = StringField('Enter password')
+    name = StringField('Enter login', validators=[InputRequired()])
+    password = StringField('Enter password', validators=[InputRequired()])
+
+
+# Form to register
+class RegisterForm(FlaskForm):
+    name = StringField('Enter login', validators=[InputRequired()])
+    password = StringField('Enter password', validators=[InputRequired()])
+    repeat_password = StringField('Enter password again', validators=[InputRequired()])
+    email = StringField('Enter email', validators=[InputRequired(), Email('Invalid email')])
 
 
 # Database user
@@ -338,7 +349,7 @@ def draw_mode_saving():
 def login():
     # Getting session value of user (session var user exists if user is logged)
     isLoged = session.get('user')
-
+    print(isLoged)
     # Checking if user is already logged
     if not isLoged:
         # Generating form
@@ -356,12 +367,61 @@ def login():
             user_login = user_class(name, password)
             user_login.verify_user(User)
 
+
+
             # Returning user again to login (if its successful he will be redirected to index)
-            return url_for('login')
+            return redirect(url_for('login'))
 
     # Redirecting user to index if login was successful, or he is already logged
     return redirect(url_for('index'))
 
+# Logout page
+@app.route('/logout')
+def logout():
+    # Clearing session that contains username
+    session.pop('user', None)
+    flash('You have been logged out')
+    return redirect(url_for('login'))
+
+
+# Register page
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    # Getting session value of user (session var user exists if user is logged)
+    isLoged = session.get('user')
+
+    # Checking if user is logged
+    if not isLoged:
+        # Generating form
+        form = RegisterForm()
+        if request.method == 'GET':
+            # Rendering forms to register
+            return render_template('register.html', form=form)
+        else:
+            # if Email is valid and other fields are filled
+            if form.validate_on_submit():
+
+                # Assigning data from user to variables
+                name = form.name.data
+                password = form.password.data
+                repeat_password = form.repeat_password.data
+                email = form.email.data
+
+                # Creating instance of class
+                user_registry = user_class(name, password)
+
+                # Verifying registry data
+                if user_registry.verify_register(User, repeat_password, email):
+                    # Creating user in db
+                    user_registry.creating_user(db, User)
+
+                    # Redirecting to login page
+                    return redirect(url_for('login'))
+
+            # If verification of data is unsuccessful, form will be showed again
+            return render_template('register.html', form=form)
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
