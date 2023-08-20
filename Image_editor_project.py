@@ -14,7 +14,7 @@ import cv2
 from io import BytesIO
 import base64
 
-from img_funct import img_class
+from img_funct import img_class, save_img, performance
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -61,7 +61,7 @@ def index():
 
             # Opening file as array and saving file
             img = np.array(Image.open(path))
-            img_class.save_img(img, path)
+            save_img(img, path)
 
             # Making copy of img
             shutil.copyfile(path, path.replace('modified', 'original'))
@@ -99,6 +99,7 @@ def img_change(file_name):
     # Deleting old images
     os.remove(path)
     os.remove(path.replace('modified','original'))
+    img_instance.file_name = 0
 
     # Rendering form and changing access to 0, user will need to send image again
     form = FileForm()
@@ -166,8 +167,17 @@ def colorize_filter_confirm(file_name):
 # Colorize image filter
 @app.route('/colorize_filter/<file_name>')
 def colorize_filter(file_name):
+    # Using generator to measurer time
+    perf_gen = performance()
+
+    # Starting counting time
+    print(next(perf_gen))
+
     # Calling function to colorize image
     colorize(file_name, app)
+
+    # Printing time
+    print(next(perf_gen))
     return redirect(url_for('index'))
 
 
@@ -179,7 +189,7 @@ def only_color(file_name):
 
     input_path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
     output_path = input_path.replace('original', 'modified')
-    print(cookie)
+    
     # Checking if cookie exist
     if cookie is not None and len(cookie) > 3:
         # Deleting useless syntax's from cookie value
@@ -208,7 +218,7 @@ def only_color(file_name):
 
         # checking if img is not none (img will none if there will be 0 colors chosen)
         if img is not None:
-            img_class.save_img(img, output_path)
+            save_img(img, output_path)
     else:
         # taking original image and putting it in displaying place
         print('a')

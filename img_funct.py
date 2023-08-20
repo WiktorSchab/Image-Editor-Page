@@ -5,7 +5,7 @@ from skimage import io
 import cv2
 import numpy as np
 from scipy import ndimage as nd
-
+from time import perf_counter
 
 class img_class:
     def __init__(self, app, access, file_name):
@@ -88,18 +88,8 @@ class img_class:
         string = f"np.array(Image.open(path).{method})"
         img = eval(string)
 
-        img_class.save_img(img, path.replace('original', 'modified'))
+        save_img(img, path.replace('original', 'modified'))
 
-    @staticmethod
-    def save_img(img, path):
-        """Function to save img in delivered path
-
-        img - image obj to save
-        path - path where to save image
-        """
-
-        pil_img = Image.fromarray(img)
-        pil_img.save(path)
 
     @staticmethod
     def display_color(path, lower, upper):
@@ -119,3 +109,27 @@ class img_class:
 
         result = cv2.bitwise_and(img, img, mask=mask)
         return result
+
+def save_img(img, path):
+    """Function to save img in delivered path
+
+            img - image obj to save
+            path - path where to save image
+            """
+
+    pil_img = Image.fromarray(img)
+    pil_img.save(path)
+
+# Function to measure time
+def performance():
+    """Function to measure time
+    Function is using yield, so to use it there is need to use next.
+    First yield have messaged 'Counting started'
+    second one return time needed to perform action """
+
+    while 1:
+        start = perf_counter()
+        yield 'Counting started'
+
+        stop = perf_counter()
+        yield f'The script needed 10 {stop - start:.2f} seconds to perform this action'
