@@ -8,5 +8,5 @@
 !/static/download/original/keep/
 __pycache__/
 
-/db/main.db
-db/main.db
+*.db
+
