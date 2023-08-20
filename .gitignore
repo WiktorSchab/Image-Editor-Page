@@ -7,3 +7,5 @@
 /static/download/original/*
 !/static/download/original/keep/
 __pycache__/
+
+/db/main.db
