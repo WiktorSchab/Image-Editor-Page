@@ -103,6 +103,9 @@ def init():
 # starting page
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    # Checking if user is logged if not redirecting him to login
+    if not session.get('user'): return redirect(url_for('login'))
+
     # Checking if there is temporary file, if there is function to delete files will be called
     if len(img_instance.temp_file) > 0:
         img_instance.delete_temp()
@@ -349,7 +352,7 @@ def draw_mode_saving():
 def login():
     # Getting session value of user (session var user exists if user is logged)
     isLoged = session.get('user')
-    print(isLoged)
+
     # Checking if user is already logged
     if not isLoged:
         # Generating form
@@ -366,8 +369,6 @@ def login():
             # Creating instance of user_class and verifying login and password
             user_login = user_class(name, password)
             user_login.verify_user(User)
-
-
 
             # Returning user again to login (if its successful he will be redirected to index)
             return redirect(url_for('login'))
