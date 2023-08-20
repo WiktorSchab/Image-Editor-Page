@@ -98,3 +98,19 @@
     </div>
 </div>
 {% endmacro %}
+
+<!-- Macro to show all flashed messaged -->
+{% macro show_all_flash_message()%}
+    {% for message in get_flashed_messages() %}
+        {{ show_flash_message(message) }}
+    {% endfor %}
+{% endmacro %}
+<!-- Format of displaying flash message -->
+{% macro show_flash_message(message)%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>:)🙂</strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endmacro %}
