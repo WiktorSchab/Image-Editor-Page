@@ -1,7 +1,12 @@
-from flask import Flask, render_template, url_for, request, redirect, send_file
+from flask import Flask, render_template, url_for, request, redirect, send_file, session
 from flask_wtf import FlaskForm
+from wtforms import StringField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
+
+from flask_sqlalchemy import SQLAlchemy
+import random
+import string
 
 import os
 import shutil
@@ -19,12 +24,34 @@ from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'P@$$w0rda'
+app.config.from_pyfile('db/config.py')
+
+db = SQLAlchemy(app)
 
 
 # Form to send image
 class FileForm(FlaskForm):
     cover = FileField("Send me a pic (only jpg, png need to show off validation skills)",
                       validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Sorry, only png and jpg")])
+
+
+# Form to log in
+class LoginForm(FlaskForm):
+    name = StringField('Enter login')
+    password = StringField('Enter password')
+
+# Database user
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nick = db.Column(db.String(20))
+    password = db.Column(db.String)
+    email = db.Column(db.String)
+
+    premium = db.Column(db.Boolean)
+    admin = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return f'User data: [{self.id}]: {self.name} - {self.admin}'
 
 
 # color ranges
@@ -34,6 +61,31 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
 
 # class instance (app, access, file_name)
 img_instance = img_class(app, 0, 0)
+
+
+@app.route('/init')
+def init():
+    if not User.query.filter(User.admin == True).count():
+        # Creating tables
+        db.create_all()
+
+        # Data for first Admin
+        admin = User(
+            nick=''.join(random.choice(string.ascii_lowercase) for i in range(3)),
+            password=''.join(random.choice(string.ascii_lowercase) for i in range(3)),
+            email="",
+            premium=True,
+            admin=True
+        )
+
+        print('Admin was created add email to admin account')
+
+        # Creating admin
+        db.session.add(admin)
+        db.session.commit()
+
+    print('App is configured!')
+    return redirect(url_for('index'))
 
 
 # starting page
@@ -98,7 +150,7 @@ def img_change(file_name):
 
     # Deleting old images
     os.remove(path)
-    os.remove(path.replace('modified','original'))
+    os.remove(path.replace('modified', 'original'))
     img_instance.file_name = 0
 
     # Rendering form and changing access to 0, user will need to send image again
@@ -189,7 +241,7 @@ def only_color(file_name):
 
     input_path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
     output_path = input_path.replace('original', 'modified')
-    
+
     # Checking if cookie exist
     if cookie is not None and len(cookie) > 3:
         # Deleting useless syntax's from cookie value
@@ -223,7 +275,6 @@ def only_color(file_name):
         # taking original image and putting it in displaying place
         print('a')
         shutil.copyfile(input_path, output_path)
-
 
     return redirect(url_for('index'))
 
@@ -279,6 +330,7 @@ def draw_mode_saving():
     except Exception as e:
         print(f'Error occurred {e}.')
     return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
