@@ -14,6 +14,7 @@
     </ul>
 {% endmacro %}
 
+
 <!-- Macro for displaying button with color filters -->
 {% macro display_buttons_color(file_name, url, display_list,color,color_style)%}
     <ul class='position_color button_list'>
@@ -47,6 +48,7 @@
         {{ display_table_content(data) }}
     </table>
 {% endmacro %}
+
 
 <!-- Macro for displaying data of table -->
 {% macro display_table_content(data) %}
@@ -99,6 +101,7 @@
 </div>
 {% endmacro %}
 
+
 <!-- Macro to show all flashed messaged -->
 {% macro show_all_flash_message()%}
     {% for message in get_flashed_messages() %}
@@ -107,10 +110,10 @@
 {% endmacro %}
 <!-- Format of displaying flash message -->
 {% macro show_flash_message(message)%}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>:)🙂</strong> {{message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div class='d-flex justify-content-center'>
+    <div class="alert alert-warning alert-dismissible fade show w-50" role='alert'>
+        {{message}}
+        <button type='button' class='btn-close' aria-label='Close' data-dismiss='alert'></button>
+    </div>
 </div>
 {% endmacro %}
