@@ -1,11 +1,14 @@
 from PIL import Image, ImageFilter
+from flask import session
 
 import os
 from skimage import io
 import cv2
 import numpy as np
 from scipy import ndimage as nd
+
 from time import perf_counter
+
 
 class img_class:
     def __init__(self, app, access, file_name):
@@ -72,7 +75,6 @@ class img_class:
         # clearing list with path to temp files
         self.temp_file = []
 
-
     def filter_funct(self, method, file_name):
         """Function to change appearance of image
         Function opens file in app.root_path/static/download/original/file_name and save a result in
@@ -89,7 +91,6 @@ class img_class:
         img = eval(string)
 
         save_img(img, path.replace('original', 'modified'))
-
 
     @staticmethod
     def display_color(path, lower, upper):
@@ -110,6 +111,7 @@ class img_class:
         result = cv2.bitwise_and(img, img, mask=mask)
         return result
 
+
 def save_img(img, path):
     """Function to save img in delivered path
 
@@ -119,6 +121,7 @@ def save_img(img, path):
 
     pil_img = Image.fromarray(img)
     pil_img.save(path)
+
 
 # Function to measure time
 def performance():
@@ -133,3 +136,41 @@ def performance():
 
         stop = perf_counter()
         yield f'The script needed 10 {stop - start:.2f} seconds to perform this action'
+
+
+class user_class():
+    def __init__(self, nick, password):
+        """init of user_class takes nick and password to create instance of class.
+        Other parameters will be updated in other function.
+
+        nick - identification od user
+        password - key that allows to verify user
+        email - Contact email to user
+        isPremium - True/False user have account with height priority
+        isAdmin - True/False user have account with higher authority
+        isValid - True/False user passed login
+        """
+        self.nick = nick
+        self.password = password
+        self.email = ''
+        self.isPremium = ''
+        self.isAdmin = ''
+        self.isValid = ''
+
+    def verify_user(self, User):
+        '''Function that verifies if user with certain combination of password and login exists
+        User - table in database
+
+        Function return info about process'''
+
+        user_login = User.query.filter(User.nick == self.nick).first()
+        if user_login:
+            if self.password == user_login.password:
+                message = 'Login process is successful'
+                session['user'] = user_login.nick
+            else:
+                message = 'Invalid password'
+        else:
+            message = 'There is not user with that login'
+
+        return message

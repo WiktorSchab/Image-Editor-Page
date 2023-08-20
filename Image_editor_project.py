@@ -19,7 +19,7 @@ import cv2
 from io import BytesIO
 import base64
 
-from img_funct import img_class, save_img, performance
+from img_funct import img_class, save_img, performance, user_class
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -40,6 +40,7 @@ class LoginForm(FlaskForm):
     name = StringField('Enter login')
     password = StringField('Enter password')
 
+
 # Database user
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,7 +52,7 @@ class User(db.Model):
     admin = db.Column(db.Boolean)
 
     def __repr__(self):
-        return f'User data: [{self.id}]: {self.name} - {self.admin}'
+        return f'User data: [{self.id}]: {self.nick} - {self.admin}'
 
 
 # color ranges
@@ -333,16 +334,34 @@ def draw_mode_saving():
 
 
 # Login page
-@app.route('/login',methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Getting session value of user (session var user exists if user is logged)
     isLoged = session.get('user')
+
+    # Checking if user is already logged
     if not isLoged:
         # Generating form
         form = LoginForm()
 
-        return render_template('login.html', form=form)
+        if request.method == 'GET':
+            # Rendering forms to login
+            return render_template('login.html', form=form)
+        else:
+            # Assigning data from user to variables
+            name = form.name.data
+            password = form.password.data
 
+            # Creating instance of user_class and verifying login and password
+            user_login = user_class(name, password)
+            user_login.verify_user(User)
+
+            # Returning user again to login (if its successful he will be redirected to index)
+            return url_for('login')
+
+    # Redirecting user to index if login was successful, or he is already logged
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
