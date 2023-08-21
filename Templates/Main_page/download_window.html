@@ -26,11 +26,18 @@
                     ['TIFF','NO', file_sizes[2]], ['GIF','NO', file_sizes[3]] ])}}
             </div>
                 <!-- Buttons of modal -->
-                <div class="modal-footer">
-                    <!--Deny Button -->
-                    <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">Cancel</button>
-                    <!-- Confirm button -->
-                    <button class="btn btn-success" type="submit" form="downloadForm">Download</button>
+                <div class="modal-footer w-100 justify-content-between">
+                    <!--Save on server -->
+                    <a class="btn btn-success" href="{{ url_for('save_on_server', file_name=file_name) }}">
+                        Save on server
+                    </a>
+
+                    <div>
+                        <!--Deny Button -->
+                        <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">Cancel</button>
+                        <!-- Confirm button -->
+                        <button class="btn btn-success" type="submit" form="downloadForm">Download</button>
+                    </div>
                 </div>
             </form>
         </div>

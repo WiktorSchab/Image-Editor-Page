@@ -23,7 +23,7 @@ import cv2
 from io import BytesIO
 import base64
 
-from img_funct import img_class, save_img, performance, user_class
+from img_funct import img_class, save_img, performance, user_class, image_class
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -70,7 +70,7 @@ class User(db.Model):
 # Table for images
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    file_name = db.Column(db.String(50))
+    file_name = db.Column(db.String(200))
     size = db.Column(db.Integer)
     category = db.Column(db.String(20))
     created_date = db.Column(db.DateTime, default=db.func.current_timestamp())
@@ -342,7 +342,14 @@ def download(file_name):
 
 @app.route('/save_on_server/<file_name>')
 def save_on_server(file_name):
-    print(file_name)
+    # Checking if user is logged if not redirecting him to login
+    if not session.get('user'): return redirect(url_for('login'))
+
+    image_to_server = image_class(file_name, session.get('user'))
+
+    # Creating image on user dir in server by using info in instance
+    image_to_server.saving_image_server(db, Images, User)
+
 
     # Redirecting to index after saving it
     return redirect(url_for('index'))
