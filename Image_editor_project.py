@@ -340,6 +340,12 @@ def download(file_name):
 
 
 
+@app.route('/save_on_server/<file_name>')
+def save_on_server(file_name):
+    print(file_name)
+
+    # Redirecting to index after saving it
+    return redirect(url_for('index'))
 
 
 # draw mode
