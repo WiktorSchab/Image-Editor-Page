@@ -1,7 +1,7 @@
 {% extends '/base.html' %}
 
 {% block content%}
-    <div id="form_login" class="mb-3 d-flex flex-column">
+    <div class="mb-3 d-flex flex-column form_part">
         <!-- Form where user gives data-->
         <form class='d-flex mx-auto flex-column'
               method="POST" action="{{ url_for('login') }}" enctype="multipart/form-data" >

@@ -1,7 +1,7 @@
 {% extends '/base.html' %}
 
 {% block content%}
-    <div id="form_part" class="mb-3 d-flex justify-content-center">
+    <div class="mb-3 d-flex justify-content-center form_part">
         <!-- Form where user gives image-->
         <form method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data" >
             {{form.csrf_token}}

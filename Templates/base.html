@@ -31,9 +31,11 @@
       </div>
 
       <!-- Logout button -->
+      {% if session.get('user') != none %}
       <div class='ml-auto'>
         <a class='btn btn-danger motive_button' href='{{ url_for("logout") }}'>Logout</a>
       </div>
+      {% endif %}
     </div>
 
     {%include 'footer.html'%}
