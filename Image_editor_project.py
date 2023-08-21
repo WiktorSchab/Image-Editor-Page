@@ -13,6 +13,7 @@ import string
 
 import os
 import shutil
+from datetime import datetime
 
 import numpy as np
 from PIL import Image
@@ -52,7 +53,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Enter email', validators=[InputRequired(), Email('Invalid email')])
 
 
-# Database user
+# Table for users
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nick = db.Column(db.String(20))
@@ -65,6 +66,23 @@ class User(db.Model):
     def __repr__(self):
         return f'User data: [{self.id}]: {self.nick} - {self.admin}'
 
+
+# Table for images
+class Images(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    file_name = db.Column(db.String(50))
+    size = db.Column(db.Integer)
+    category = db.Column(db.String(20))
+    created_date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    # Creating relations
+    user = db.relationship('User', backref=db.backref('images', lazy=True))
+
+    def __repr__(self):
+        return f'Image data: [{self.id}] - {self.file_name} - {self.size} - {self.category}\nUser ID: {self.user_id}'
+
+
 # color ranges
 color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255], [119, 100, 100, 129, 255, 255],
                    [100, 50, 50, 118, 255, 255], [91, 50, 50, 99, 255, 255], [40, 50, 50, 90, 255, 255],
@@ -76,10 +94,10 @@ img_instance = img_class(app, 0, 0)
 
 @app.route('/init')
 def init():
-    if not User.query.filter(User.admin == True).count():
-        # Creating tables
-        db.create_all()
+    # Creating tables
+    db.create_all()
 
+    if not User.query.filter(User.admin == True).count():
         # Data for first Admin
         admin = User(
             nick=''.join(random.choice(string.ascii_lowercase) for i in range(3)),
@@ -309,7 +327,8 @@ def download(file_name):
 
         file_sizes = [jpg, png, tiff, gif]
 
-        return render_template('Main_page/download_window.html', file_name=file_name, url_download='#', file_sizes=file_sizes)
+        return render_template('Main_page/download_window.html', file_name=file_name, url_download='#',
+                               file_sizes=file_sizes)
     else:
         # Getting chosen extension from format
         format_file = request.form['format']
@@ -318,6 +337,9 @@ def download(file_name):
         path = os.path.join(app.root_path, 'static', 'download', 'temp', file_name.split('.')[0] + '.' + format_file)
 
         return send_file(path, as_attachment=True)
+
+
+
 
 
 # draw mode
@@ -381,6 +403,7 @@ def login():
     # Redirecting user to index if login was successful, or he is already logged
     return redirect(url_for('index'))
 
+
 # Logout page
 @app.route('/logout')
 def logout():
@@ -428,6 +451,7 @@ def register():
             return render_template('register.html', form=form)
 
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
