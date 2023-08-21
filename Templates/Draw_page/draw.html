@@ -7,7 +7,7 @@
 
     <div class="d-flex justify-content-center align-items-center" style="height:650px; flex-direction:column">
         <!-- Importing toolbar -->
-        {% include 'tool_box.html'%}
+        {% include 'Draw_page/tool_box.html'%}
 
         <!-- Drawing canvas -->
         <div class='d-flex justify-content-center align-items-center w-100 h-100'>
@@ -30,7 +30,7 @@
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <!-- Main js script -->
-    <script type="text/javascript">{% include "js_script.js" %}</script>
+    <script type="text/javascript">{% include "js/js_script.js" %}</script>
     <!-- Script for drawings -->
-    <script type="text/javascript">{% include "draw_mode_scripts.js" %}</script>
+    <script type="text/javascript">{% include "js/draw_mode_scripts.js" %}</script>
 {% endblock %}
