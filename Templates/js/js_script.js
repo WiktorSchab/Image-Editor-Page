@@ -78,11 +78,46 @@ function modalClosing() {
 }
 
 
+// Function to display history
+function historyShow(){
+    if (history_status == 0){
+
+        historyContent.removeClass('fade-out');
+        historyContent.addClass('fade-in');
+
+        // Showing content
+        historyContent.css({'visibility':'visible'});
+
+    }else{
+
+        historyContent.removeClass('fade-in');
+        historyContent.addClass('fade-out');
+
+        // Hiding content after 3s because animation need to be finished first
+        setTimeout(function () {
+            historyContent.css({'visibility':'hidden'});
+        }, 3000);
+    }
+
+    historyButton.toggle();
+    // 1 --> 0, 0 --> 1
+    history_status = (history_status + 1) % 2
+}
+
+
 //colors to buttons
 colorList = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1'];
+
 var imgMain = $('#img_main')[0];
 
+// History content &
+var historyContent = $('#history_content');
 
+// Value that is saying if history is showed or not
+history_status = 0
+
+// Button to open history
+var historyButton = $('#history_button');
 
 for (let i = 0; i < (colorList.length); i++) {
     cookie = getCookie('colorButtons');

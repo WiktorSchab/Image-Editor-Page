@@ -65,7 +65,6 @@ class User(db.Model):
     def __repr__(self):
         return f'User data: [{self.id}]: {self.nick} - {self.admin}'
 
-
 # color ranges
 color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255], [119, 100, 100, 129, 255, 255],
                    [100, 50, 50, 118, 255, 255], [91, 50, 50, 99, 255, 255], [40, 50, 50, 90, 255, 255],
@@ -138,11 +137,11 @@ def index():
         filename = img_instance.file_name
 
         # Giving access to page
-        return render_template('work_page.html', file_name=filename,
+        return render_template('Main_page/work_page.html', file_name=filename,
                                url_download=url_for('download', file_name=filename))
 
     # Giving form to send img again
-    return render_template('index.html', form=form)
+    return render_template('Main_page/index.html', form=form)
 
 
 # Confirmation of image change
@@ -155,7 +154,7 @@ def img_change_confirm(file_name):
         'positive_answer': {'text': 'Confirm', 'link': 'img_change'},
         'negative_answer': {'text': 'Close'}
     }
-    return render_template('confirm_window.html', file_name=file_name, **context)
+    return render_template('Main_page/confirm_window.html', file_name=file_name, **context)
 
 
 # Changing image
@@ -171,7 +170,7 @@ def img_change(file_name):
     # Rendering form and changing access to 0, user will need to send image again
     form = FileForm()
     img_instance.access = 0
-    return render_template('index.html', form=form)
+    return render_template('Main_page/index.html', form=form)
 
 
 # Reset img
@@ -228,7 +227,7 @@ def colorize_filter_confirm(file_name):
         'negative_answer': {'text': 'Close'}
     }
 
-    return render_template('confirm_window.html', file_name=file_name, **context)
+    return render_template('Main_page/confirm_window.html', file_name=file_name, **context)
 
 
 # Colorize image filter
@@ -297,6 +296,9 @@ def only_color(file_name):
 # Page with download window
 @app.route('/download/<file_name>', methods=['POST', 'GET'])
 def download(file_name):
+    # Checking if user is logged if not redirecting him to login
+    if not session.get('user'): return redirect(url_for('login'))
+
     # Showing form with extension to choose
     if request.method == 'GET':
         # Checking with function in img_class size of file with certain extension, by creating file in temp.
@@ -307,7 +309,7 @@ def download(file_name):
 
         file_sizes = [jpg, png, tiff, gif]
 
-        return render_template('download_window.html', file_name=file_name, url_download='#', file_sizes=file_sizes)
+        return render_template('Main_page/download_window.html', file_name=file_name, url_download='#', file_sizes=file_sizes)
     else:
         # Getting chosen extension from format
         format_file = request.form['format']
@@ -321,7 +323,10 @@ def download(file_name):
 # draw mode
 @app.route('/draw_mode/<file_name>')
 def draw_mode(file_name):
-    return render_template('draw.html', file_name=file_name)
+    # Checking if user is logged if not redirecting him to login
+    if not session.get('user'): return redirect(url_for('login'))
+
+    return render_template('Draw_page/draw.html', file_name=file_name)
 
 
 # Receiving canvas from ajax and saving it as png

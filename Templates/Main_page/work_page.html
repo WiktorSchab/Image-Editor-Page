@@ -5,8 +5,14 @@
     <div class='d-flex justify-content-between align-items-center'>
 
         <div id='history_box' class='side_box'>
-            <div class="dropdown" style="position: relative;">
+            <button id='history_button' onclick='historyShow();'>
+                <img src='{{ url_for("static", filename="icons/history_icon.png") }}'>
+            </button>
 
+            <div id='history_content'>
+                <button id='history_close' onclick='historyShow();'>
+                    <img src='{{ url_for("static", filename="icons/close_icon.png") }}'>
+                </button>
             </div>
         </div>
 

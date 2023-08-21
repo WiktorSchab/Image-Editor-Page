@@ -52,6 +52,38 @@ body{
     font-size: 13px;
 }
 
+/* style to form */
+.form_part{
+    min-height:60vh;
+}
+
+
+/* Style to boxes on right and left from image */
+.side_box{
+    width: 10%;
+    height: 532px;
+}
+
+
+/* Style to class to slowly show element */
+.fade-in{
+    animation: fadeIn 3s;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Style to class to slowly hide element */
+.fade-out{
+    animation: fadeOut 3s;
+}
+@keyframes fadeOut{
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
 .width-200{
   width: 200px;
 }
@@ -109,12 +141,6 @@ body{
 }
 
 
-/* style to form */
-#form_part{
-    min-height:60vh;
-}
-
-
 /* Style to download button in menu above main img*/
 #download_button{
     width: 100px;
@@ -131,11 +157,39 @@ body{
     margin: 10px;
 }
 
+/* Style to area with list of saved images */
+#history_box{
+
+}
+
+#history_button{
+    position: absolute;
+
+    background-color: white;
+    border: none;
+}
+
+#history_content{
+    background-color: #E8E8E8;
+
+    width: 100%;
+    height: 100%;
+
+    visibility: hidden;
+}
+
+#history_close{
+    border: none;
+    background-color: transparent;
+    float: right;
+}
 
 /* Style for button sack (contains light/dark method )*/
 #button_sack{
     background-color: white;
+
 }
+
 
 
 
