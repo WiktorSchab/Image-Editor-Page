@@ -135,8 +135,13 @@
             {% if i.file_name|length < 10 %}
                 {{ i.file_name }}
             {% else %}
-                {{ i.file_name[:5] + '...'+ i.file_name[-5:] }}
+                {{ i.file_name[:5] + '...'+ i.file_name[-4:] }}
             {% endif %}
+
+
+            <a href="{{ url_for('history_delete_confirm' ,file_name=i.file_name) }}">
+                <img src="{{ url_for('static', filename='/icons/delete_icon.png')}}">
+            </a>
         </div>
     {% endfor %}
 {% endmacro %}

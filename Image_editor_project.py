@@ -252,6 +252,44 @@ def history_restore(file_name):
     return redirect(url_for('index'))
 
 
+# Generating confirm window if user wants to delete image from server
+@app.route('/history_delete_confirm/<file_name>')
+def history_delete_confirm(file_name):
+    # Passing arguments needed to generate confirm_window
+    context = {
+        'file_name_arg': file_name,
+        'file_name': img_instance.file_name,
+        'title': 'Confirm',
+        'text': 'Are you sure you want to delete image? It will be lost.',
+        'positive_answer': {'text': 'Confirm', 'link': 'history_delete'},
+        'negative_answer': {'text': 'Close'}
+    }
+    return render_template('Main_page/confirm_window.html', **context)
+
+# Using image from history as the one that is displaying for user
+@app.route('/history_delete/<file_name>')
+def history_delete(file_name):
+    # Getting username from session
+    user_nick = session.get('user')
+
+    # Deleting saved image
+    path = os.path.join('static\db', user_nick, file_name)
+    os.remove(path)
+
+    # Getting id
+    user_id = get_nick_id(user_nick, User)
+
+    # Deleting record from table
+    image_to_delete = Images.query.filter_by(file_name=file_name, user_id=user_id).first()
+    db.session.delete(image_to_delete)
+    db.session.commit()
+
+
+
+    print(file_name,id)
+    return redirect(url_for('index'))
+
+
 # Black & white filter
 @app.route('/bw_filter/<file_name>')
 def bw_filter(file_name):
