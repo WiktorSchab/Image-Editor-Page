@@ -12,5 +12,7 @@
 
 __pycache__/
 
-*.db
+/db
+!/db/config.py
 
+/static/db/
