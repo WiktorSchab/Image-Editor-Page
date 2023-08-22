@@ -258,7 +258,7 @@ class image_class:
         Function gives communicates to the flash if there was need of creating new dir"""
 
         # Creating path to user dir
-        path_to_dir = os.path.join(f'db/images/{self.user}')
+        path_to_dir = os.path.join(f'static/db/{self.user}')
 
         # Checking if path exists, if not creating dir
         if not os.path.exists(path_to_dir):
@@ -293,20 +293,17 @@ class image_class:
 
         try:
             # Creating path to save
-            save_path = os.path.join(f'db/images/{self.user}/{self.file_name}')
+            save_path = os.path.join(f'static/db/{self.user}/{self.file_name}')
 
             # Copying image that is displayed to user dir on server
             shutil.copy(self.path_temp, save_path)
-
-            # getting id of user
-            user = User.query.filter(User.nick == self.user).first()
 
             newImage = Images(
                 file_name=self.file_name,
                 size=self.size,
                 category=self.category,
                 created_date=self.created_date,
-                user_id=user.id
+                user_id=get_nick_id(self.user, User)
             )
 
             db.session.add(newImage)
@@ -325,3 +322,9 @@ class image_class:
                f'Created: {self.created_date}\n' \
                f'Category: {self.category}'
 
+
+# Function to give id of nick
+def get_nick_id(nick, User):
+    # getting id of user
+    user = User.query.filter(User.nick == nick).first()
+    return user.id

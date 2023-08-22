@@ -88,6 +88,14 @@ body{
   width: 200px;
 }
 
+/* Style for displaying icon-size img */
+.mini_img{
+    width: 60px;
+    height: 60px;
+
+    cursor: pointer;
+}
+
 /*colors of button*/
 #colorId0:hover{background: #9c31bd; border-color:#9c31bd;}
 #colorId1:hover{background: #eb98d7; border-color:#eb98d7;}
@@ -170,6 +178,9 @@ body{
 }
 
 #history_content{
+    display:flex;
+    flex-direction:column;
+
     background-color: #E8E8E8;
 
     width: 100%;
@@ -181,7 +192,22 @@ body{
 #history_close{
     border: none;
     background-color: transparent;
-    float: right;
+
+    margin-left:auto;
+}
+
+#history_images{
+    display:flex;
+    flex-direction:column;
+
+    justify-content: space-between;
+
+    /* 100% - margin-top - margin-bottom */
+    height: Calc(100% - 20px - 20px);
+
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Style for button sack (contains light/dark method )*/

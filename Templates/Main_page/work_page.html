@@ -1,5 +1,5 @@
 {% extends '/base.html' %}
-{% from 'macros.html' import display_buttons,display_buttons_color  %}
+{% from 'macros.html' import display_buttons,display_buttons_color,show_images  %}
 
 {% block content %}
     <div class='d-flex justify-content-between align-items-center'>
@@ -13,6 +13,9 @@
                 <button id='history_close' onclick='historyShow();'>
                     <img src='{{ url_for("static", filename="icons/close_icon.png") }}'>
                 </button>
+                <div id='history_images'>
+                    {{ show_images(latest_images,path_to_dir) }}
+                </div>
             </div>
         </div>
 

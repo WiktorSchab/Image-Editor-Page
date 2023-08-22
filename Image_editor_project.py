@@ -23,7 +23,7 @@ import cv2
 from io import BytesIO
 import base64
 
-from img_funct import img_class, save_img, performance, user_class, image_class
+from img_funct import img_class, save_img, performance, user_class, image_class, get_nick_id
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -154,9 +154,23 @@ def index():
             img_instance.file_name = filename
         filename = img_instance.file_name
 
+        user_nick = session.get('user')
+        id = get_nick_id(user_nick, User)
+
+        # Getting 5 newest created images by user
+        latest_images = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).limit(5).all()
+
+        path_to_dir = 'db' + '/' + user_nick
+        print(path_to_dir)
+        context = {
+            'file_name': filename,
+            'url_download': url_for('download', file_name=filename),
+            'latest_images':latest_images,
+            'path_to_dir':path_to_dir
+        }
+
         # Giving access to page
-        return render_template('Main_page/work_page.html', file_name=filename,
-                               url_download=url_for('download', file_name=filename))
+        return render_template('Main_page/work_page.html', **context)
 
     # Giving form to send img again
     return render_template('Main_page/index.html', form=form)
@@ -167,12 +181,13 @@ def index():
 def img_change_confirm(file_name):
     # Passing arguments needed to generate confirm_window
     context = {
+        'file_name': file_name,
         'title': 'Confirm',
         'text': 'Are you sure you want to change image? It will be lost.',
         'positive_answer': {'text': 'Confirm', 'link': 'img_change'},
         'negative_answer': {'text': 'Close'}
     }
-    return render_template('Main_page/confirm_window.html', file_name=file_name, **context)
+    return render_template('Main_page/confirm_window.html', **context)
 
 
 # Changing image

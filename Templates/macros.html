@@ -117,3 +117,23 @@
     </div>
 </div>
 {% endmacro %}
+
+
+<!-- Macro for displaying images saved on server -->
+{% macro show_images(image_list,path_to_dir) %}
+    {% for i in image_list %}
+        <div class='image_content'>
+            <img class='mini_img'
+                 onclick='img_set({{ path_to_dir+ "/" + i.file_name }})'
+                 src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+            <!-- Showing name of file if file_name have less than 10 syntax
+            if he doesn't fulfil condition only 5 first and 5 last syntax will be shown-->
+
+            {% if i.file_name|length < 10 %}
+                {{ i.file_name }}
+            {% else %}
+                {{ i.file_name[:5] + '...'+ i.file_name[-5:] }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endmacro %}
