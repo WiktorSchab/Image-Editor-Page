@@ -78,7 +78,7 @@ function modalClosing() {
 }
 
 
-// Function to display history
+// Function to display history cart
 function historyShow(){
     if (history_status == 0){
 
@@ -109,6 +109,9 @@ function historyShow(){
 colorList = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1'];
 
 var imgMain = $('#img_main')[0];
+
+// Path to static
+var staticPath = "{{ url_for('static', filename='') }}";
 
 // History content &
 var historyContent = $('#history_content');

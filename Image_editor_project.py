@@ -161,12 +161,11 @@ def index():
         latest_images = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).limit(5).all()
 
         path_to_dir = 'db' + '/' + user_nick
-        print(path_to_dir)
         context = {
             'file_name': filename,
             'url_download': url_for('download', file_name=filename),
-            'latest_images':latest_images,
-            'path_to_dir':path_to_dir
+            'latest_images': latest_images,
+            'path_to_dir': path_to_dir
         }
 
         # Giving access to page
@@ -212,6 +211,27 @@ def img_reset(file_name):
     # Replacing image in modified to image original.
     path = os.path.join(app.root_path, 'static', 'download', 'original', file_name)
     shutil.copyfile(path, path.replace('original', 'modified'))
+    return redirect(url_for('index'))
+
+
+# Using image from history as the one that is displaying for user
+@app.route('/history_restore/<file_name>')
+def history_restore(file_name):
+    # Getting username from session
+    user_nick = session.get('user')
+
+    # Creating input and output path
+    input_path = os.path.join('static\db', user_nick, file_name)
+    output_path = input_path.replace(f'db\{user_nick}', 'download\original')
+
+    # Copying file from input path to static/download/original/
+    shutil.copyfile(input_path, output_path)
+
+    # Copying static/download/original/ from input path to static/download/modified/
+    shutil.copyfile(output_path, output_path.replace('original', 'modified'))
+
+    # Changing image name saved in img_instance
+    img_instance.file_name = file_name
     return redirect(url_for('index'))
 
 
@@ -354,7 +374,6 @@ def download(file_name):
         return send_file(path, as_attachment=True)
 
 
-
 @app.route('/save_on_server/<file_name>')
 def save_on_server(file_name):
     # Checking if user is logged if not redirecting him to login
@@ -364,7 +383,6 @@ def save_on_server(file_name):
 
     # Creating image on user dir in server by using info in instance
     image_to_server.saving_image_server(db, Images, User)
-
 
     # Redirecting to index after saving it
     return redirect(url_for('index'))

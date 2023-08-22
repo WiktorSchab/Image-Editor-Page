@@ -123,9 +123,10 @@
 {% macro show_images(image_list,path_to_dir) %}
     {% for i in image_list %}
         <div class='image_content'>
-            <img class='mini_img'
-                 onclick='img_set({{ path_to_dir+ "/" + i.file_name }})'
-                 src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+            <a href="{{ url_for('history_restore' ,file_name=i.file_name) }}">
+                <img class='mini_img'
+                     src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+            </a>
             <!-- Showing name of file if file_name have less than 10 syntax
             if he doesn't fulfil condition only 5 first and 5 last syntax will be shown-->
 
