@@ -71,7 +71,7 @@
 
 
 <!-- Generate window for confirmation of action -->
-{% macro confirmWindow(title, text, positive_answer, negative_answer,file_name) %}
+{% macro confirmWindow(title, text, positive_answer, negative_answer,file_name, file_name_arg) %}
     <div id="confirmModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content cancel">
@@ -91,10 +91,12 @@
                 <!-- Confirm button -->
 
                 <a class="btn btn-danger" onclick="deleteCookie('colorButtons')"
-                   href="{{ url_for(positive_answer['link'], file_name=file_name) }}">{{ positive_answer['text'] }}</a>
+                   href="{{ url_for(positive_answer['link'], file_name=file_name_arg) }}">{{ positive_answer['text'] }}</a>
                 <!-- Deny button -->
-                <button class="btn btn-secondary cancel" type="button" data-dismiss="modal">
-                    {{ negative_answer['text'] }}</button>
+                <a class="btn btn-secondary cancel"
+                   href="{{ url_for('index') }}">{{ negative_answer['text'] }}</a>
+
+
             </div>
         </div>
     </div>
@@ -123,7 +125,7 @@
 {% macro show_images(image_list,path_to_dir) %}
     {% for i in image_list %}
         <div class='image_content'>
-            <a href="{{ url_for('history_restore' ,file_name=i.file_name) }}">
+            <a href="{{ url_for('history_restore_confirm' ,file_name=i.file_name) }}">
                 <img class='mini_img'
                      src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
             </a>

@@ -180,6 +180,7 @@ def index():
 def img_change_confirm(file_name):
     # Passing arguments needed to generate confirm_window
     context = {
+        'file_name_arg': file_name,
         'file_name': file_name,
         'title': 'Confirm',
         'text': 'Are you sure you want to change image? It will be lost.',
@@ -214,9 +215,25 @@ def img_reset(file_name):
     return redirect(url_for('index'))
 
 
+# Generating confirm window if user wants to change displaying image
+@app.route('/history_restore_confirm/<file_name>')
+def history_restore_confirm(file_name):
+    # Passing arguments needed to generate confirm_window
+    context = {
+        'file_name_arg': file_name,
+        'file_name': img_instance.file_name,
+        'title': 'Confirm',
+        'text': 'Are you sure you want to change image? It will be lost.',
+        'positive_answer': {'text': 'Confirm', 'link': 'history_restore'},
+        'negative_answer': {'text': 'Close'}
+    }
+    return render_template('Main_page/confirm_window.html', **context)
+
+
 # Using image from history as the one that is displaying for user
 @app.route('/history_restore/<file_name>')
 def history_restore(file_name):
+    print('here')
     # Getting username from session
     user_nick = session.get('user')
 
@@ -274,13 +291,15 @@ def emb_filter(file_name):
 def colorize_filter_confirm(file_name):
     # Passing arguments needed to generate confirm_window
     context = {
+        'file_name': file_name,
+        'file_name_arg': file_name,
         'title': 'Confirm',
         'text': 'Are you sure you want to use that filter? Original image will be lost.',
         'positive_answer': {'text': 'Confirm', 'link': 'colorize_filter'},
         'negative_answer': {'text': 'Close'}
     }
 
-    return render_template('Main_page/confirm_window.html', file_name=file_name, **context)
+    return render_template('Main_page/confirm_window.html', **context)
 
 
 # Colorize image filter
