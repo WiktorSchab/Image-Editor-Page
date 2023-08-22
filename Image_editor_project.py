@@ -13,7 +13,6 @@ import string
 
 import os
 import shutil
-from datetime import datetime
 
 import numpy as np
 from PIL import Image
@@ -23,7 +22,11 @@ import cv2
 from io import BytesIO
 import base64
 
-from img_funct import img_class, save_img, performance, user_class, image_class, get_nick_id
+from projekt.python.img_funct import save_img, performance, get_nick_id
+
+from projekt.python.session_image_class import session_image_class
+from projekt.python.image_class import image_class
+from projekt.python.user_class import user_class
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -89,7 +92,7 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
                    [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 # class instance (app, access, file_name)
-img_instance = img_class(app, 0, 0)
+img_instance = session_image_class(app, 0, 0)
 
 
 @app.route('/init')
@@ -266,6 +269,7 @@ def history_delete_confirm(file_name):
     }
     return render_template('Main_page/confirm_window.html', **context)
 
+
 # Using image from history as the one that is displaying for user
 @app.route('/history_delete/<file_name>')
 def history_delete(file_name):
@@ -284,9 +288,7 @@ def history_delete(file_name):
     db.session.delete(image_to_delete)
     db.session.commit()
 
-
-
-    print(file_name,id)
+    print(file_name, id)
     return redirect(url_for('index'))
 
 
@@ -383,7 +385,7 @@ def only_color(file_name):
             lower = (int(i[0]), int(i[1]), int(i[2]))
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
-            result = img_class.display_color(input_path, lower, upper)
+            result = session_image_class.display_color(input_path, lower, upper)
 
             # It goes to if it is for only start iteration
             if img is None:
