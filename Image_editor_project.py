@@ -1,26 +1,25 @@
-from flask import Flask, render_template, url_for, request, redirect, send_file, session, flash
-from flask_wtf import FlaskForm
-
-from wtforms.validators import InputRequired, Email
-
-from wtforms import StringField
-from flask_wtf.file import FileField, FileRequired, FileAllowed
-from werkzeug.utils import secure_filename
-
-from flask_sqlalchemy import SQLAlchemy
 import random
 import string
-
 import os
 import shutil
+from io import BytesIO
+import base64
+
+from flask import Flask, render_template, url_for, request, redirect, send_file, session, flash
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+
+from wtforms.validators import InputRequired, Email
+from wtforms import StringField
+
+from flask_sqlalchemy import SQLAlchemy
+
+from werkzeug.utils import secure_filename
 
 import numpy as np
 from PIL import Image
 
 import cv2
-
-from io import BytesIO
-import base64
 
 from projekt.python.img_funct import save_img, performance, get_nick_id
 
@@ -39,7 +38,7 @@ db = SQLAlchemy(app)
 # Form to send image
 class FileForm(FlaskForm):
     cover = FileField("Send me a pic (only jpg, png need to show off validation skills)",
-                      validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Sorry, only png and jpg")])
+            validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Sorry, only png and jpg")])
 
 
 # Form to log in
@@ -83,12 +82,14 @@ class Images(db.Model):
     user = db.relationship('User', backref=db.backref('images', lazy=True))
 
     def __repr__(self):
-        return f'Image data: [{self.id}] - {self.file_name} - {self.size} - {self.category}\nUser ID: {self.user_id}'
+        return f'Image data: [{self.id}] - {self.file_name} - {self.size} - {self.category}\n' \
+               f'User ID: {self.user_id}'
 
 
 # color ranges
-color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255], [119, 100, 100, 129, 255, 255],
-                   [100, 50, 50, 118, 255, 255], [91, 50, 50, 99, 255, 255], [40, 50, 50, 90, 255, 255],
+color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255],
+                   [119, 100, 100, 129, 255, 255], [100, 50, 50, 118, 255, 255],
+                   [91, 50, 50, 99, 255, 255], [40, 50, 50, 90, 255, 255],
                    [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 # class instance (app, access, file_name)
@@ -161,7 +162,8 @@ def index():
         id = get_nick_id(user_nick, User)
 
         # Getting 5 newest created images by user
-        latest_images = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).limit(5).all()
+        latest_images = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc())
+        latest_images = latest_images.limit(5).all()
 
         path_to_dir = 'db' + '/' + user_nick
         context = {
@@ -241,8 +243,8 @@ def history_restore(file_name):
     user_nick = session.get('user')
 
     # Creating input and output path
-    input_path = os.path.join('static\db', user_nick, file_name)
-    output_path = input_path.replace(f'db\{user_nick}', 'download\original')
+    input_path = os.path.join(r'static\db', user_nick, file_name)
+    output_path = input_path.replace(fr'db\{user_nick}', r'download\original')
 
     # Copying file from input path to static/download/original/
     shutil.copyfile(input_path, output_path)
@@ -277,7 +279,7 @@ def history_delete(file_name):
     user_nick = session.get('user')
 
     # Deleting saved image
-    path = os.path.join('static\db', user_nick, file_name)
+    path = os.path.join(r'static\db', user_nick, file_name)
     os.remove(path)
 
     # Getting id
@@ -413,7 +415,8 @@ def download(file_name):
 
     # Showing form with extension to choose
     if request.method == 'GET':
-        # Checking with function in img_class size of file with certain extension, by creating file in temp.
+        # Checking with function in img_class size of file with certain extension
+        # Function creates files in download/temp that will be later deleted
         jpg = img_instance.get_image_size(file_name, 'jpg')
         png = img_instance.get_image_size(file_name, 'png')
         tiff = img_instance.get_image_size(file_name, 'tiff')
@@ -428,7 +431,7 @@ def download(file_name):
         format_file = request.form['format']
 
         # Creating path to created file in temp with that extension
-        path = os.path.join(app.root_path, 'static', 'download', 'temp', file_name.split('.')[0] + '.' + format_file)
+        path = os.path.join(app.root_path, 'static/download/temp', file_name.split('.')[0] + '.' + format_file)
 
         return send_file(path, as_attachment=True)
 

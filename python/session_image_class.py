@@ -6,6 +6,7 @@ from scipy import ndimage as nd
 
 import os
 
+from flask import flash
 from projekt.python.img_funct import save_img
 
 
@@ -37,7 +38,7 @@ class session_image_class:
 
         Function returns string with size of image in MB"""
 
-        path_input = 'static/download/modified'+ '/' + file_name
+        path_input = 'static/download/modified' + '/' + file_name
 
         # Splitting file extension and file name
         file_without_ex = file_name.split('.')[0]
@@ -55,8 +56,7 @@ class session_image_class:
 
         # Saving file and ifts jpg changing temporary name to jpeg because PIL uses that name
         img.save(path_output, format=extension.casefold().replace('jpg', 'jpeg'))
-        print(img)
-        print(path_input)
+
         # Calculating size in Mega byte
         file_size_bytes = os.path.getsize(path_output)
         file_size_mb = file_size_bytes / (1024 * 1024)
@@ -88,9 +88,11 @@ class session_image_class:
         path = 'static/download/modified'+ '/' + file_name
 
         string = f"np.array(Image.open(path).{method})"
-        img = eval(string)
-
-        save_img(img, path.replace('original', 'modified'))
+        try:
+            img = eval(string)
+            save_img(img, path.replace('original', 'modified'))
+        except ValueError as e:
+            flash(f'Conflict of filters, if you want to add that filter reset image first')
 
     @staticmethod
     def display_color(path, lower, upper):
