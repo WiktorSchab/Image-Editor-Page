@@ -1,8 +1,11 @@
+"""Module to display flash communicates and use session var"""
 from flask import session, flash
 
 
 # Class to user of program
-class user_class:
+class UserClass:
+    """Class to manage users"""
+
     def __init__(self, nick, password):
         """init of user_class takes nick and password to create instance of class.
         Other parameters will be updated in other function.
@@ -16,8 +19,8 @@ class user_class:
         self.nick = nick
         self.password = password
         self.email = ''
-        self.isPremium = ''
-        self.isAdmin = ''
+        self.is_premium = ''
+        self.is_admin = ''
 
     def verify_user(self, User):
         """Function that verifies if user with certain combination of password and login exists
@@ -73,7 +76,7 @@ class user_class:
         User - Table in database"""
 
         # Assigning data for new account
-        newUser = User(
+        new_user = User(
             nick=self.nick,
             password=self.password,
             email=self.email,
@@ -82,5 +85,7 @@ class user_class:
         )
 
         # Creating new user
-        db.session.add(newUser)
+        db.session.add(new_user)
         db.session.commit()
+
+        return 'User created'

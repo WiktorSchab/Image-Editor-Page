@@ -1,23 +1,24 @@
+import os
+
 from PIL import Image, ImageFilter
 from skimage import io
 import cv2
 import numpy as np
-from scipy import ndimage as nd
-
-import os
 
 from flask import flash
 from projekt.python.img_funct import save_img
 
 
-class session_image_class:
+class SessionImageClass:
+    """ Class for manipulating image"""
     def __init__(self, app, access, file_name):
         """Init function
 
         app - Flask.app
         access - variable that determinate if program can generate work page without form
         file_name - variable that holds name of file
-        temp_file - array that will be created automatically and will have temp file names so script can delete it after
+        temp_file - array that will be created automatically
+        and will have temp file names so script can delete it after
         using it
         """
 
@@ -80,7 +81,8 @@ class session_image_class:
         Function opens file in app.root_path/static/download/original/file_name and save a result in
         app.root_path/static/download/modified/file_name
 
-        method - method of changing appearance of image, for example convert('L'), must be given as string
+        method - method of changing appearance of image, for example convert('L'),
+        must be given as string
         file_name - name of image to metamorphose
 
         """
@@ -91,7 +93,9 @@ class session_image_class:
         try:
             img = eval(string)
             save_img(img, path.replace('original', 'modified'))
-        except ValueError as e:
+        except ValueError as error:
+            # Printing on server error and giving user flash communicat
+            print(error)
             flash(f'Conflict of filters, if you want to add that filter reset image first')
 
     @staticmethod
@@ -108,7 +112,6 @@ class session_image_class:
 
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, lower, upper)
-        closed_mask = nd.binary_closing(mask, np.ones((7, 7)))
 
         result = cv2.bitwise_and(img, img, mask=mask)
         return result

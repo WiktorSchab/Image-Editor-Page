@@ -23,9 +23,9 @@ import cv2
 
 from projekt.python.img_funct import save_img, performance, get_nick_id
 
-from projekt.python.session_image_class import session_image_class
+from projekt.python.session_image_class import SessionImageClass
 from projekt.python.image_class import image_class
-from projekt.python.user_class import user_class
+from projekt.python.user_class import UserClass
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
@@ -93,7 +93,7 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
                    [0, 50, 50, 38, 255, 255], [0, 0, 0, 180, 25, 230])
 
 # class instance (app, access, file_name)
-img_instance = session_image_class(app, 0, 0)
+img_instance = SessionImageClass(app, 0, 0)
 
 
 @app.route('/init')
@@ -387,7 +387,7 @@ def only_color(file_name):
             lower = (int(i[0]), int(i[1]), int(i[2]))
             upper = (int(i[3]), int(i[4]), int(i[5]))
 
-            result = session_image_class.display_color(input_path, lower, upper)
+            result = SessionImageClass.display_color(input_path, lower, upper)
 
             # It goes to if it is for only start iteration
             if img is None:
@@ -502,7 +502,7 @@ def login():
             password = form.password.data
 
             # Creating instance of user_class and verifying login and password
-            user_login = user_class(name, password)
+            user_login = UserClass(name, password)
             user_login.verify_user(User)
 
             # Returning user again to login (if its successful he will be redirected to index)
@@ -545,7 +545,7 @@ def register():
                 email = form.email.data
 
                 # Creating instance of class
-                user_registry = user_class(name, password)
+                user_registry = UserClass(name, password)
 
                 # Verifying registry data
                 if user_registry.verify_register(User, repeat_password, email):
