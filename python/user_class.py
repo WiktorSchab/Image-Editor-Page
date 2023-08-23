@@ -1,5 +1,6 @@
 """Module to display flash communicates and use session var"""
 from flask import session, flash
+import bcrypt
 
 
 # Class to user of program
@@ -29,8 +30,10 @@ class UserClass:
         Function return info about process"""
 
         user_login = User.query.filter(User.nick == self.nick).first()
+
         if user_login:
-            if self.password == user_login.password:
+            # Checking if password is corrected using bcrypt because password on db is secured
+            if bcrypt.checkpw(self.password.encode('utf-8'), user_login.password):
                 message = 'Login process is successful'
                 session['user'] = user_login.nick
             else:
@@ -70,6 +73,22 @@ class UserClass:
         self.email = email
         return 1
 
+    @staticmethod
+    def secure_password(password):
+        """Function to secure given password.
+        To password salt is added and then password is hashed
+        Function returns hashed password"""
+
+        # Encoding password
+        password_encoded = password.encode('utf-8')
+
+        # Generating salt using bcrypt
+        salt = bcrypt.gensalt()
+
+        # Hashing password with salt using bcrypt
+        hashed = bcrypt.hashpw(password_encoded, salt)
+        return hashed
+
     def creating_user(self, db, User):
         """Function that creates user in database
         db - database
@@ -78,7 +97,7 @@ class UserClass:
         # Assigning data for new account
         new_user = User(
             nick=self.nick,
-            password=self.password,
+            password=self.secure_password(self.password),
             email=self.email,
             premium=False,
             admin=False

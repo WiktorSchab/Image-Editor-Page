@@ -102,16 +102,21 @@ def init():
     db.create_all()
 
     if not User.query.filter(User.admin == True).count():
+        # Generating password for admin
+        password_admin = ''.join(random.choice(string.ascii_lowercase) for i in range(3))
+
         # Data for first Admin
         admin = User(
             nick=''.join(random.choice(string.ascii_lowercase) for i in range(3)),
-            password=''.join(random.choice(string.ascii_lowercase) for i in range(3)),
+            password=password_admin,
             email="",
             premium=True,
             admin=True
         )
 
         print('Admin was created add email to admin account')
+        # Displaying password if admin is generated because in db there is hashed password
+        print(password_admin)
 
         # Creating admin
         db.session.add(admin)
