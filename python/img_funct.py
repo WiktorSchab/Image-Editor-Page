@@ -4,6 +4,7 @@ from time import perf_counter
 # Modul needed to convert array into img
 from PIL import Image
 
+
 def save_img(img, path):
     """Function to save img in delivered path
 

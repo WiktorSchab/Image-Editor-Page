@@ -24,7 +24,7 @@ import cv2
 from projekt.python.img_funct import save_img, performance, get_nick_id
 
 from projekt.python.session_image_class import SessionImageClass
-from projekt.python.image_class import image_class
+from projekt.python.image_class import ImageClass
 from projekt.python.user_class import UserClass
 from colorize.colorize_filter import colorize
 
@@ -441,7 +441,7 @@ def save_on_server(file_name):
     # Checking if user is logged if not redirecting him to login
     if not session.get('user'): return redirect(url_for('login'))
 
-    image_to_server = image_class(file_name, session.get('user'))
+    image_to_server = ImageClass(file_name, session.get('user'))
 
     # Creating image on user dir in server by using info in instance
     image_to_server.saving_image_server(db, Images, User)

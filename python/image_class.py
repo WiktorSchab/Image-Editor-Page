@@ -1,14 +1,14 @@
-from flask import flash
-
 from datetime import datetime
 import os
 import shutil
+
+from flask import flash
 
 from projekt.python.img_funct import get_nick_id
 
 
 # Class for images on server
-class image_class:
+class ImageClass:
     def __init__(self, file_name, user):
         """Init function of image_class takes file_name and nick of user that wants to save file
 
@@ -49,8 +49,8 @@ class image_class:
                 os.mkdir(path_to_dir)
                 flash(f"Created dir for user {self.user}.")
 
-            except Exception as e:
-                flash(f"Error while creating dir for user: {e}")
+            except Exception as error:
+                flash(f"Error while creating dir for user: {error}")
 
     # Function to check size of image that will be saved on server
     def get_size_dir(self):
@@ -64,11 +64,11 @@ class image_class:
         return f'{file_size_mb:.2f}'
 
     # Function to save image on server
-    def saving_image_server(self, db, Images, User):
+    def saving_image_server(self, db, table_img, table_user):
         """ Function that send record about saved image in Images table on server
         db - database
-        Images - Table for Images
-        User - Table with user (for checking what id have user)
+        table_img - Table with images
+        table_user - Table with user (for checking what id have user)
 
         Function gives flash message about status of creating images and creating record
         """
@@ -80,21 +80,21 @@ class image_class:
             # Copying image that is displayed to user dir on server
             shutil.copy(self.path_temp, save_path)
 
-            newImage = Images(
+            new_image = table_img(
                 file_name=self.file_name,
                 size=self.size,
                 category=self.category,
                 created_date=self.created_date,
-                user_id=get_nick_id(self.user, User)
+                user_id=get_nick_id(self.user, table_user)
             )
 
-            db.session.add(newImage)
+            db.session.add(new_image)
             db.session.commit()
 
             flash('File was saved on server!')
 
-        except Exception as e:
-            flash(f'Error: {e}')
+        except Exception as error:
+            flash(f'Error: {error}')
 
     def __repr__(self):
         """Returning info about instance"""
