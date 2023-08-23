@@ -12,4 +12,10 @@
       </div>
     </div>
   </div>
+
+  <div id="profile_button">
+    <a href="{{ url_for('profile', user_nick=session.get('user')) }}">
+      <img src="{{ url_for('static', filename='/icons/profile_enter_icon.png') }}">
+    </a>
+  </div>
 </header>

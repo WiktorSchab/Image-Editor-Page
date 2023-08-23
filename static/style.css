@@ -7,7 +7,9 @@ body{
     padding: 0px;
 }
 
-
+header{
+    position:relative;
+}
 
 /* style that to obj that contains all tools with specific category */
 .image_change_tools{
@@ -133,8 +135,19 @@ body{
   border-radius: 100px;
 }
 
+/* Style to image to enter profile in header */
+#profile_button{
+    position:absolute;
+    bottom: 0;
 
-/* styles to header */
+    cursor: pointer;
+}
+/* Style to img in header*/
+#intro-example{
+    background-repeat: no-repeat;
+}
+
+/* Styles to header */
 #intro-example{
     height: 150px;
 }
@@ -143,7 +156,7 @@ body{
         height: 300px;
     }
 }
-/* style to header mask*/
+/* Style to header mask*/
 #mask_header{
   background-color: rgba(0, 100, 50, 0.2);
 }
@@ -163,11 +176,6 @@ body{
     padding:10px;
     border: 5px solid;
     margin: 10px;
-}
-
-/* Style to area with list of saved images */
-#history_box{
-
 }
 
 #history_button{

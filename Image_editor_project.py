@@ -487,6 +487,14 @@ def draw_mode_saving():
     return redirect(url_for('index'))
 
 
+# Profile page
+@app.route('/profile/<user_nick>')
+def profile(user_nick):
+    # Checking if user is logged if not redirecting him to login
+    if not session.get('user'): return redirect(url_for('login'))
+
+    return render_template('Profile_page/profile_user.html', user_nick=user_nick)
+
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
