@@ -6,5 +6,4 @@ $(document).ready(function() {
     if (header){
         header.remove();
     }
-
 });

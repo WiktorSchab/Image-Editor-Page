@@ -21,14 +21,21 @@
     margin: 8px;
     margin-bottom: 0px;
 
+    position: relative;
+
     height: 256px;
     width: 256px;
 }
 
 /* Making image darker if mouse is profile pic */
-#profile_picture:hover {
+#profile_picture_container:hover #profile_picture{
     filter: brightness(0.8);
 }
+
+#profile_picture_container:hover #change_profile_button {
+    display: flex;
+}
+
 
 /* Style to profile pic */
 #profile_picture{
@@ -37,6 +44,28 @@
     height: 256px;
     width: 256px;
 }
+
+/* Style to button to change profile picture */
+#change_profile_button{
+    position: absolute;
+
+    display: none;
+    justify-content:center;
+
+    top: Calc(50% - 25px);
+    left: Calc(50% - 25px);
+
+    z-index: 3;
+
+    width: 50px;
+    height: 50px;
+}
+
+.change_button_img{
+    width:50px;
+    height:50px;
+}
+
 
 /* Style to nick displaying bellow profile picture */
 #nick_display{
