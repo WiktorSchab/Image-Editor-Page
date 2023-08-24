@@ -493,7 +493,19 @@ def profile(user_nick):
     # Checking if user is logged if not redirecting him to login
     if not session.get('user'): return redirect(url_for('login'))
 
-    return render_template('Profile_page/profile_user.html', user_nick=user_nick)
+    id = get_nick_id(user_nick, User)
+    data_img = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).all()
+
+    path_to_dir = 'db' + '/' + user_nick
+
+    # Data to send to html
+    context = {
+        'user_nick':user_nick,
+        'data_img':data_img,
+        'path_to_dir':path_to_dir
+    }
+    print(data_img[0])
+    return render_template('Profile_page/profile_user.html', **context)
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])

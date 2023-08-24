@@ -1,0 +1,112 @@
+#wrapper{
+    display:flex;
+    justify-content: center;
+
+    background-color: #f6f6f6;
+}
+
+/* Style to content of user profile */
+#profile_content{
+    display:flex;
+    flex-direction: column;
+
+    background-color: white;
+
+    width:70%;
+    height:900px;
+}
+
+/* Style to container of profile picture */
+#profile_picture_container{
+    margin: 8px;
+    margin-bottom: 0px;
+
+    height: 256px;
+    width: 256px;
+}
+
+/* Making image darker if mouse is profile pic */
+#profile_picture:hover {
+    filter: brightness(0.8);
+}
+
+/* Style to profile pic */
+#profile_picture{
+    border: 2px solid black;
+
+    height: 256px;
+    width: 256px;
+}
+
+/* Style to nick displaying bellow profile picture */
+#nick_display{
+    margin: 8px;
+    margin-top: 0px;
+
+    border: 2px solid black;
+    border-top: none;
+
+    height: 30px;
+    width: 256px;
+}
+
+/* Style to nick text */
+#span_nick{
+    display: flex;
+    justify-content: center;
+}
+
+/* Style to container that have images made by user*/
+#pictures_container{
+    display:flex;
+
+    margin-top: 2%;
+    margin-left:5%;
+    margin-right:5%;
+
+    background-color: #e9e9e9;
+
+    width: 90%;
+    height: 500px;
+}
+
+/* Style to picture and name in history in profile */
+.history_profile{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+/* Style to pictures displaying in history in profile */
+.normal_img{
+    width: 100px;
+    height: 100px;
+}
+
+/* Style to centralize text below img */
+.history_img_name{
+    display:flex;
+    justify-content: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    justify-content: space-between;
+    gap: 2px;
+
+    width: 100%;
+}
+
+/* Style to footer elements */
+#footer_buttons{
+    background-color: #f6f6f6;
+}
+
+#button_sack{
+    background-color: #f6f6f6;
+}

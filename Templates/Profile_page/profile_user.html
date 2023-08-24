@@ -1,1 +1,35 @@
 {% extends '/base.html' %}
+{% from 'macros.html' import show_images_full  %}
+
+
+{% block content %}
+    <!-- Css with individuals styles for profile_user.html -->
+    <link type='text/css' rel='stylesheet' href='{{ url_for("static", filename="profile_user.css") }}'>
+
+    <!-- Profile content -->
+    <div id='wrapper'>
+        <div id='profile_content'>
+            <div id='profile_picture_container'>
+                <img id='profile_picture' src='{{ url_for("static", filename="icons/default_profile_icon.png") }}'>
+            </div>
+            <div id='nick_display'>
+                <span id='span_nick'>{{ user_nick }}</span>
+            </div>
+
+            <div id='pictures_container'>
+                <div class="grid-container">
+                    {{ show_images_full(data_img,path_to_dir) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Js scripts -->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <!-- Main js script -->
+    <script type="text/javascript">{% include "js/profile_script.js" %}</script>
+{% endblock %}

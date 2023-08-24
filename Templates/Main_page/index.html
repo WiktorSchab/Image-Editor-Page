@@ -20,4 +20,9 @@
             <input class="btn btn-outline-primary" type="submit" value="Go!">
         </form>
     </div>
+
+    <!--Script for that add link to profile-->
+    <script>
+        document.getElementById('profile_link').href = '{{ url_for('profile', user_nick=session.get('user')) }}';
+    </script>
 {% endblock%}

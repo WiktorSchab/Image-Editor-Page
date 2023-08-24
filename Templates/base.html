@@ -21,8 +21,8 @@
     {% block content%}
     {% endblock %}
 
-
-    <div class='d-flex flex-row mb-2 justify-content-between'>
+    <!-- Buttons above footer -->
+    <div id='footer_buttons' class='d-flex flex-row mb-2 justify-content-between'>
       <!-- Buttons to choose motive (don't work for now) -->
       <div class='d-flex flex-row' id='button_sack'>
 
@@ -36,12 +36,12 @@
         <a class='btn btn-danger motive_button' href='{{ url_for("logout") }}'>Logout</a>
       </div>
       {% endif %}
-    </div>
+  </div>
+
+
 
     {%include 'footer.html'%}
   </body>
-
-
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -145,3 +145,21 @@
         </div>
     {% endfor %}
 {% endmacro %}
+
+
+{% macro show_images_full(image_list,path_to_dir) %}
+    {% for i in image_list %}
+        <div class='history_profile'>
+            <img class='normal_img'
+                         src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+
+            <div class='history_img_name'>
+                {% if i.file_name|length < 15 %}
+                        {{ i.file_name }}
+                {% else %}
+                        {{ i.file_name[:5] + '...'+ i.file_name[-5:] }}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endmacro %}

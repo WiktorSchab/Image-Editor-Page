@@ -103,7 +103,8 @@ function historyShow(){
     // 1 --> 0, 0 --> 1
     history_status = (history_status + 1) % 2
 }
-
+// Script for that add link to profile
+document.getElementById('profile_link').href = '{{ url_for('profile', user_nick=session.get('user')) }}';
 
 //colors to buttons
 colorList = ['#9c31bd','#eb98d7','#cf0e27','#fa8c16','#ebf227','#28c916','#1ea1e3','#c0cbd1'];
@@ -152,8 +153,6 @@ $(document).ready(function() {
     $('#downloadModal').modal('show');
 
     imgMain.src ="{{url_for('static',filename='download/modified/'+file_name)}}";
-
-
 
     // Checking if user is in correct location
     if(window.location.href.includes('http://127.0.0.1:5000/reset_change_confirm/')) {

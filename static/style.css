@@ -2,13 +2,13 @@
     box-sizing: border-box;
 }
 
+header{
+    position:relative;
+}
+
 body{
     margin: 0px;
     padding: 0px;
-}
-
-header{
-    position:relative;
 }
 
 /* style that to obj that contains all tools with specific category */
@@ -223,6 +223,8 @@ header{
     background-color: white;
 
 }
+
+
 
 
 
