@@ -80,21 +80,41 @@ class ImageClass:
             # Copying image that is displayed to user dir on server
             shutil.copy(self.path_temp, save_path)
 
-            new_image = table_img(
-                file_name=self.file_name,
-                size=self.size,
-                category=self.category,
-                created_date=self.created_date,
-                user_id=get_nick_id(self.user, table_user)
-            )
+            # Getting user id
+            user_id = get_nick_id(self.user, table_user)
 
-            db.session.add(new_image)
-            db.session.commit()
+            # Checking if user don't have filed with the same name saved on dir
+            if not self.check_unique_file_name(user_id, table_img):
+                new_image = table_img(
+                    file_name=self.file_name,
+                    size=self.size,
+                    category=self.category,
+                    created_date=self.created_date,
+                    user_id= user_id
+                )
 
-            flash('File was saved on server!')
+                db.session.add(new_image)
+                db.session.commit()
+
+                flash('File was saved on server!')
+            else:
+                flash('You cant have two files with same name, change file name!')
 
         except Exception as error:
             flash(f'Error: {error}')
+
+    # Function to check if user have filed with same name
+    def check_unique_file_name(self, user_id, table_img):
+        """ Function that checks if file can be saved on server
+        function checks if user don't have already file saved with that name
+
+        if user don't have none will be returned
+        if he has record will be returned"""
+        
+        # Getting first record with same file name and same user id
+        duplicate_file_name = table_img.query.filter(table_img.file_name == self.file_name and table_img.user_id == user_id).first()
+
+        return duplicate_file_name
 
     # Function to change file name
     def change_file_name(self, new_file_name):
