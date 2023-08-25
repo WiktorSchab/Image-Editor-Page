@@ -31,7 +31,7 @@
 #profile_picture_container:hover #profile_picture{
     filter: brightness(0.8);
 }
-
+/* Showing edit photo button */
 #profile_picture_container:hover #change_profile_button {
     display: flex;
 }
@@ -45,7 +45,7 @@
     width: 256px;
 }
 
-/* Style to button to change profile picture */
+/* Style to div with button to change profile picture */
 #change_profile_button{
     position: absolute;
 
@@ -61,6 +61,7 @@
     height: 50px;
 }
 
+/* Change profile picture button */
 .change_button_img{
     width:50px;
     height:50px;
@@ -116,12 +117,13 @@
     height: 100px;
 }
 
-/* Style to centralize text below img */
-.history_img_name{
-    display:flex;
-    justify-content: center;
+/* Class that make image darker
+Added to picture in history that user have mouse on*/
+.dark_filter{
+    filter: brightness(0.8);
 }
 
+/* Style for grid that contains all picture saved on user dir */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -129,6 +131,44 @@
     gap: 2px;
 
     width: 100%;
+}
+
+/* Style to centralize text below img */
+.history_img_name{
+    display:flex;
+    justify-content: center;
+}
+
+/* Style to container that have action buttons and picture history */
+.image_history_container{
+    position:relative;
+}
+
+/* Style to buttons that have funct with picture history */
+.buttons_history{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 15px;
+
+    visibility: hidden;
+
+    z-index: 3;
+
+    padding: 10px;
+    top: Calc(50% - 45px);
+    left: Calc(50% - 22.5px);
+}
+
+.margin_button{
+    margin-bottom: 15px;
+}
+
+.visible_obj{
+    visibility: visible;
 }
 
 /* Style to footer elements */

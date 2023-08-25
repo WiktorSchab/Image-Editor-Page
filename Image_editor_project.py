@@ -21,7 +21,7 @@ from PIL import Image
 
 import cv2
 
-from projekt.python.img_funct import save_img, performance, get_nick_id
+from projekt.python.img_funct import save_img, performance, get_nick_id, deleting_image
 
 from projekt.python.session_image_class import SessionImageClass
 from projekt.python.image_class import ImageClass
@@ -38,7 +38,7 @@ db = SQLAlchemy(app)
 # Form to send image
 class FileForm(FlaskForm):
     cover = FileField("Send me a pic (only jpg, png need to show off validation skills)",
-            validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Sorry, only png and jpg")])
+                      validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Sorry, only png and jpg")])
 
 
 # Form to log in
@@ -243,7 +243,6 @@ def history_restore_confirm(file_name):
 # Using image from history as the one that is displaying for user
 @app.route('/history_restore/<file_name>')
 def history_restore(file_name):
-    print('here')
     # Getting username from session
     user_nick = session.get('user')
 
@@ -272,7 +271,7 @@ def history_delete_confirm(file_name):
         'title': 'Confirm',
         'text': 'Are you sure you want to delete image? It will be lost.',
         'positive_answer': {'text': 'Confirm', 'link': 'history_delete'},
-        'negative_answer': {'text': 'Close'}
+        'negative_answer': {'text': 'Close'},
     }
     return render_template('Main_page/confirm_window.html', **context)
 
@@ -280,22 +279,9 @@ def history_delete_confirm(file_name):
 # Using image from history as the one that is displaying for user
 @app.route('/history_delete/<file_name>')
 def history_delete(file_name):
-    # Getting username from session
-    user_nick = session.get('user')
+    # Calling function to delete certain image from Images table in db
+    deleting_image(file_name, User, Images, db)
 
-    # Deleting saved image
-    path = os.path.join(r'static\db', user_nick, file_name)
-    os.remove(path)
-
-    # Getting id
-    user_id = get_nick_id(user_nick, User)
-
-    # Deleting record from table
-    image_to_delete = Images.query.filter_by(file_name=file_name, user_id=user_id).first()
-    db.session.delete(image_to_delete)
-    db.session.commit()
-
-    print(file_name, id)
     return redirect(url_for('index'))
 
 
@@ -500,12 +486,13 @@ def profile(user_nick):
 
     # Data to send to html
     context = {
-        'user_nick':user_nick,
-        'data_img':data_img,
-        'path_to_dir':path_to_dir
+        'user_nick': user_nick,
+        'data_img': data_img,
+        'path_to_dir': path_to_dir
     }
     print(data_img[0])
     return render_template('Profile_page/profile_user.html', **context)
+
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])

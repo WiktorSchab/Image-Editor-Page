@@ -150,8 +150,31 @@
 {% macro show_images_full(image_list,path_to_dir) %}
     {% for i in image_list %}
         <div class='history_profile'>
-            <img class='normal_img'
-                         src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+
+            <!-- Div that have buttons on history picture and picture
+            Creating im with dynamic id and passing it to js function if mouse is over -->
+            <div class='image_history_container'
+                 onmouseover='mouse_on_history_pic("{{ loop.index }}");'
+                 onmouseleave='mouse_off_history_pic("{{ loop.index }}");'>
+
+                <!-- Buttons to take actions with history picture -->
+                <div id='button_history_{{ loop.index }}' class='buttons_history'>
+
+                    <!-- Button to display image in editor -->
+                    <a href="{{ url_for('history_restore_confirm' ,file_name=i.file_name) }}">
+                        <img class='margin_button' src="{{ url_for('static', filename='icons/set_image_icon.png' )}}">
+                    </a>
+
+                    <!-- Button to delete image from saved dir -->
+                    <a href="{{ url_for('history_delete_confirm', file_name=i.file_name) }}">
+                        <img src="{{ url_for('static', filename='icons/delete_icon.png' )}}">
+                    </a>
+                </div>
+
+                <!-- Picture saved on server -->
+                <img id='image_{{ loop.index }}' class='normal_img'
+                    src="{{ url_for('static', filename=path_to_dir+ '/' + i.file_name )}}">
+            </div>
 
             <div class='history_img_name'>
                 {% if i.file_name|length < 15 %}
