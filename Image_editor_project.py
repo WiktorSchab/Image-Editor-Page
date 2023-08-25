@@ -185,6 +185,23 @@ def index():
     return render_template('Main_page/index.html', form=form)
 
 
+# Changing name of the file
+@app.route('/change_file_name',methods=['POST'])
+def change_file_name():
+    # New name of file
+    new_name = request.form.get('name_file')
+
+    # Creating instance of file
+    image_change_name = ImageClass(img_instance.file_name, session.get('user'))
+
+    # Calling function to change name of file
+    image_change_name.change_file_name(new_name)
+
+    # Changing value of instance that contains file_name
+    img_instance.file_name = new_name
+
+    return redirect(url_for('index'))
+
 
 # Confirmation of image change
 @app.route('/reset_change_confirm/<file_name>')

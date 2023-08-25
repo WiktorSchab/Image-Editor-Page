@@ -96,6 +96,21 @@ class ImageClass:
         except Exception as error:
             flash(f'Error: {error}')
 
+    def change_file_name(self, new_file_name):
+        print(new_file_name)
+        print(self.file_name)
+
+        old_file_path = os.path.join(r'static', 'download', 'original', self.file_name)
+        new_file_path = os.path.join(r'static', 'download', 'original', new_file_name)
+
+        print(old_file_path)
+        print(new_file_path)
+        # Renaming file saved in user dir
+        os.rename(old_file_path, new_file_path)
+
+        # Copying image that is displayed to user dir on server
+        os.rename(old_file_path.replace('original', 'modified'), new_file_path.replace('original', 'modified'))
+
     def __repr__(self):
         """Returning info about instance"""
         return f'[Owner: {self.user}]\n' \

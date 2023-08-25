@@ -23,10 +23,21 @@
         <div class='d-flex justify-content-center align-items-center' style='height:700px; flex-direction:column'>
             <!-- Added displaying name of file -->
             <div id='name_file_container' class='d-flex'>
-                <input id='name_file' type="text" value={{ file_name }}/>
-                <div id='edit_name_file'>
-                    <img class='micro_img' src='{{ url_for("static", filename="icons/change_image_icon.png" )}}'>
-                </div>
+                <!-- Form to change name of file -->
+                <form method="POST" action="{{ url_for('change_file_name') }}" class='d-flex'>
+                    <!-- Getting only file name without extanstion -->
+                    {% set file_parts = file_name.split('.') %}
+                    <!-- Input file name -->
+                    <input id='name_file' name='name_file' type="text" value={{ file_parts[0] }}>
+
+                    <!-- Image as submit button-->
+                    <div id='edit_name_file'>
+                        <button id='send_change_name' class='inv' type='submit'>
+                            <img class='micro_img'
+                                 src='{{ url_for("static", filename="icons/change_image_icon.png" )}}'>
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <!--Displaying image and buttons that change appearance of image-->

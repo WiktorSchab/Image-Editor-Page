@@ -140,6 +140,9 @@ var historyButton = $('#history_button');
 // Input for name file
 var nameFileInput = $('#name_file');
 
+// Submit for change filename
+var sendChangeName = $('#send_change_name')
+
 
 // Setting style for active cookie to every chosen cookie by user
 for (let i = 0; i < (colorList.length); i++) {
@@ -156,10 +159,22 @@ for (let i = 0; i < (colorList.length); i++) {
 }
 
 // Function to call inputWidth on every keydown in input
-nameFileInput.on( "keydown", function(){
+nameFileInput.on("keydown", function(){
     // Calling function to set width of input to current text
     inputWidth();
 });
+
+// Function that add to file_name input extension when submit is clicked
+sendChangeName.on('click',function(){
+    // Getting new file name from input
+    var fileName = nameFileInput.val()
+
+    var oldFileName = '{{ file_name }}'
+    var extension = oldFileName.split('.')[1];
+
+    // Connecting new file name and extension
+    nameFileInput.val(fileName + '.' + extension);
+})
 
 
 $(document).ready(function() {
