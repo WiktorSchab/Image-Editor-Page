@@ -96,15 +96,18 @@ class ImageClass:
         except Exception as error:
             flash(f'Error: {error}')
 
+    # Function to change file name
     def change_file_name(self, new_file_name):
-        print(new_file_name)
-        print(self.file_name)
+        """ Function that change file name (not in user dir).
+        Function use os.rename to change name for file in original and download
 
+        new_file_name - new name of file
+        """
+
+        # Creating paths
         old_file_path = os.path.join(r'static', 'download', 'original', self.file_name)
         new_file_path = os.path.join(r'static', 'download', 'original', new_file_name)
 
-        print(old_file_path)
-        print(new_file_path)
         # Renaming file saved in user dir
         os.rename(old_file_path, new_file_path)
 
