@@ -160,7 +160,7 @@
                 <!-- Buttons to take actions with history picture -->
                 <div id='button_history_{{ loop.index }}' class='buttons_history'>
 
-                    <!-- Button to display image in editor -->
+                    <!-- Button to set current image in editor -->
                     <a href="{{ url_for('history_restore_confirm' ,file_name=i.file_name) }}">
                         <img class='margin_button' src="{{ url_for('static', filename='icons/set_image_icon.png' )}}">
                     </a>

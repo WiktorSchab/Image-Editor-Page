@@ -77,6 +77,20 @@ function modalClosing() {
     });
 }
 
+// Function to change width of input
+function inputWidth(){
+    // Getting length of file_name in input
+    valueLength = nameFileInput.val().length;
+    width_value = 20+valueLength*8
+
+    // Setting max value as 500
+    if (width_value > 500){
+        width_value = 500;
+    }
+
+    // Changing width of file
+    nameFileInput.css({'width':width_value});
+}
 
 // Function to display history cart
 function historyShow(){
@@ -123,6 +137,11 @@ history_status = 0
 // Button to open history
 var historyButton = $('#history_button');
 
+// Input for name file
+var nameFileInput = $('#name_file');
+
+
+// Setting style for active cookie to every chosen cookie by user
 for (let i = 0; i < (colorList.length); i++) {
     cookie = getCookie('colorButtons');
     // Checking if cookie exists and have numer button id
@@ -135,6 +154,12 @@ for (let i = 0; i < (colorList.length); i++) {
         $(colorId).css({"color": "white"});
     }
 }
+
+// Function to call inputWidth on every keydown in input
+nameFileInput.on( "keydown", function(){
+    // Calling function to set width of input to current text
+    inputWidth();
+});
 
 
 $(document).ready(function() {
@@ -151,6 +176,10 @@ $(document).ready(function() {
     // Showing modals (they will be on page only if user click specific button)
     $('#confirmModal').modal('show');
     $('#downloadModal').modal('show');
+
+
+    // Setting starting width of input text by calling function
+    inputWidth();
 
     imgMain.src ="{{url_for('static',filename='download/modified/'+file_name)}}";
 

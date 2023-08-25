@@ -98,6 +98,14 @@ body{
     cursor: pointer;
 }
 
+/* Style for displaying micro icon-size img */
+.micro_img{
+    width: 20px;
+    height: 20px;
+
+    cursor: pointer;
+}
+
 /*colors of button*/
 #colorId0:hover{background: #9c31bd; border-color:#9c31bd;}
 #colorId1:hover{background: #eb98d7; border-color:#eb98d7;}
@@ -161,6 +169,10 @@ body{
   background-color: rgba(0, 100, 50, 0.2);
 }
 
+/* Style for input with name of file */
+#name_file{
+    width: 100px;
+}
 
 /* Style to download button in menu above main img*/
 #download_button{

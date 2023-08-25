@@ -21,7 +21,13 @@
 
         <!--Image, filter & image manipulation buttons-->
         <div class='d-flex justify-content-center align-items-center' style='height:700px; flex-direction:column'>
-            
+            <!-- Added displaying name of file -->
+            <div id='name_file_container' class='d-flex'>
+                <input id='name_file' type="text" value={{ file_name }}/>
+                <div id='edit_name_file'>
+                    <img class='micro_img' src='{{ url_for("static", filename="icons/change_image_icon.png" )}}'>
+                </div>
+            </div>
 
             <!--Displaying image and buttons that change appearance of image-->
             <div class='d-flex justify-content-center align-items-center w-100'>

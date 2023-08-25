@@ -185,6 +185,7 @@ def index():
     return render_template('Main_page/index.html', form=form)
 
 
+
 # Confirmation of image change
 @app.route('/reset_change_confirm/<file_name>')
 def img_change_confirm(file_name):
@@ -571,6 +572,7 @@ def register():
             return render_template('register.html', form=form)
 
     return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
