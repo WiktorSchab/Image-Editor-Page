@@ -283,6 +283,7 @@ def history_restore(file_name):
 @app.route('/history_delete_confirm/<file_name>')
 def history_delete_confirm(file_name):
     # Passing arguments needed to generate confirm_window
+    print(img_instance.file_name)
     context = {
         'file_name_arg': file_name,
         'file_name': img_instance.file_name,
@@ -498,7 +499,11 @@ def profile(user_nick):
     if not session.get('user'): return redirect(url_for('login'))
 
     id = get_nick_id(user_nick, User)
-    data_img = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).all()
+
+    if session.get('user') == user_nick:
+        data_img = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).all()
+    else:
+        data_img = None
 
     path_to_dir = 'db' + '/' + user_nick
 
@@ -517,7 +522,7 @@ def profile(user_nick):
         'path_to_dir': path_to_dir,
         'profile_pic': profile_pic
     }
-    print(data_img[0])
+
     return render_template('Profile_page/profile_user.html', **context)
 
 

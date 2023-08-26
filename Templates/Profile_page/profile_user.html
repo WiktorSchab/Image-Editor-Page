@@ -31,9 +31,19 @@
 
             <!-- Images of user saved in his dir -->
             <div id='pictures_container'>
+
+                <!-- Checking if user have access to display images -->
+                {% if data_img %}
+                <!-- Displaying images -->
                 <div class="grid-container">
                     {{ show_images_full(data_img,path_to_dir) }}
                 </div>
+                {% else %}
+                    <!-- Displaying info if user don't have access to images -->
+                    <div id='info_access'>
+                        You don't have access to see this users images
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

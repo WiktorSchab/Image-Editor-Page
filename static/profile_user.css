@@ -219,6 +219,7 @@ Added to picture in history that user have mouse on*/
 
 }
 
-#form{
-
+/* Style for inscription about acces to images */
+#info_access{
+    margin: auto;
 }

@@ -26,7 +26,11 @@
                 <!-- Form to change name of file -->
                 <form method="POST" action="{{ url_for('change_file_name') }}" class='d-flex'>
                     <!-- Getting only file name without extanstion -->
-                    {% set file_parts = file_name.split('.') %}
+                    {% if file_name is string()%}
+                        {% set file_parts = file_name.split('.') %}
+                    {% else %}
+                        {% set file_parts = 'error.jpg' %}
+                    {% endif %}
                     <!-- Input file name -->
                     <input id='name_file' name='name_file' type="text" value={{ file_parts[0] }}>
 

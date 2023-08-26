@@ -40,4 +40,12 @@ $(document).ready(function() {
     if (header){
         header.remove();
     }
+
+    // Getting info if user can have access to profile
+    var access = `{{ data_img }}`;
+
+    // If acces is none then user dont have access
+    if (access == 'None'){
+        $('#change_profile_button').css({'visibility':'hidden'});
+    }
 });
