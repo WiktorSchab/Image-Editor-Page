@@ -11,6 +11,11 @@ body{
     padding: 0px;
 }
 
+.form_file{
+    width: 1000px;
+}
+
+
 /* style that to obj that contains all tools with specific category */
 .image_change_tools{
     height: 450px;

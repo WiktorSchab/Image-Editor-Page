@@ -1,0 +1,26 @@
+{% include 'Profile_page/profile_user.html' %}
+
+
+<div id='profile_change_window_bg' onclick='return_to_prof("{{ user_nick }}")'>
+    <div id='profile_change_window'>
+        <div id='form'>
+            <form method="POST" action="{{ url_for('change_profile', user_nick=user_nick) }}"
+                  enctype="multipart/form-data">
+                {{form.csrf_token}}
+
+                <!-- Choose file -->
+                {{form.cover}}
+
+                <!-- Showing errors (they will be used if user bypass html validation) -->
+                <ul>
+                    {% for error in form.cover.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </ul>
+
+                <!-- Submit button -->
+                <input class="btn btn-dark" type="submit" value="Go!">
+            </form>
+        </div>
+    </div>
+</div>

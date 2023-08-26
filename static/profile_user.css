@@ -179,3 +179,46 @@ Added to picture in history that user have mouse on*/
 #button_sack{
     background-color: #f6f6f6;
 }
+
+/* Styles for window to change profile picture*/
+/* Style for div that disable rest of page*/
+#profile_change_window_bg{
+    position: absolute;
+    background: rgba(0,0,0,0.2);
+
+    z-index: 2;
+
+    width: 100%;
+    height: 110%;
+}
+
+/* Style for window with file form */
+#profile_change_window{
+    display: flex;
+    flex-direction:row;
+
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    background: #707070;
+
+    border: solid white 3px;
+    border-radius: 5px;
+
+    /* Making obj display on center */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    -webkit-transform: translate(-50%, -50%);
+
+    z-index: 3;
+
+    width: 50%;
+    height: 50%;
+
+}
+
+#form{
+
+}

@@ -77,14 +77,14 @@ class ImageClass:
             # Creating path to save
             save_path = os.path.join(f'static/db/{self.user}/{self.file_name}')
 
-            # Copying image that is displayed to user dir on server
-            shutil.copy(self.path_temp, save_path)
-
             # Getting user id
             user_id = get_nick_id(self.user, table_user)
 
             # Checking if user don't have filed with the same name saved on dir
             if not self.check_unique_file_name(user_id, table_img):
+                # Copying image that is displayed to user dir on server
+                shutil.copy(self.path_temp, save_path)
+
                 new_image = table_img(
                     file_name=self.file_name,
                     size=self.size,
@@ -110,7 +110,7 @@ class ImageClass:
 
         if user don't have none will be returned
         if he has record will be returned"""
-        
+
         # Getting first record with same file name and same user id
         duplicate_file_name = table_img.query.filter(table_img.file_name == self.file_name and table_img.user_id == user_id).first()
 

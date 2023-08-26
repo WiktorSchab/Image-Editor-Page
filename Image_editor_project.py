@@ -502,14 +502,59 @@ def profile(user_nick):
 
     path_to_dir = 'db' + '/' + user_nick
 
+    path_to_profile = os.path.join(app.root_path, 'static', 'download', 'profile', user_nick)
+
+    if os.path.exists(path_to_profile):
+        prof_name = os.listdir(path_to_profile)[0]
+        profile_pic = f'download/profile/{user_nick}/{prof_name}'
+    else:
+        profile_pic = 'download/profile/default_profile_icon.png'
+
     # Data to send to html
     context = {
         'user_nick': user_nick,
         'data_img': data_img,
-        'path_to_dir': path_to_dir
+        'path_to_dir': path_to_dir,
+        'profile_pic': profile_pic
     }
     print(data_img[0])
     return render_template('Profile_page/profile_user.html', **context)
+
+
+@app.route('/change_profile/<user_nick>', methods=['GET', 'POST'])
+def change_profile(user_nick):
+    form = FileForm()
+
+    if form.validate_on_submit():
+        f = form.cover.data
+
+        # Splitting file name
+        filename = secure_filename(f.filename).split('.')
+
+        # Changing name of file while saving extension
+        new_file_name = 'profile.' + filename[1]
+
+        path_to_dir = os.path.join(app.root_path, 'static', 'download', 'profile', user_nick)
+        # Creating user dir in profile if he doesn't have one
+        try:
+            # Removing old profile picture
+            old_profile = os.listdir(path_to_dir)[0]
+
+            os.remove(os.path.join(path_to_dir, old_profile))
+
+            # Saving new profile picture
+            f.save(os.path.join(path_to_dir, new_file_name))
+
+        except FileNotFoundError:
+            # Creating dir
+            os.mkdir(path_to_dir)
+
+            # Saving new profile picture
+            f.save(os.path.join(path_to_dir, new_file_name))
+
+        return redirect(url_for('profile', user_nick=user_nick))
+
+    return render_template('Profile_page/change_profile.html', form=form, user_nick=user_nick)
 
 
 # Login page

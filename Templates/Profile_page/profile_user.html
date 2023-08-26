@@ -13,13 +13,15 @@
             <div id='profile_picture_container' >
                 <!-- Button to change profile (hidden on start) -->
                 <div id='change_profile_button'>
-                    <img class='change_button_img'
-                         src='{{ url_for("static", filename="icons/change_image_icon.png") }}'>
+                    <a href='{{ url_for("change_profile", user_nick=user_nick) }}'>
+                        <img class='change_button_img'
+                             src='{{ url_for("static", filename="icons/change_image_icon.png") }}'>
+                    </a>
                 </div>
 
                 <!-- Profile picture -->
                 <img id='profile_picture'
-                     src='{{ url_for("static", filename="icons/default_profile_icon.png") }}'>
+                     src='{{ url_for("static", filename=profile_pic) }}'>
             </div>
 
             <!-- Nick displaying below profile picture -->
