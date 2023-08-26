@@ -149,6 +149,12 @@ def index():
             f = form.cover.data
             filename = secure_filename(f.filename)
 
+            # Checking if name is not default.png
+            if filename == 'default.png':
+                flash('You can use file with default.png name change it and try again!')
+                img_instance.access = 0
+                return redirect(url_for('index'))
+
             path = os.path.join(app.root_path, 'static', 'download', 'modified', filename)
             f.save(path)
 
@@ -190,6 +196,11 @@ def index():
 def change_file_name():
     # New name of file
     new_name = request.form.get('name_file')
+
+    # Checking if new name isn't default (if file is png)
+    if new_name == 'default.png':
+        flash('You cant set default as name of png file. Please choose different name.')
+        return redirect(url_for('index'))
 
     # Creating instance of file
     image_change_name = ImageClass(img_instance.file_name, session.get('user'))
@@ -246,6 +257,10 @@ def img_reset(file_name):
 # Generating confirm window if user wants to change displaying image
 @app.route('/history_restore_confirm/<file_name>')
 def history_restore_confirm(file_name):
+
+    if img_instance.file_name == 0:
+        img_instance.file_name = 'default.png'
+
     # Passing arguments needed to generate confirm_window
     context = {
         'file_name_arg': file_name,
@@ -276,6 +291,9 @@ def history_restore(file_name):
 
     # Changing image name saved in img_instance
     img_instance.file_name = file_name
+
+    # Changing access to 1 (if user didn't give any file it will be necessary to work)
+    img_instance.access = 1
     return redirect(url_for('index'))
 
 
