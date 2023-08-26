@@ -258,6 +258,7 @@ def img_reset(file_name):
 @app.route('/history_restore_confirm/<file_name>')
 def history_restore_confirm(file_name):
 
+    # Setting file_name in instance as default.png if user didn't give any file
     if img_instance.file_name == 0:
         img_instance.file_name = 'default.png'
 
@@ -300,6 +301,11 @@ def history_restore(file_name):
 # Generating confirm window if user wants to delete image from server
 @app.route('/history_delete_confirm/<file_name>')
 def history_delete_confirm(file_name):
+    
+    # Setting file_name in instance as default.png if user didn't give any file
+    if img_instance.file_name == 0:
+        img_instance.file_name = 'default.png'
+
     # Passing arguments needed to generate confirm_window
     print(img_instance.file_name)
     context = {
