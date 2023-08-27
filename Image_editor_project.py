@@ -10,7 +10,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 from wtforms.validators import InputRequired, Email
-from wtforms import StringField
+from wtforms import StringField, PasswordField
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -44,14 +44,14 @@ class FileForm(FlaskForm):
 # Form to log in
 class LoginForm(FlaskForm):
     name = StringField('Enter login', validators=[InputRequired()])
-    password = StringField('Enter password', validators=[InputRequired()])
+    password = PasswordField('Enter password', validators=[InputRequired()])
 
 
 # Form to register
 class RegisterForm(FlaskForm):
     name = StringField('Enter login', validators=[InputRequired()])
-    password = StringField('Enter password', validators=[InputRequired()])
-    repeat_password = StringField('Enter password again', validators=[InputRequired()])
+    password = PasswordField('Enter password', validators=[InputRequired()])
+    repeat_password = PasswordField('Enter password again', validators=[InputRequired()])
     email = StringField('Enter email', validators=[InputRequired(), Email('Invalid email')])
 
 
