@@ -25,7 +25,6 @@ function getCookie(name){
     return result; // Returning value of cookie if it exists otherwise null
 }
 
-
 // Function to remember scroll position of object after clicking on <a> obj
 $('a').on('click', function() {
     // Remembering scroll of window
