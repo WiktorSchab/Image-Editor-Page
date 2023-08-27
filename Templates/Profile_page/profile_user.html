@@ -6,29 +6,39 @@
     <!-- Css with individuals styles for profile_user.html -->
     <link type='text/css' rel='stylesheet' href='{{ url_for("static", filename="profile_user.css") }}'>
 
-    <!-- Profile content -->
+    <!-- Container to cut sides from page -->
     <div id='wrapper'>
+        <!-- Profile content -->
         <div id='profile_content'>
+            <!-- Upper part of profile (above images container)) -->
+            <div class='d-flex flex-row justify-content-between'>
 
-            <div id='profile_picture_container' >
-                <!-- Button to change profile (hidden on start) -->
-                <div id='change_profile_button'>
-                    <a href='{{ url_for("change_profile", user_nick=user_nick) }}'>
-                        <img class='change_button_img'
-                             src='{{ url_for("static", filename="icons/change_image_icon.png") }}'>
-                    </a>
+                <!-- Profile -->
+                <div>
+                    <div id='profile_picture_container' >
+                        <!-- Button to change profile (hidden on start) -->
+                        <div id='change_profile_button'>
+                            <a href='{{ url_for("change_profile", user_nick=user_nick) }}'>
+                                <img class='change_button_img'
+                                     src='{{ url_for("static", filename="icons/change_image_icon.png") }}'>
+                            </a>
+                        </div>
+
+                        <!-- Profile picture -->
+                        <img id='profile_picture'
+                             src='{{ url_for("static", filename=profile_pic) }}'>
+                    </div>
+                    <!-- Nick displaying below profile picture -->
+                    <div id='nick_display'>
+                        <span id='span_nick'>{{ user_nick }}</span>
+                    </div>
                 </div>
 
-                <!-- Profile picture -->
-                <img id='profile_picture'
-                     src='{{ url_for("static", filename=profile_pic) }}'>
+                <!-- Button to go to index -->
+                <div id='go_index_button'>
+                    <a class='btn btn-primary' href='{{url_for("index")}}'>Go back to main page</a>
+                </div>
             </div>
-
-            <!-- Nick displaying below profile picture -->
-            <div id='nick_display'>
-                <span id='span_nick'>{{ user_nick }}</span>
-            </div>
-
             <!-- Images of user saved in his dir -->
             <div id='pictures_container'>
 
@@ -41,7 +51,7 @@
                 {% else %}
                     <!-- Displaying info if user don't have access to images -->
                     <div id='info_access'>
-                        You don't have access to see this users images
+                        You don't have any saved images or you don't have access to see
                     </div>
                 {% endif %}
             </div>

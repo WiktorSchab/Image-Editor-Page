@@ -86,6 +86,12 @@
     justify-content: center;
 }
 
+/* Style to div that contains button that redirect to index */
+#go_index_button{
+    margin: 20px;
+}
+
+
 /* Style to container that have images made by user*/
 #pictures_container{
     display:flex;
