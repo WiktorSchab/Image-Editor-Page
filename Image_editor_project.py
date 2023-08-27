@@ -526,7 +526,9 @@ def profile(user_nick):
 
     if session.get('user') == user_nick:
         data_img = Images.query.filter_by(user_id=id).order_by(Images.created_date.desc()).all()
+        print(data_img)
     else:
+        print('tu')
         data_img = None
 
     path_to_dir = 'db' + '/' + user_nick
@@ -622,6 +624,10 @@ def logout():
     # Clearing session that contains username
     session.pop('user', None)
     flash('You have been logged out')
+
+    # Clearing data in instance
+    img_instance.file_name = 0
+    img_instance.access = 0
     return redirect(url_for('login'))
 
 
