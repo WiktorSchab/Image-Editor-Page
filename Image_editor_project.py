@@ -95,7 +95,7 @@ color_floor_top = ([150, 100, 100, 174, 255, 255], [130, 100, 100, 150, 255, 255
 # class instance (app, access, file_name)
 img_instance = SessionImageClass(app, 0, 0)
 
-
+# Page to create tables and admin on first run
 @app.route('/init')
 def init():
     # Creating tables
@@ -126,7 +126,7 @@ def init():
     return redirect(url_for('index'))
 
 
-# starting page
+# Starting page
 @app.route('/', methods=['POST', 'GET'])
 def index():
     # Checking if user is logged if not redirecting him to login
@@ -169,6 +169,7 @@ def index():
             img_instance.file_name = filename
         filename = img_instance.file_name
 
+        # Getting user nick and then id of user
         user_nick = session.get('user')
         id = get_nick_id(user_nick, User)
 
@@ -274,7 +275,7 @@ def history_restore_confirm(file_name):
     return render_template('Main_page/confirm_window.html', **context)
 
 
-# Using image from history as the one that is displaying for user
+# Setting image from history as active one
 @app.route('/history_restore/<file_name>')
 def history_restore(file_name):
     # Getting username from session
@@ -484,7 +485,7 @@ def save_on_server(file_name):
     return redirect(url_for('index'))
 
 
-# draw mode
+# Draw mode
 @app.route('/draw_mode/<file_name>')
 def draw_mode(file_name):
     # Checking if user is logged if not redirecting him to login
