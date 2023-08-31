@@ -18,3 +18,5 @@ __pycache__/
 /static/db/
 /static/download/profile/
 
+.idea/
+
