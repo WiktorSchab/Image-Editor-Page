@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from flask import flash
-from projekt.python.img_funct import save_img
+from python.img_funct import save_img
 
 
 class SessionImageClass:

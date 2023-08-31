@@ -21,11 +21,11 @@ from PIL import Image
 
 import cv2
 
-from projekt.python.img_funct import save_img, performance, get_nick_id, deleting_image
+from python.img_funct import save_img, performance, get_nick_id, deleting_image
 
-from projekt.python.session_image_class import SessionImageClass
-from projekt.python.image_class import ImageClass
-from projekt.python.user_class import UserClass
+from python.session_image_class import SessionImageClass
+from python.image_class import ImageClass
+from python.user_class import UserClass
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)

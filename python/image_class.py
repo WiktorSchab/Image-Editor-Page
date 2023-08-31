@@ -4,7 +4,7 @@ import shutil
 
 from flask import flash
 
-from projekt.python.img_funct import get_nick_id
+from python.img_funct import get_nick_id
 
 
 # Class for images on server
