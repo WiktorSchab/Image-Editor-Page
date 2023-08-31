@@ -7,17 +7,10 @@
 /static/download/original/*
 !/static/download/original/keep/
 
-/db/images/*
-!/db/images/keep/
-
 __pycache__/
-
-/db
-!/db/config.py
 
 /static/db/
 /static/download/profile/
 
 .idea/
-
-db/config.py
+/db/
