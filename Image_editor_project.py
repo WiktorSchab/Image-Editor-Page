@@ -29,12 +29,10 @@ from python.user_class import UserClass
 from colorize.colorize_filter import colorize
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'P@$$w0rda'
 app.config.from_pyfile('db/config.py')
-
 db = SQLAlchemy(app)
 
-
+print('-',os.environ.get('SECRET_KEY'))
 # Form to send image
 class FileForm(FlaskForm):
     cover = FileField("Send me a pic (only jpg, png need to show off validation skills)",
