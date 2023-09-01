@@ -31,7 +31,11 @@ This is a web application built using Flask that allows users to upload images a
 
 
 - Blur  
-![Blur](https://github.com/WiktorSchab/Image-Editor-Page/assets/73139165/8e08451f-211a-4f8f-8b33-17aea7901fb8)  
+![Blur](https://github.com/WiktorSchab/Image-Editor-Page/assets/73139165/8e08451f-211a-4f8f-8b33-17aea7901fb8)
+
+- Colorize  
+![colorize](https://github.com/WiktorSchab/Image-Editor-Page/assets/73139165/575ade18-b1f5-4927-a0ec-34a8cd6d5df5)  
+
 
 
 - Only white (color filter)   
