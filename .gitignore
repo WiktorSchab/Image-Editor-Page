@@ -13,4 +13,6 @@ __pycache__/
 /static/download/profile/
 
 .idea/
+
 /db/
+!/db/.gitkeep/
