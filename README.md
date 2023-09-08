@@ -61,9 +61,6 @@ This is a web application built using Flask that allows users to upload images a
 Run main.py to run app, then enter a link that will be given in the console. On first run, there is a need to go to subpage '**/init**'.  
 All tables will be created and admin account will be generated. Password to admin will be given in the console.  
 
-## Demo
-Link to lite version of program (not all function included)  
-http://nyyyn.pythonanywhere.com
 
 ## Author
 - Wiktor Schab (https://github.com/WiktorSchab)
